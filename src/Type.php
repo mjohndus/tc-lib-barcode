@@ -202,6 +202,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert
             'type'         => $this->type,
             'format'       => $this->format,
             'params'       => $this->params,
+            'marks'        => $this->marks,  
             'code'         => $this->code,
             'extcode'      => $this->extcode,
             'ncols'        => $this->ncols,
@@ -468,11 +469,26 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert
      */
     public function getBarsArray($type = 'XYXY')
     {
+        if (!empty($this->marks)) {
+            $mark = array();
+            for ($i=0; $i<count($this->bars); $i++) {
+                 if (!in_array($this->bars[$i][0], $this->marks)) {
+                     $mark[] = $this->mark;
+                 } else {
+                     $mark[] = 0;
+                 }
+            }
+        }
         $mtd = 'getBarRect' . $type;
         $rect = array();
+        $i = 0;
         foreach ($this->bars as $bar) {
             if (($bar[2] > 0) && ($bar[3] > 0)) {
                 $rect[] = $this->$mtd($bar);
+                if (!empty($mark)) {
+                    $rect[$i][3] = $rect[$i][3]-$mark[$i];
+                $i++;
+                }
             }
         }
         if ($this->nrows > 1) {
