@@ -54,7 +54,7 @@ class EanEight extends \Com\Tecnick\Barcode\Type\Linear\EanOneThree
      * @var array
      */
     protected $marks = array('0','1','2','32','33','34','64','65','66');
-    
+
     /**
      * Set the bars array.
      *
