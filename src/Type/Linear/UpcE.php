@@ -58,7 +58,7 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
      * @var array
      */
     protected $marks = array('0','1','2','46','47','48','49','50');
-    
+
     /**
      * Map parities
      *
