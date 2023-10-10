@@ -49,6 +49,14 @@ abstract class Convert
     protected $format = '';
 
     /**
+     * Set start-center-end marks
+     *
+     * @var array
+     */
+
+    protected $marks = array();
+
+    /**
      * Array containing extra parameters for the specified barcode type
      *
      * @var array
