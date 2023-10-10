@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -27,12 +27,117 @@ use Com\Tecnick\Barcode\Type\Square\QrCode\Spec;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 abstract class Init extends \Com\Tecnick\Barcode\Type\Square\QrCode\Mask
 {
+    /**
+     * Data code
+     *
+     * @var array
+     */
+    protected $datacode = array();
+
+    /**
+     * Error correction code
+     *
+     * @var array
+     */
+    protected $ecccode = array();
+
+    /**
+     * Blocks
+     *
+     * @var array
+     */
+    protected $blocks;
+
+    /**
+     * Reed-Solomon blocks
+     *
+     * @var array
+     */
+    protected $rsblocks = array(); //of RSblock
+
+    /**
+     * Counter
+     *
+     * @var int
+     */
+    protected $count;
+
+    /**
+     * Data length
+     *
+     * @var int
+     */
+    protected $dataLength;
+
+    /**
+     * Error correction length
+     *
+     * @var int
+     */
+    protected $eccLength;
+
+    /**
+     * Value bv1
+     *
+     * @var int
+     */
+    protected $bv1;
+
+    /**
+     * Width.
+     *
+     * @var int
+     */
+    protected $width;
+
+    /**
+     * Frame
+     *
+     * @var array
+     */
+    protected $frame;
+
+    /**
+     * Horizontal bit position
+     *
+     * @var int
+     */
+    protected $xpos;
+
+    /**
+     * Vertical bit position
+     *
+     * @var int
+     */
+    protected $ypos;
+
+    /**
+     * Direction
+     *
+     * @var int
+     */
+    protected $dir;
+
+    /**
+     * Single bit value
+     *
+     * @var int
+     */
+    protected $bit;
+
+    /**
+     * Reed-Solomon items
+     *
+     * @va array
+     */
+    protected $rsitems = array();
+
     /**
      * Initialize code
      *

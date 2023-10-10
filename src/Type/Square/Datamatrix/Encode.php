@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2015-2020 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2015-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -29,26 +29,12 @@ use Com\Tecnick\Barcode\Type\Square\Datamatrix\Data;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2015-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2015-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 class Encode extends \Com\Tecnick\Barcode\Type\Square\Datamatrix\EncodeTxt
 {
-    /**
-     * Store last used encoding for data codewords.
-     *
-     * @var int
-     */
-    public $last_enc;
-
-    /**
-     * Datamatrix shape key (S=square, R=rectangular)
-     *
-     * @var string
-     */
-    public $shape;
-
     /**
      * Initialize a new encode object
      *

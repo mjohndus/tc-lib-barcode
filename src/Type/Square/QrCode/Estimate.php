@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -26,12 +26,60 @@ use Com\Tecnick\Barcode\Type\Square\QrCode\Data;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 abstract class Estimate
 {
+    /**
+     * Encoding mode
+     *
+     * @var int
+     */
+    protected $hint = 2;
+
+    /**
+     * QR code version.
+     * The Size of QRcode is defined as version. Version is an integer value from 1 to 40.
+     * Version 1 is 21*21 matrix. And 4 modules increases whenever 1 version increases.
+     * So version 40 is 177*177 matrix.
+     *
+     * @var int
+     */
+    public $version = 0;
+
+    /**
+     * Error correction level
+     *
+     * @var int
+     */
+    protected $level = 0;
+
+
+    /**
+     * Return the size of length indicator for the mode and version
+     *
+     * @param int $mode Encoding mode
+     * @param int $version Version
+     *
+     * @return int the size of the appropriate length indicator (bits).
+     */
+    public function getLengthIndicator($mode)
+    {
+        if ($mode == Data::$encodingModes['ST']) {
+            return 0;
+        }
+        if ($this->version <= 9) {
+            $len = 0;
+        } elseif ($this->version <= 26) {
+            $len = 1;
+        } else {
+            $len = 2;
+        }
+        return Data::$lengthTableBits[$mode][$len];
+    }
+
     /**
      * estimateBitsModeNum
      *

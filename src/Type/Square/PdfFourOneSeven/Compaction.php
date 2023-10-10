@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -28,7 +28,7 @@ use Com\Tecnick\Barcode\Type\Square\PdfFourOneSeven\Data;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
@@ -76,8 +76,6 @@ abstract class Compaction extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSev
      *
      * @param string  $code      Data to compact
      * @param string  $codewords Codewords
-     *
-     * @return array of codewords
      */
     protected function processTextCompaction($code, &$codewords)
     {
@@ -117,8 +115,6 @@ abstract class Compaction extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSev
      *
      * @param string  $code      Data to compact
      * @param string  $codewords Codewords
-     *
-     * @return array of codewords
      */
     protected function processByteCompaction($code, &$codewords)
     {
@@ -162,8 +158,6 @@ abstract class Compaction extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSev
      *
      * @param string  $code      Data to compact
      * @param string  $codewords Codewords
-     *
-     * @return array of codewords
      */
     protected function processNumericCompaction($code, &$codewords)
     {

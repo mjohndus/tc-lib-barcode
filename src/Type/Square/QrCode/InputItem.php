@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -26,12 +26,24 @@ use Com\Tecnick\Barcode\Type\Square\QrCode\Data;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 abstract class InputItem extends \Com\Tecnick\Barcode\Type\Square\QrCode\Estimate
 {
+    /**
+     * Look up the alphabet-numeric conversion table (see JIS X0510:2004, pp.19)
+     *
+     * @param int $chr Character value
+     *
+     * @return value
+     */
+    public function lookAnTable($chr)
+    {
+        return (($chr > 127) ? -1 : Data::$anTable[$chr]);
+    }
+
     /**
      * Append data to an input object.
      * The data is copied and appended to the input object.

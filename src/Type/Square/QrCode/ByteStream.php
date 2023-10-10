@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -28,36 +28,12 @@ use Com\Tecnick\Barcode\Type\Square\QrCode\Spec;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2010-2016 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 class ByteStream extends \Com\Tecnick\Barcode\Type\Square\QrCode\Encode
 {
-    /**
-     * Encoding mode
-     *
-     * @var int
-     */
-    protected $hint = 2;
-
-    /**
-     * QR code version.
-     * The Size of QRcode is defined as version. Version is an integer value from 1 to 40.
-     * Version 1 is 21*21 matrix. And 4 modules increases whenever 1 version increases.
-     * So version 40 is 177*177 matrix.
-     *
-     * @var int
-     */
-    public $version = 0;
-
-    /**
-     * Error correction level
-     *
-     * @var int
-     */
-    protected $level = 0;
-
     /**
      * Initialize
      *
