@@ -16,8 +16,7 @@
 
 namespace Com\Tecnick\Barcode\Type;
 
-use Com\Tecnick\Barcode\Exception as BarcodeException;
-use Com\Tecnick\Color\Exception as ColorException;
+use Com\Tecnick\Color\Model\Rgb as Color;
 
 /**
  * Com\Tecnick\Barcode\Type\Convert
@@ -102,14 +101,14 @@ abstract class Convert
     /**
      * Barcode width
      *
-     * @var float
+     * @var int
      */
     protected $width;
 
     /**
      * Barcode height
      *
-     * @var float
+     * @var int
      */
     protected $height;
 
@@ -138,21 +137,21 @@ abstract class Convert
     /**
      * Foreground Color object
      *
-     * @var Color object
+     * @var Color
      */
     protected $color_obj;
 
     /**
      * Backgorund Color object
      *
-     * @var Color object
+     * @var Color
      */
     protected $bg_color_obj;
 
     /**
      * Import a binary sequence of comma-separated 01 strings
      *
-     * @param string $code Code to process
+     * @param array|string $code Code to process
      */
     protected function processBinarySequence($code)
     {
@@ -177,7 +176,7 @@ abstract class Convert
         }
         $hex = array();
         while ($number > 0) {
-            array_push($hex, strtoupper(dechex(bcmod($number, '16'))));
+            array_push($hex, strtoupper((string)dechex((int)bcmod($number, '16'))));
             $number = bcdiv($number, '16', 0);
         }
         $hex = array_reverse($hex);
@@ -193,12 +192,12 @@ abstract class Convert
      */
     protected function convertHexToDec($hex)
     {
-        $dec = 0;
-        $bitval = 1;
+        $dec = '0';
+        $bitval = '1';
         $len = strlen($hex);
         for ($pos = ($len - 1); $pos >= 0; --$pos) {
-            $dec = bcadd($dec, bcmul(hexdec($hex[$pos]), $bitval));
-            $bitval = bcmul($bitval, 16);
+            $dec = bcadd($dec, bcmul((string)hexdec($hex[$pos]), $bitval));
+            $bitval = bcmul($bitval, '16');
         }
         return $dec;
     }
@@ -257,7 +256,7 @@ abstract class Convert
     /**
      * Get the adjusted rectangular coordinates (x1,y1,x2,y2) for the specified bar
      *
-     * @param array Raw bar coordinates
+     * @param array $bar Raw bar coordinates
      *
      * @return array Bar coordinates
      */
@@ -274,7 +273,7 @@ abstract class Convert
     /**
      * Get the adjusted rectangular coordinates (x,y,w,h) for the specified bar
      *
-     * @param array Raw bar coordinates
+     * @param array $bar Raw bar coordinates
      *
      * @return array Bar coordinates
      */
