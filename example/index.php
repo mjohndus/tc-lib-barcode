@@ -58,6 +58,7 @@ $square = array(
     'LRAW'             => array('0101010101', '1D RAW MODE (comma-separated rows of 01 strings)'),
     'SRAW'             => array('0101,1010',  '2D RAW MODE (comma-separated rows of 01 strings)'),
     'PDF417'           => array('0123456789', 'PDF417 (ISO/IEC 15438:2006)'),
+    'AZTEC,200'        => array('abcdefghijklmnopqrstuvwxy0123456789', 'AZTEC WITH PARAMETERS'),
     'QRCODE'           => array('0123456789', 'QR-CODE'),
     'QRCODE,H,ST,0,0'  => array('abcdefghijklmnopqrstuvwxy0123456789', 'QR-CODE WITH PARAMETERS'),
     'DATAMATRIX'       => array('0123456789', 'DATAMATRIX (ISO/IEC 16022) SQUARE'),
