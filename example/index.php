@@ -70,7 +70,7 @@ $barcode = new \Com\Tecnick\Barcode\Barcode();
 
 $examples = '<h3>Linear</h3>'."\n";
 foreach ($linear as $type => $code) {
-    $bobj = $barcode->getBarcodeObj($type, $code[0], -3, -30, 'black', array(0, 0, 0, 0));
+    $bobj = $barcode->getBarcodeObj($type.',10', $code[0], -3, -30, 'black', array(0, 0, 0, 0));
     $examples .= '<h4>[<span>'.$type.'</span>] '.$code[1].'</h4><p style="font-family:monospace;">'.$bobj->getHtmlDiv().'</p>'."\n";
 }
 
