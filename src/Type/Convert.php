@@ -52,7 +52,6 @@ abstract class Convert
      *
      * @var array
      */
-
     protected $marks = array();
 
     /**
