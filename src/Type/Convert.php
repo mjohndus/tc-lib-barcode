@@ -48,6 +48,13 @@ abstract class Convert
     protected $format = '';
 
     /**
+     * linear parameter for guard bar
+     *
+     * @var int
+     */
+    protected $mark = 0;
+    
+    /**
      * Set start-center-end marks
      *
      * @var array
