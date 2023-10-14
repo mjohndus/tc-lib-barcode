@@ -47,16 +47,16 @@ abstract class Linear extends \Com\Tecnick\Barcode\Type
 
     /**
      * Set extra (optional) parameter:
-     *     0: MARKS -> longer guard bars for EAN,UPC... from 0.5 to 20
+     *     0: MARKS -> longer guard bars for EAN,UPC... from 1 to 20
      */
     protected function setParameters()
     {
         parent::setParameters();
         // marks
         //if (!isset($this->params[1]) OR !in_array($this->params[1], range(0, 20))) {
-        if (!isset($this->params[0]) OR $this->params[0] < 0.5 OR $this->params[0] > 20) {
+        if (!isset($this->params[0]) OR $this->params[0] < 1 OR $this->params[0] > 20) {
             $this->params[0] = 0;
         }
-        $this->mark = floatval($this->params[0]);
+        $this->mark = intval($this->params[0]);
     }
 }
