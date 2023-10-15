@@ -203,16 +203,16 @@ class Dynamic
         return $minState->getHistory();
     }
 
-    protected function updateStateListForChar($ch)
+    protected function updateStateListForChar($chr)
     {
         $result = [];
 
         foreach ($this->states as $state) {
             $current_mode = $state->getMode();
-            $notInCurrentTable = ($this->getCharMapping($current_mode, $ch) == 0);
+            $notInCurrentTable = ($this->getCharMapping($current_mode, $chr) == 0);
             $binary = true;
             for ($mode = 0; $mode <= 4; $mode++) {
-                $charInMode = $this->getCharMapping($mode, $ch);
+                $charInMode = $this->getCharMapping($mode, $chr);
                 if ($charInMode > 0) {
                     if ($binary) {
                         $state->endBinaryShift();
