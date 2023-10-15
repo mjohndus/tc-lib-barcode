@@ -29,27 +29,28 @@ class ReedSolomon
     {
         $this->expTable = array_fill(0, $this->size, 0);
         $this->logTable = $this->expTable;
-        $x = 1;
-        for ($i = 0; $i < $this->size; $i++) {
-            $this->expTable[$i] = $x;
-            $x <<= 1;
-            if ($x >= $this->size) {
-                $x ^= $primitive;
-                $x &= ($this->size - 1);
+
+        $tab = 1;
+        for ($add = 0; $add < $this->size; $add++) {
+            $this->expTable[$add] = $tab;
+            $tab <<= 1;
+            if ($tab >= $this->size) {
+                $tab ^= $primitive;
+                $tab &= ($this->size - 1);
             }
         }
-        for ($i = 0; $i < $this->size; $i++) {
-            $this->logTable[$this->expTable[$i]] = $i;
+        for ($add = 0; $add < $this->size; $add++) {
+            $this->logTable[$this->expTable[$add]] = $add;
         }
     }
 
-    protected function fieldmultiply($a, $b)
+    protected function fieldmultiply($abc, $bcd)
     {
-        if ($a == 0 || $b == 0) {
+        if ($abc == 0 || $bcd == 0) {
             return 0;
         }
 
-        return $this->expTable[($this->logTable[$a] + $this->logTable[$b]) % ($this->size - 1)];
+        return $this->expTable[($this->logTable[$abc] + $this->logTable[$bcd]) % ($this->size - 1)];
     }
 
     protected function getPoly($coefficients)
@@ -112,9 +113,9 @@ class ReedSolomon
 
         $lengthDiff = count($largerCoefficients) - count($smallerCoefficients);
         $sumDiff = array_slice($largerCoefficients, 0, $lengthDiff);
-
-        for ($i = $lengthDiff; $i < count($largerCoefficients); $i++) {
-            $sumDiff[$i] = $smallerCoefficients[$i - $lengthDiff] ^ $largerCoefficients[$i];
+        $cont = count($largerCoefficients);
+        for ($add = $lengthDiff; $add < $cont; $add++) {
+            $sumDiff[$add] = $smallerCoefficients[$add - $lengthDiff] ^ $largerCoefficients[$add];
         }
 
         return $this->getPoly($sumDiff);
@@ -126,11 +127,11 @@ class ReedSolomon
             return [0];
         }
 
-        $count = count($coefficients);
-        $product = array_fill(0, ($count + $degree), 0);
+        $cont = count($coefficients);
+        $product = array_fill(0, ($cont + $degree), 0);
 
-        for ($i = 0; $i < $count; $i++) {
-            $product[$i] = $this->fieldmultiply($coefficients[$i], $coefficient);
+        for ($add = 0; $add < $cont; $add++) {
+            $product[$add] = $this->fieldmultiply($coefficients[$add], $coefficient);
         }
 
         return $this->getPoly($product);
