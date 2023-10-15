@@ -149,8 +149,10 @@ class Encoder
                         $this->mSet($alignmentMap[$i * 2 + $j], $alignmentMap[$baseMatrixSize - 1 - $i * 2 - $k]);
                     }
                     if ($messageBits[$rowOffset + $rowSize * 4 + $columnOffset + $k]) {
-                        $this->mSet($alignmentMap[$baseMatrixSize - 1 - $i * 2 - $k],
-                                    $alignmentMap[$baseMatrixSize - 1 - $i * 2 - $j]);
+                        $this->mSet(
+                            $alignmentMap[$baseMatrixSize - 1 - $i * 2 - $k],
+                            $alignmentMap[$baseMatrixSize - 1 - $i * 2 - $j]
+                        );
                     }
                     if ($messageBits[$rowOffset + $rowSize * 6 + $columnOffset + $k]) {
                         $this->mSet($alignmentMap[$baseMatrixSize - 1 - $i * 2 - $j], $alignmentMap[$i * 2 + $k]);
