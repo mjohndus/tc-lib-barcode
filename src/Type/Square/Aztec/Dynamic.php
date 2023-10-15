@@ -33,33 +33,33 @@ class Dynamic
     protected $MODE_MIXED = 3;
     protected $MODE_PUNCT = 4;
 
-    public function __construct()
+    function __construct()
     {
         $this->charMap = $this->genCharMapping();
         $this->shiftTable = $this->genShiftTable();
         $this->latchTable = [
-                [0,327708,327710,327709,656318],
-                [590318,0,327710,327709,656318],
-                [262158,590300,0,590301,932798],
-                [327709,327708,656318,0,327710],
-                [327711,656380,656382,656381,0]
+            [0,327708,327710,327709,656318],
+            [590318,0,327710,327709,656318],
+            [262158,590300,0,590301,932798],
+            [327709,327708,656318,0,327710],
+            [327711,656380,656382,656381,0]
         ];
     }
 
     protected function genShiftTable()
     {
         $shiftTable = [];
-        for ($i = 0; $i < 6; $i++) {
+        for ($abc = 0; $abc < 6; $abc++) {
             $shiftTable[] = array_fill(0, 6, -1);
         }
-            $shiftTable[0][4] = 0;
-            $shiftTable[1][4] = 0;
-            $shiftTable[1][0] = 28;
-            $shiftTable[3][4] = 0;
-            $shiftTable[2][4] = 0;
-            $shiftTable[2][0] = 15;
+        $shiftTable[0][4] = 0;
+        $shiftTable[1][4] = 0;
+        $shiftTable[1][0] = 28;
+        $shiftTable[3][4] = 0;
+        $shiftTable[2][4] = 0;
+        $shiftTable[2][0] = 15;
 
-            return $shiftTable;
+        return $shiftTable;
     }
 
     protected function getLatch($fromMode, $toMode)
@@ -75,7 +75,7 @@ class Dynamic
     protected function genCharMapping()
     {
         $charMap = [];
-        for ($i = 0; $i < 5; $i++) {
+        for ($abc = 0; $abc < 5; $abc++) {
             $charMap[] = array_fill(0, 256, 0);
         }
 
@@ -90,47 +90,46 @@ class Dynamic
         # ord('.') = 46
 
         $charMap[0][32] = 1;
-        for ($c = 65; $c <= 90; $c++) {
-            $charMap[0][$c] = $c - 65 + 2;
+        for ($chm = 65; $chm <= 90; $chm++) {
+            $charMap[0][$chm] = $chm - 65 + 2;
         }
 
         $charMap[1][32] = 1;
-        for ($c = 97; $c <= 122; $c++) {
-            $charMap[1][$c] = $c - 97 + 2;
+        for ($chm = 97; $chm <= 122; $chm++) {
+            $charMap[1][$chm] = $chm - 97 + 2;
         }
 
         $charMap[2][32] = 1;
-        for ($c = 48; $c <= 57; $c++) {
-            $charMap[2][$c] = $c - 48 + 2;
+        for ($chm = 48; $chm <= 57; $chm++) {
+            $charMap[2][$chm] = $chm - 48 + 2;
         }
         $charMap[2][44] = 12;
         $charMap[2][46] = 13;
 
-        // '\0', ' ', '\1', '\2', '\3', '\4', '\5', '\6', '\7', '\b', '\t', '\n',
-        // '\13', '\f', '\r', '\33', '\34', '\35', '\36', '\37', '@', '\\', '^',
-        // '_', '`', '|', '~', '\177',
-
+        //  '\0', ' ', '\1', '\2', '\3', '\4', '\5', '\6', '\7', '\b', '\t', '\n',
+        //  '\13', '\f', '\r', '\33', '\34', '\35', '\36', '\37', '@', '\\', '^',
+        //  '_', '`', '|', '~', '\177',
         $mixedTable = [32 => 1, 64 => 20, 92 => 27, 94 => 22, 95 => 23, 96 => 24, 124 => 25, 126 => 26];
 
-        foreach ($mixedTable as $i => $val) {
-            $charMap[3][$val] = $i;
+        foreach ($mixedTable as $abc => $val) {
+            $charMap[3][$val] = $abc;
         }
 
         // '\0', '\r', '\0', '\0', '\0', '\0', '!', '\'', '#', '$', '%', '&', '\'',
         // '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?',
         // '[', ']', '{', '}',
         $punctTable = [
-                    33 => 6, 35 => 8, 36 => 9, 37 => 10,
-                    38 => 11, 39 => 12, 40 => 13, 41 => 14,
-                    42 => 15, 43 => 16, 44 => 17, 45 => 18,
-                    46 => 19, 47 => 20, 58 => 21, 59 => 22,
-                    60 => 23, 61 => 24, 62 => 25, 63 => 26,
-                    91 => 27, 92 => 5, 93 => 28, 123 => 29,
-                    125 => 30
+            33 => 6, 35 => 8, 36 => 9, 37 => 10,
+            38 => 11, 39 => 12, 40 => 13, 41 => 14,
+            42 => 15, 43 => 16, 44 => 17, 45 => 18,
+            46 => 19, 47 => 20, 58 => 21, 59 => 22,
+            60 => 23, 61 => 24, 62 => 25, 63 => 26,
+            91 => 27, 92 => 5, 93 => 28, 123 => 29,
+            125 => 30
         ];
 
-        foreach ($punctTable as $i => $val) {
-            $charMap[4][$i] = $val;
+        foreach ($punctTable as $abc => $val) {
+            $charMap[4][$abc] = $val;
         }
 
         return $charMap;
@@ -189,6 +188,7 @@ class Dynamic
             } else {
                 $this->updateStateListForChar($textCodes[$index]);
             }
+
             $this->simplifyStates();
         }
 
@@ -206,6 +206,7 @@ class Dynamic
     protected function updateStateListForChar($ch)
     {
         $result = [];
+
         foreach ($this->states as $state) {
             $current_mode = $state->getMode();
             $notInCurrentTable = ($this->getCharMapping($current_mode, $ch) == 0);
@@ -227,7 +228,7 @@ class Dynamic
             }
 
             if ($state->getShiftByteCount() > 0 || $notInCurrentTable) {
-            # can safely change the last one
+                # can safely change the last one
                 $this->addBinaryShiftChar($state);
                 $result[] = $state;
             }
@@ -241,6 +242,7 @@ class Dynamic
         $result = [];
         foreach ($this->states as $state) {
             $state->endBinaryShift();
+
             $result[] = $this->latchAndAppend($state, 4, $pairCode);
             if ($state->getMode() != 4) {
                 $result[] = $this->shiftAndAppend($state, 4, $pairCode);
@@ -255,20 +257,24 @@ class Dynamic
                 $result[] = $state;
             }
         }
+
         $this->states = $result;
     }
 
     protected function simplifyStates()
     {
         $result = [];
+        $con = count($result);
         foreach ($this->states as $state) {
-            for ($i = 0; $i < count($result); $i++) {
-                if ($this->isBetterThanOrEqualTo($result[$i], $state)) {
+            for ($abc = 0; $abc < $con; $abc++) {
+                if ($this->isBetterThanOrEqualTo($result[$abc], $state)) {
                     continue 2;
                 }
             }
+
             $result[] = $state;
         }
+
         $this->states = $result;
     }
 
@@ -281,6 +287,7 @@ class Dynamic
         ) {
             $mySize += 10;
         }
+
         return $mySize <= count($other);
     }
 
@@ -288,6 +295,7 @@ class Dynamic
     {
         $token = clone $token;
         $current_mode = $token->getMode();
+
         $thisModeBitCount = ($current_mode == $this->MODE_DIGIT ? 4 : 5);
         $token->add($this->getShift($current_mode, $mode), $thisModeBitCount);
         $token->add($value, 5);
