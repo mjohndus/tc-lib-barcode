@@ -275,8 +275,10 @@ class Dynamic
     protected function isBetterThanOrEqualTo($one, $other)
     {
         $mySize = count($one) + ($this->getLatch($one->getMode(), $other->getMode()) >> 16);
-        if ($other->getShiftByteCount() > 0 && ($one->getShiftByteCount() == 0 ||
-                                                $one->getShiftByteCount() > $other->getShiftByteCount())) {
+        if (
+            $other->getShiftByteCount() > 0 && ($one->getShiftByteCount() == 0 ||
+                                                $one->getShiftByteCount() > $other->getShiftByteCount())
+        ) {
             $mySize += 10;
         }
         return $mySize <= count($other);
