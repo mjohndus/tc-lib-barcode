@@ -30,6 +30,9 @@ use Com\Tecnick\Color\Model\Rgb as Color;
  * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ *
  */
 abstract class Convert
 {
@@ -46,6 +49,20 @@ abstract class Convert
      * @var string
      */
     protected $format = '';
+
+    /**
+     * linear parameter for guard bar
+     *
+     * @var int
+     */
+    protected $mark = 0;
+
+    /**
+     * Set start-center-end marks
+     *
+     * @var array
+     */
+    protected $marks = array();
 
     /**
      * Array containing extra parameters for the specified barcode type
