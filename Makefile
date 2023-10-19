@@ -12,7 +12,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Project owner
-OWNER=tecnickcom
+OWNER=mjohndus
 
 # Project vendor
 VENDOR=${OWNER}
