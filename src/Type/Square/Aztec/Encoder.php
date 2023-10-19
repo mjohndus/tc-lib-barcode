@@ -22,6 +22,7 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
 
 /*
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.ShortVariable)
 */
 class Encoder
 {
