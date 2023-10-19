@@ -49,6 +49,9 @@ class Aztec extends \Com\Tecnick\Barcode\Type\Square
         $this->hint = $this->params[1];
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     */
     protected function setBars()
     {
         $bits = (new Encoder())->encode($this->code, $this->ecc, $this->hint);
