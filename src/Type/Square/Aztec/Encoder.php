@@ -54,6 +54,7 @@ class Encoder
     * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
     * @SuppressWarnings(PHPMD.NPathComplexity)
+    * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
     */
     public function encode($content, $eccPercent, $hint)
     {
