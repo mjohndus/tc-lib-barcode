@@ -31,6 +31,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * @copyright   2015-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 abstract class Type extends \Com\Tecnick\Barcode\Type\Convert
 {
@@ -202,6 +204,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert
             'type'         => $this->type,
             'format'       => $this->format,
             'params'       => $this->params,
+            'marks'        => $this->marks,
             'code'         => $this->code,
             'extcode'      => $this->extcode,
             'ncols'        => $this->ncols,
@@ -467,6 +470,27 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert
     }
 
     /**
+     * Get array shorter bars
+     *
+     * @return array
+     */
+    public function guard()
+    {
+        $mark = [];
+        if (!empty($this->marks)) {
+            $size = count($this->bars);
+            for ($abc = 0; $abc < $size; ++$abc) {
+                if (!in_array($this->bars[$abc][0], $this->marks)) {
+                    $mark[] = $this->mark;
+                } else {
+                    $mark[] = 0;
+                }
+            }
+        }
+        return $mark;
+    }
+
+    /**
      * Get the array containing all the formatted bars coordinates
      *
      * @param string $type Type of coordinates to return: 'XYXY' or 'XYWH'
@@ -475,11 +499,17 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert
      */
     public function getBarsArray($type = 'XYXY')
     {
+        $mark = $this->guard();
         $mtd = 'getBarRect' . $type;
         $rect = array();
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if (($bar[2] > 0) && ($bar[3] > 0)) {
                 $rect[] = $this->$mtd($bar);
+                if (!empty($mark)) {
+                    $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                    $abc++;
+                }
             }
         }
         if ($this->nrows > 1) {
