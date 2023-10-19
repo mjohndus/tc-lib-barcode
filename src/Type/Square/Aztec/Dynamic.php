@@ -20,6 +20,9 @@ namespace Com\Tecnick\Barcode\Type\Square\Aztec;
 
 use Com\Tecnick\Barcode\Exception as BarcodeException;
 
+/*
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+*/
 class Dynamic
 {
     protected $states;
@@ -140,6 +143,9 @@ class Dynamic
         return $this->charMap[$mode][$char];
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function encode($data)
     {
         # ord('\r') = 92
@@ -203,6 +209,9 @@ class Dynamic
         return $minState->getHistory();
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     protected function updateStateListForChar($chr)
     {
         $result = [];
