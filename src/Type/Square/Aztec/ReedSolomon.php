@@ -142,9 +142,10 @@ class ReedSolomon
         $otherDegree = $ecBytes + 1;
         $otherCoefficient = $this->buildGenerator($ecBytes);
 
-        $one = $this->multiplyByMonomial($ecBytes, 1, $data);
+        $one1 = $this->multiplyByMonomial($ecBytes, 1, $data);
+        $one = count($one);
 
-        while (count($one) >= $otherDegree && !$this->isZero($one)) {
+        while $one >= $otherDegree && !$this->isZero($one)) {
             $degreeDifference = count($one) - $otherDegree;
             $scale = $this->fieldmultiply($one[0], 1);
             $largerCoefficients = $this->multiplyByMonomial($degreeDifference, $scale, $otherCoefficient);
