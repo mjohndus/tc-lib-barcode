@@ -137,6 +137,9 @@ class ReedSolomon
         return $this->getPoly($product);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CountInLoopExpression)
+     */
     protected function divide($ecBytes, $data)
     {
         $otherDegree = $ecBytes + 1;
