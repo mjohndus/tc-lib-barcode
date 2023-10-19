@@ -56,6 +56,13 @@ class EanOneThree extends \Com\Tecnick\Barcode\Type\Linear
     protected $check = 0;
 
     /**
+     * Set longer start-center-end guards
+     *
+     * @var array
+     */
+    protected $marks = array('0','1','2','46','47','48','92','93','94');
+
+    /**
      * Map characters to barcodes
      *
      * @var array
