@@ -20,6 +20,9 @@ namespace Com\Tecnick\Barcode\Type\Square\Aztec;
 
 use Com\Tecnick\Barcode\Exception as BarcodeException;
 
+/*
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+*/
 class Encoder
 {
     protected $MATRIX;
@@ -46,7 +49,11 @@ class Encoder
             $bstream[] = ($data >> $i) & 1;
         }
     }
-
+   /**
+    * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+    * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+    * @SuppressWarnings(PHPMD.NPathComplexity)
+    */
     public function encode($content, $eccPercent, $hint)
     {
         $LAYERS_COMPACT = 5;
@@ -285,6 +292,9 @@ class Encoder
         return $message;
     }
 
+    /**
+    * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+    */
     protected function stuffBits($bits, $wordSize)
     {
         $out = [];
