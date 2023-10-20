@@ -21,7 +21,8 @@ namespace Com\Tecnick\Barcode\Type\Square\Aztec;
 use Com\Tecnick\Barcode\Exception as BarcodeException;
 
 /**
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class Encoder
 {
