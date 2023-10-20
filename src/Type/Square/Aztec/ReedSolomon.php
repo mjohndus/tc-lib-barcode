@@ -4,6 +4,9 @@ namespace Com\Tecnick\Barcode\Type\Square\Aztec;
 
 use Com\Tecnick\Barcode\Exception as BarcodeException;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortVariable)
+ */
 class ReedSolomon
 {
     protected $size;
