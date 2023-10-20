@@ -29,28 +29,27 @@ class ReedSolomon
     {
         $this->expTable = array_fill(0, $this->size, 0);
         $this->logTable = $this->expTable;
-
-        $tab = 1;
-        for ($add = 0; $add < $this->size; $add++) {
-            $this->expTable[$add] = $tab;
-            $tab <<= 1;
-            if ($tab >= $this->size) {
-                $tab ^= $primitive;
-                $tab &= ($this->size - 1);
+        $x = 1;
+        for ($i = 0; $i < $this->size; $i++) {
+            $this->expTable[$i] = $x;
+            $x <<= 1;
+            if ($x >= $this->size) {
+                $x ^= $primitive;
+                $x &= ($this->size - 1);
             }
         }
-        for ($add = 0; $add < $this->size; $add++) {
-            $this->logTable[$this->expTable[$add]] = $add;
+        for ($i = 0; $i < $this->size; $i++) {
+            $this->logTable[$this->expTable[$i]] = $i;
         }
     }
 
-    protected function fieldmultiply($abc, $bcd)
+    protected function fieldmultiply($a, $b)
     {
-        if ($abc == 0 || $bcd == 0) {
+        if ($a == 0 || $b == 0) {
             return 0;
         }
 
-        return $this->expTable[($this->logTable[$abc] + $this->logTable[$bcd]) % ($this->size - 1)];
+        return $this->expTable[($this->logTable[$a] + $this->logTable[$b]) % ($this->size - 1)];
     }
 
     protected function getPoly($coefficients)
@@ -113,9 +112,10 @@ class ReedSolomon
 
         $lengthDiff = count($largerCoefficients) - count($smallerCoefficients);
         $sumDiff = array_slice($largerCoefficients, 0, $lengthDiff);
-        $cont = count($largerCoefficients);
-        for ($add = $lengthDiff; $add < $cont; $add++) {
-            $sumDiff[$add] = $smallerCoefficients[$add - $lengthDiff] ^ $largerCoefficients[$add];
+
+        $largerCoef = count($largerCoefficients);
+        for ($i = $lengthDiff; $i < $largerCoef; $i++) {
+            $sumDiff[$i] = $smallerCoefficients[$i - $lengthDiff] ^ $largerCoefficients[$i];
         }
 
         return $this->getPoly($sumDiff);
@@ -127,11 +127,11 @@ class ReedSolomon
             return [0];
         }
 
-        $cont = count($coefficients);
-        $product = array_fill(0, ($cont + $degree), 0);
+        $coeff = count($coefficients);
+        $product = array_fill(0, ($coeff + $degree), 0);
 
-        for ($add = 0; $add < $cont; $add++) {
-            $product[$add] = $this->fieldmultiply($coefficients[$add], $coefficient);
+        for ($i = 0; $i < $coeff; $i++) {
+            $product[$i] = $this->fieldmultiply($coefficients[$i], $coefficient);
         }
 
         return $this->getPoly($product);
@@ -147,6 +147,7 @@ class ReedSolomon
 
         $one = $this->multiplyByMonomial($ecBytes, 1, $data);
 
+        //while ($one1 >= $otherDegree && !$this->isZero($one)) {
         while (count($one) >= $otherDegree && !$this->isZero($one)) {
             $degreeDifference = count($one) - $otherDegree;
             $scale = $this->fieldmultiply($one[0], 1);
