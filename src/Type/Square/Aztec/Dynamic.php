@@ -39,7 +39,7 @@ class Dynamic
     protected $MODE_MIXED = 3;
     protected $MODE_PUNCT = 4;
 
-    function __construct()
+    public function __construct()
     {
         $this->charMap = $this->genCharMapping();
         $this->shiftTable = $this->genShiftTable();
@@ -297,7 +297,7 @@ class Dynamic
         if (
             $other->getShiftByteCount() > 0 && ($one->getShiftByteCount() == 0 ||
                                                 $one->getShiftByteCount() > $other->getShiftByteCount())
-            ) {
+           ) {
             $mySize += 10;
         }
 
