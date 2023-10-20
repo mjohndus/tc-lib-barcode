@@ -20,9 +20,12 @@ namespace Com\Tecnick\Barcode\Type\Square\Aztec;
 
 use Com\Tecnick\Barcode\Exception as BarcodeException;
 
-/**
+/*
+ *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- */
+ * @SuppressWarnings(PHPMD.ShortVariable)
+ *
+*/
 class Dynamic
 {
     protected $states;
@@ -36,7 +39,7 @@ class Dynamic
     protected $MODE_MIXED = 3;
     protected $MODE_PUNCT = 4;
 
-    public function __construct()
+    function __construct()
     {
         $this->charMap = $this->genCharMapping();
         $this->shiftTable = $this->genShiftTable();
@@ -52,7 +55,7 @@ class Dynamic
     protected function genShiftTable()
     {
         $shiftTable = [];
-        for ($abc = 0; $abc < 6; $abc++) {
+        for ($i = 0; $i < 6; $i++) {
             $shiftTable[] = array_fill(0, 6, -1);
         }
         $shiftTable[0][4] = 0;
@@ -78,7 +81,7 @@ class Dynamic
     protected function genCharMapping()
     {
         $charMap = [];
-        for ($abc = 0; $abc < 5; $abc++) {
+        for ($i = 0; $i < 5; $i++) {
             $charMap[] = array_fill(0, 256, 0);
         }
 
@@ -93,18 +96,18 @@ class Dynamic
         # ord('.') = 46
 
         $charMap[0][32] = 1;
-        for ($chm = 65; $chm <= 90; $chm++) {
-            $charMap[0][$chm] = $chm - 65 + 2;
+        for ($c = 65; $c <= 90; $c++) {
+            $charMap[0][$c] = $c - 65 + 2;
         }
 
         $charMap[1][32] = 1;
-        for ($chm = 97; $chm <= 122; $chm++) {
-            $charMap[1][$chm] = $chm - 97 + 2;
+        for ($c = 97; $c <= 122; $c++) {
+            $charMap[1][$c] = $c - 97 + 2;
         }
 
         $charMap[2][32] = 1;
-        for ($chm = 48; $chm <= 57; $chm++) {
-            $charMap[2][$chm] = $chm - 48 + 2;
+        for ($c = 48; $c <= 57; $c++) {
+            $charMap[2][$c] = $c - 48 + 2;
         }
         $charMap[2][44] = 12;
         $charMap[2][46] = 13;
@@ -114,8 +117,8 @@ class Dynamic
         //  '_', '`', '|', '~', '\177',
         $mixedTable = [32 => 1, 64 => 20, 92 => 27, 94 => 22, 95 => 23, 96 => 24, 124 => 25, 126 => 26];
 
-        foreach ($mixedTable as $abc => $val) {
-            $charMap[3][$val] = $abc;
+        foreach ($mixedTable as $i => $val) {
+            $charMap[3][$val] = $i;
         }
 
         // '\0', '\r', '\0', '\0', '\0', '\0', '!', '\'', '#', '$', '%', '&', '\'',
@@ -131,8 +134,8 @@ class Dynamic
             125 => 30
         ];
 
-        foreach ($punctTable as $abc => $val) {
-            $charMap[4][$abc] = $val;
+        foreach ($punctTable as $i => $val) {
+            $charMap[4][$i] = $val;
         }
 
         return $charMap;
@@ -212,16 +215,16 @@ class Dynamic
     /**
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function updateStateListForChar($chr)
+    protected function updateStateListForChar($ch)
     {
         $result = [];
 
         foreach ($this->states as $state) {
             $current_mode = $state->getMode();
-            $notInCurrentTable = ($this->getCharMapping($current_mode, $chr) == 0);
+            $notInCurrentTable = ($this->getCharMapping($current_mode, $ch) == 0);
             $binary = true;
             for ($mode = 0; $mode <= 4; $mode++) {
-                $charInMode = $this->getCharMapping($mode, $chr);
+                $charInMode = $this->getCharMapping($mode, $ch);
                 if ($charInMode > 0) {
                     if ($binary) {
                         $state->endBinaryShift();
@@ -273,10 +276,11 @@ class Dynamic
     protected function simplifyStates()
     {
         $result = [];
-        $con = count($result);
+        $res = count($result);
+
         foreach ($this->states as $state) {
-            for ($abc = 0; $abc < $con; $abc++) {
-                if ($this->isBetterThanOrEqualTo($result[$abc], $state)) {
+            for ($i = 0; $i < $res; $i++) {
+                if ($this->isBetterThanOrEqualTo($res[$i], $state)) {
                     continue 2;
                 }
             }
@@ -293,7 +297,7 @@ class Dynamic
         if (
             $other->getShiftByteCount() > 0 && ($one->getShiftByteCount() == 0 ||
                                                 $one->getShiftByteCount() > $other->getShiftByteCount())
-        ) {
+            ) {
             $mySize += 10;
         }
 
