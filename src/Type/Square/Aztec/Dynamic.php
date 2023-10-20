@@ -295,7 +295,7 @@ class Dynamic
         if (
             $other->getShiftByteCount() > 0 && ($one->getShiftByteCount() == 0 ||
                                                 $one->getShiftByteCount() > $other->getShiftByteCount())
-           ) {
+        ) {
             $mySize += 10;
         }
 
