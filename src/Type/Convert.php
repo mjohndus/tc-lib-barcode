@@ -58,7 +58,7 @@ abstract class Convert
     /**
      * Set start-center-end marks
      *
-     * @var array
+     * @var array<int, string>
      */
     protected array $marks = [];
 
@@ -286,7 +286,7 @@ abstract class Convert
     /**
      * Get array shorter bars
      *
-     * @return array
+     * @return array<int, string>
      */
     protected function guard(): array
     {
