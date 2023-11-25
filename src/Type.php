@@ -243,6 +243,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             'type' => $this::TYPE,
             'format' => $this::FORMAT,
             'params' => $this->params,
+            'marks' => $this->marks,
             'code' => $this->code,
             'extcode' => $this->extcode,
             'ncols' => $this->ncols,
@@ -544,7 +545,9 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getBarsArrayXYXY(): array
     {
+        $mark = $this->guard();
         $rect = [];
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -555,6 +558,11 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect[] = $this->getBarRectXYXY($bar);
+
+            if (!empty($mark)) {
+                $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
@@ -583,7 +591,9 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getBarsArrayXYWH(): array
     {
+        $mark = $this->guard();
         $rect = [];
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -594,6 +604,11 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect[] = $this->getBarRectXYWH($bar);
+
+            if (!empty($mark)) {
+                $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
