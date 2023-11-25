@@ -53,7 +53,7 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
     /**
      * Set longer start-center-end guards
      *
-     * @var array
+     * @var array<int, string>
      */
     protected array $marks = ['0','1','2','46','47','48','49','50'];
 
