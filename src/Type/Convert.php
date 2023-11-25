@@ -61,7 +61,7 @@ abstract class Convert
      * @var array
      */
     protected array $marks = [];
-    
+
     /**
      * Array containing extra parameters for the specified barcode type
      *
@@ -303,7 +303,7 @@ abstract class Convert
         }
         return $mark;
     }
-    
+
     /**
      * Returns the bars array ordered by columns
      *
