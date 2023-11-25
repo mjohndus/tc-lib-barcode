@@ -62,5 +62,5 @@ abstract class Linear extends \Com\Tecnick\Barcode\Type
         }
 
         $this->mark = (int) $this->params[0];
-    }   
+    }
 }
