@@ -286,7 +286,7 @@ abstract class Convert
     /**
      * Get array shorter bars
      *
-     * @return array<int, string>
+     * @return array<int<0, max>, int>
      */
     protected function guard(): array
     {
