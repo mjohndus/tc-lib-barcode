@@ -49,7 +49,7 @@ class EanEight extends \Com\Tecnick\Barcode\Type\Linear\EanOneThree
     /**
      * Set longer start-center-end guards
      *
-     * @var array
+     * @var array<int, string>
      */
     protected array $marks = ['0','1','2','32','33','34','64','65','66'];
 
