@@ -221,6 +221,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *             'type': string,
      *             'format': string,
      *             'params': array<int|float|string>,
+     *             'marks': array<int, string>,
      *             'code': string,
      *             'extcode': string,
      *             'ncols': int,
