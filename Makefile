@@ -255,7 +255,7 @@ tag:
 test:
 	cp phpunit.xml.dist phpunit.xml
 	./vendor/bin/phpunit --migrate-configuration || true
-	./vendor/bin/phpunit --stderr test
+	./vendor/bin/phpunit --stderr test --no-coverage
 
 # Remove all installed files
 .PHONY: uninstall
