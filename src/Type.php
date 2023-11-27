@@ -184,15 +184,31 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
-     * Set the background color
+     * Set the Space bars color.
      *
-     * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     * @param string $color Space bars color in Web notation (color name, or hexadecimal code, or CSS syntax)
      *
      * @throws ColorException in case of color error
      */
-    public function setBackgroundColor(string $color): static
+    public function setSpaceColor(string $color): static
+    {
+        $this->fs_color_obj = $this->getRgbColorObject($color);
+        return $this;
+    }
+
+    /**
+     * Set the background color and radius.
+     *
+     * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @param int $radius from 4 to 22
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setBackgroundColor(string $color, int $radius = 0): static
     {
         $this->bg_color_obj = $this->getRgbColorObject($color);
+        $this->radius = (($radius > 4 and $radius <= 22) ? $radius : 0);
         return $this;
     }
 
@@ -233,7 +249,10 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *             'full_width': int,
      *             'full_height': int,
      *             'color_obj': Rgb,
+     *             'fs_color_obj': ?Rgb,
      *             'bg_color_obj': ?Rgb,
+     *             'bordw':int,
+     *             'radius':int,
      *             'bars': array<array{int, int, int, int}>,
      *         }
      */
@@ -255,7 +274,10 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             'full_width' => ($this->width + $this->padding['L'] + $this->padding['R']),
             'full_height' => ($this->height + $this->padding['T'] + $this->padding['B']),
             'color_obj' => $this->color_obj,
+            'fs_color_obj' => $this->fs_color_obj,
             'bg_color_obj' => $this->bg_color_obj,
+            'bordw' => $this->bordw,
+            'radius' => $this->radius,
             'bars' => $this->bars,
         ];
     }
@@ -613,5 +635,20 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         }
 
         return $rect;
+    }
+
+    /**
+     * Get the array containing all the formatted R,G,B colors
+     *
+     * @return array<int, array<string, float>|null>
+     */
+    public function getcolor(): array
+    {
+            $fg_col = $this->color_obj->getNormalizedArray(255);
+            $bg_col = $this->bg_color_obj !== null ? $this->bg_color_obj->getNormalizedArray(255) : null;
+            $bd_col = $this->bd_color_obj !== null ? $this->bd_color_obj->getNormalizedArray(255) : null;
+            $fs_col = $this->fs_color_obj !== null ? $this->fs_color_obj->getNormalizedArray(255) : null;
+
+        return [$fg_col, $bg_col, $bd_col, $fs_col];
     }
 }
