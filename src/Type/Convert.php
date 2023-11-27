@@ -122,9 +122,29 @@ abstract class Convert
     protected Color $color_obj;
 
     /**
+     * Foreground Space Color object
+     */
+    protected ?Color $fs_color_obj = null;
+
+    /**
      * Backgorund Color object
      */
     protected ?Color $bg_color_obj = null;
+
+    /**
+     * Border Color object
+     */
+    protected ?Color $bd_color_obj = null;
+
+    /**
+     * Border-width
+     */
+    protected int $bordw = 0;
+
+    /**
+     * Border-radius
+     */
+    protected int $radius = 0;
 
     /**
      * Process binary sequence rows.
