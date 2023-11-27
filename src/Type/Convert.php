@@ -31,6 +31,9 @@ use Com\Tecnick\Color\Model\Rgb as Color;
  * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ *
  */
 abstract class Convert
 {
