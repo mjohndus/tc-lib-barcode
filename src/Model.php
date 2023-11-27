@@ -63,13 +63,24 @@ interface Model
     public function setColor(string $color): static;
 
     /**
-     * Set the background color
+     * Set the Space bars color.
      *
-     * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     * @param string $color Space bars color in Web notation (color name, or hexadecimal code, or CSS syntax)
      *
      * @throws ColorException in case of color error
      */
-    public function setBackgroundColor(string $color): static;
+    public function setSpaceColor(string $color): static;
+
+    /**
+     * Set the background color and radius.
+     *
+     * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @param int $radius from 4 to 22
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setBackgroundColor(string $color, int $radius = 0): static;
 
     /**
      * Get the barcode raw array
@@ -90,7 +101,10 @@ interface Model
      *             'full_width': int,
      *             'full_height': int,
      *             'color_obj': Rgb,
+     *             'fs_color_obj': ?Rgb,
      *             'bg_color_obj': ?Rgb,
+     *             'bordw':int,
+     *             'radius':int,
      *             'bars': array<array{int, int, int, int}>,
      *         }
      */
@@ -179,4 +193,11 @@ interface Model
      * @return array<int, array{float, float, float, float}>
      */
     public function getBarsArrayXYWH(): array;
+
+    /**
+     * Get the array containing all the formatted R,G,B colors
+     *
+     * @return array<int, array<string, float>|null>
+     */
+    public function getcolor(): array;
 }
