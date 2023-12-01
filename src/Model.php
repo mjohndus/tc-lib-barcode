@@ -196,14 +196,16 @@ interface Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return (array{array<int<0, max>, array{float, float, float, float}>, array<int<0, max>, array{float, float, float, float}>})
+     * @return (array{array<int<0, max>, array{float, float, float, float}>,
+     * array<int<0, max>, array{float, float, float, float}>})
      */
     public function getBarsArrayXYXY(): array;
 
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return (array{array<int<0, max>, array{float, float, float, float}>, array<int<0, max>, array{float, float, float, float}>})
+     * @return (array{array<int<0, max>, array{float, float, float, float}>,
+     * array<int<0, max>, array{float, float, float, float}>})
      */
     public function getBarsArrayXYWH(): array;
 
