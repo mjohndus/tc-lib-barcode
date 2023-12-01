@@ -706,7 +706,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     public function getBarsArrayXYXY(): array
     {
         $rect = [];
-        //$rect1 = [];
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -770,7 +769,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     public function getBarsArrayXYWH(): array
     {
         $rect = [];
-        //$rect1 = [];
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
