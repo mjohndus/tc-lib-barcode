@@ -87,6 +87,14 @@ abstract class Convert
     protected array $bars = [];
 
     /**
+     * Array containing the position and dimensions of each barcode bar
+     * (x, y, width, height)
+     *
+     * @var array<array{int, int, int, int}>,
+     */
+    protected array $sbars = [];
+
+    /**
      * Barcode width
      */
     protected int $width = 0;
@@ -142,7 +150,7 @@ abstract class Convert
     /**
      * Border-width
      */
-    protected int $bordw = 0;
+    protected float $bordw = 0;
 
     /**
      * Border-radius
@@ -170,6 +178,7 @@ abstract class Convert
         }
 
         $this->bars = [];
+        $this->sbars = [];
         foreach ($rows as $posy => $row) {
             if (! is_array($row)) {
                 $row = str_split($row, 1);
@@ -182,6 +191,9 @@ abstract class Convert
                 if ($row[$posx] != $prevcol) {
                     if ($prevcol == '1') {
                         $this->bars[] = [($posx - $bar_width), $posy, $bar_width, 1];
+                    }
+                    if ($prevcol == '0') {
+                        $this->sbars[] = [($posx - $bar_width), $posy, $bar_width, 1];
                     }
 
                     $bar_width = 0;
@@ -295,21 +307,25 @@ abstract class Convert
     /**
      * Returns the bars array ordered by columns
      *
-     * @return array<int, array{int, int, int, int}>
+     * @return array{array<0, array{int, int, 1, int<0, max>}>, array<0, array{int, int, 1, int<0, max>}>}
      */
     protected function getRotatedBarArray(): array
     {
         $grid = $this->getGridArray();
         $cols = array_map(null, ...$grid);
         $bars = [];
+        $sbars = [];
         foreach ($cols as $posx => $col) {
             $prevrow = '';
             $bar_height = 0;
-            $col[] = '0';
+            $col[] = '2';
             for ($posy = 0; $posy <= $this->nrows; ++$posy) {
                 if ($col[$posy] != $prevrow) {
                     if ($prevrow == '1') {
                         $bars[] = [$posx, ($posy - $bar_height), 1, $bar_height];
+                    }
+                    if ($prevrow == '0') {
+                        $sbars[] = [$posx, ($posy - $bar_height), 1, $bar_height];
                     }
 
                     $bar_height = 0;
@@ -320,7 +336,7 @@ abstract class Convert
             }
         }
 
-        return $bars;
+        return [$bars, $sbars];
     }
 
     /**
