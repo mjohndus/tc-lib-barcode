@@ -31,6 +31,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * @copyright   2010-2023 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class InterleavedTwoOfFiveCheck extends \Com\Tecnick\Barcode\Type\Linear\StandardTwoOfFiveCheck
 {
@@ -87,6 +89,7 @@ class InterleavedTwoOfFiveCheck extends \Com\Tecnick\Barcode\Type\Linear\Standar
         $this->ncols = 0;
         $this->nrows = 1;
         $this->bars = [];
+        $this->sbars = [];
         $clen = strlen($this->extcode);
         for ($idx = 0; $idx < $clen; $idx += 2) {
             $char_bar = $this->extcode[$idx];
@@ -107,6 +110,9 @@ class InterleavedTwoOfFiveCheck extends \Com\Tecnick\Barcode\Type\Linear\Standar
                 $bar_width = (int) $seq[$pos];
                 if ((($pos % 2) == 0) && ($bar_width > 0)) {
                     $this->bars[] = [$this->ncols, 0, $bar_width, 1];
+                }
+                if ((($pos % 2) == 1) && ($bar_width > 0)) {
+                    $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
                 }
 
                 $this->ncols += $bar_width;
