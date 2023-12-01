@@ -35,6 +35,9 @@ use Com\Tecnick\Color\Pdf;
  * @link      https://github.com/tecnickcom/tc-lib-barcode
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 {
