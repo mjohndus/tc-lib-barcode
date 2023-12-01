@@ -83,6 +83,17 @@ interface Model
     public function setBackgroundColor(string $color, int $radius = 0): static;
 
     /**
+     * Set the border color and line-width
+     *
+     * @param string $color Border color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @param float $bordw from 0.4 to 4
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setBorder(string $color, float $bordw): static;
+
+    /**
      * Get the barcode raw array
      *
      * @return array{
@@ -103,9 +114,11 @@ interface Model
      *             'color_obj': Rgb,
      *             'fs_color_obj': ?Rgb,
      *             'bg_color_obj': ?Rgb,
-     *             'bordw':int,
+     *             'bd_color_obj': ?Rgb,
+     *             'bordw':float,
      *             'radius':int,
      *             'bars': array<array{int, int, int, int}>,
+     *             'sbars': array<array{int, int, int, int}>,
      *         }
      */
     public function getArray(): array;
@@ -183,14 +196,14 @@ interface Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return (array{array<int<0, max>, array{float, float, float, float}>, array<int<0, max>, array{float, float, float, float}>})
      */
     public function getBarsArrayXYXY(): array;
 
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return (array{array<int<0, max>, array{float, float, float, float}>, array<int<0, max>, array{float, float, float, float}>})
      */
     public function getBarsArrayXYWH(): array;
 
