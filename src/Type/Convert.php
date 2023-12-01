@@ -53,6 +53,20 @@ abstract class Convert
     protected const FORMAT = '';
 
     /**
+     * linear parameter for guard bar
+     *
+     * @var int
+     */
+    protected int $mark = 0;
+
+    /**
+     * Set start-center-end marks
+     *
+     * @var array<int, string>
+     */
+    protected array $marks = [];
+
+    /**
      * Array containing extra parameters for the specified barcode type
      *
      * @var array<int|float|string>
@@ -303,6 +317,27 @@ abstract class Convert
         }
 
         return $raw;
+    }
+
+    /**
+     * Get array shorter bars
+     *
+     * @return array<int<0, max>, int>
+     */
+    protected function guard(): array
+    {
+        $mark = [];
+        if (!empty($this->marks)) {
+            $size = count($this->bars);
+            for ($abc = 0; $abc < $size; ++$abc) {
+                if (!in_array($this->bars[$abc][0], $this->marks)) {
+                    $mark[] = $this->mark;
+                } else {
+                    $mark[] = 0;
+                }
+            }
+        }
+        return $mark;
     }
 
     /**
