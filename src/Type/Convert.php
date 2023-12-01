@@ -341,6 +341,27 @@ abstract class Convert
     }
 
     /**
+     * Get array shorter sbars
+     *
+     * @return array<int<0, max>, int>
+     */
+    protected function sguard(): array
+    {
+        $mark = [];
+        if (!empty($this->marks)) {
+            $size = count($this->bars);
+            for ($abc = 0; $abc < $size; ++$abc) {
+                if (!in_array($this->sbars[$abc][0], $this->marks)) {
+                    $mark[] = $this->mark;
+                } else {
+                    $mark[] = 0;
+                }
+            }
+        }
+        return $mark;
+    }
+
+    /**
      * Returns the bars array ordered by columns
      *
      * @return array{array<0, array{int, int, 1, int<0, max>}>, array<0, array{int, int, 1, int<0, max>}>}
