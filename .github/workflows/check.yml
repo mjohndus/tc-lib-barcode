@@ -9,11 +9,11 @@ permissions:
 on:
   push:
     branches:
-      - 'main'
+      - 'sbars'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - main
+      - sbars
 
 jobs:
     test-php:
