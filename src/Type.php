@@ -695,7 +695,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array{array<int<0, max>, array{float, float, float, float}>, array<int<0, max>, array{float, float, float, float}>}
+     * @return array{array<int<0, max>, array{float, float, float, float}>,
+     * array<int<0, max>, array{float, float, float, float}>}
      */
     public function getBarsArrayXYXY(): array
     {
@@ -757,7 +758,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array{array<int<0, max>, array{float, float, float, float}>, array<int<0, max>, array{float, float, float, float}>}
+     * @return array{array<int<0, max>, array{float, float, float, float}>,
+     * array<int<0, max>, array{float, float, float, float}>}
      */
     public function getBarsArrayXYWH(): array
     {
