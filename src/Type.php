@@ -546,9 +546,9 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             $rgbcolor = $this->bg_color_obj->getNormalizedArray(255);
             $bg_color = new \imagickpixel('rgb(' . $rgbcolor['R'] . ',' . $rgbcolor['G'] . ',' . $rgbcolor['B'] . ')');
-            } else {
+        } else {
             $bg_color = new \imagickpixel('#00000000');
-        }
+            }
             $imagickdraw->setfillcolor($bg_color);
 
         if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
