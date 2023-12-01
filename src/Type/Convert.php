@@ -33,6 +33,7 @@ use Com\Tecnick\Color\Model\Rgb as Color;
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  *
  */
 abstract class Convert
