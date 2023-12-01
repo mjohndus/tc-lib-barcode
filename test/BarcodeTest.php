@@ -215,7 +215,7 @@ class BarcodeTest extends TestUtil
         $this->assertEquals($expected, $svg);
 
         $hdiv = $type->setBackgroundColor('lightcoral')->getHtmlDiv();
-        $expected = '<div style="width:44.000000px;height:8.000000px;position:relative;font-size:0;'
+        $expected = '<div style="width:44.000000px;height:8.000000px;border-radius:0px;position:relative;font-size:0;'
         . 'border:none;padding:0;margin:0;background-color:rgba(94%,50%,50%,1);">
 	<div style="background-color:rgba(50%,0%,50%,1);left:3.000000px;top:4.000000px;'
         . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
@@ -303,7 +303,7 @@ class BarcodeTest extends TestUtil
         $type->getSvg();
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('86e0362768e8b1b26032381232c0367f', md5($svg));
+        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
     }
 
     public function testGetPng(): void
