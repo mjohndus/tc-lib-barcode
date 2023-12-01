@@ -614,6 +614,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      * Get the barcode as GD image object (requires GD library)
      *
      * @throws BarcodeException if the GD library is not installed
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getGd(): \GdImage
     {
