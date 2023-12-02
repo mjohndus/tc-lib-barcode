@@ -707,7 +707,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getBarsArrayXYXY(): array
     {
-        $mark = $this->guard();
+        list($mark, $smark) = $this->guard();
         $rect = [];
         $abc = 0;
         foreach ($this->bars as $bar) {
@@ -726,7 +726,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $abc++;
             }
         }
-        $mark = $this->sguard();
         $rect1 = [];
         $abc = 0;
         foreach ($this->sbars as $bar) {
@@ -740,8 +739,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect1[] = $this->getBarRectXYXY($bar);
 
-            if (!empty($mark)) {
-                $rect1[$abc][3] = $rect1[$abc][3] - $mark[$abc];
+            if (!empty($smark)) {
+                $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }    
         }
@@ -784,7 +783,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getBarsArrayXYWH(): array
     {
-        $mark = $this->guard();
+        list($mark, $smark) = $this->guard();
         $rect = [];
         $abc = 0;
         foreach ($this->bars as $bar) {
@@ -803,7 +802,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $abc++;
             }
         }
-        $mark = $this->sguard();
         $rect1 = [];
         $abc = 0;
         foreach ($this->sbars as $bar) {
@@ -817,8 +815,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect1[] = $this->getBarRectXYWH($bar);
 
-            if (!empty($mark)) {
-                $rect1[$abc][3] = $rect1[$abc][3] - $mark[$abc];
+            if (!empty($smark)) {
+                $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }
         }
