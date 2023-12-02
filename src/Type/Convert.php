@@ -322,11 +322,12 @@ abstract class Convert
     /**
      * Get array shorter bars
      *
-     * @return array<int<0, max>, int>
+     * @return array{array<int<0, max>, int>, array<int<0, max>, int>}
      */
     protected function guard(): array
     {
         $mark = [];
+        $smark = [];
         if (!empty($this->marks)) {
             $size = count($this->bars);
             for ($abc = 0; $abc < $size; ++$abc) {
@@ -336,29 +337,17 @@ abstract class Convert
                     $mark[] = 0;
                 }
             }
-        }
-        return $mark;
-    }
-
-    /**
-     * Get array shorter sbars
-     *
-     * @return array<int<0, max>, int>
-     */
-    protected function sguard(): array
-    {
-        $mark = [];
-        if (!empty($this->marks)) {
-            $size = count($this->bars);
+            $size = count($this->sbars);
             for ($abc = 0; $abc < $size; ++$abc) {
                 if (!in_array($this->sbars[$abc][0], $this->marks)) {
-                    $mark[] = $this->mark;
+                    $smark[] = $this->mark;
                 } else {
-                    $mark[] = 0;
+                    $smark[] = 0;
                 }
             }
         }
-        return $mark;
+
+        return [$mark, $smark];
     }
 
     /**
