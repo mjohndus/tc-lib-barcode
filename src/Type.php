@@ -726,7 +726,9 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $abc++;
             }
         }
+        $mark = $this->sguard();
         $rect1 = [];
+        $abc = 0;
         foreach ($this->sbars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -737,6 +739,11 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect1[] = $this->getBarRectXYXY($bar);
+
+            if (!empty($mark)) {
+                $rect1[$abc][3] = $rect1[$abc][3] - $mark[$abc];
+                $abc++;
+            }    
         }
 
         if ($this->nrows > 1) {
@@ -796,7 +803,9 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $abc++;
             }
         }
+        $mark = $this->sguard();
         $rect1 = [];
+        $abc = 0;
         foreach ($this->sbars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -807,6 +816,11 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect1[] = $this->getBarRectXYWH($bar);
+
+            if (!empty($mark)) {
+                $rect1[$abc][3] = $rect1[$abc][3] - $mark[$abc];
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
