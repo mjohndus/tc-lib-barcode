@@ -742,7 +742,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             if (!empty($smark)) {
                 $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
-            }    
+            }
         }
 
         if ($this->nrows > 1) {
