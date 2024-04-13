@@ -766,6 +766,18 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $abc++;
             }
         }
+        $rect1 = [];
+        foreach ($this->sbars as $bar) {
+            if ($bar[2] <= 0) {
+                continue;
+            }
+
+            if ($bar[3] <= 0) {
+                continue;
+            }
+
+            $rect1[] = $this->getBarRectXYXY($bar);
+        }
 
         if ($this->nrows > 1) {
             // reprint rotated to cancel row gaps
@@ -841,6 +853,18 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }
+        }
+        $rect1 = [];
+        foreach ($this->sbars as $bar) {
+            if ($bar[2] <= 0) {
+                continue;
+            }
+
+            if ($bar[3] <= 0) {
+                continue;
+            }
+
+            $rect1[] = $this->getBarRectXYWH($bar);
         }
 
         if ($this->nrows > 1) {
