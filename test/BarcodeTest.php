@@ -336,7 +336,7 @@ class BarcodeTest extends TestUtil
             $headers[5]
         );
     }
-  
+
     public function testGetPng(): void
     {
         $barcode = $this->getTestObject();
