@@ -7,7 +7,7 @@
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2015-2023 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2015-2024 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
@@ -23,7 +23,7 @@ namespace Test;
  * @category    Library
  * @package     Barcode
  * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2015-2023 Nicola Asuni - Tecnick.com LTD
+ * @copyright   2015-2024 Nicola Asuni - Tecnick.com LTD
  * @license     http://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
@@ -347,10 +347,41 @@ class BarcodeTest extends TestUtil
             -2,
             'purple'
         );
+
+        // empty filename
         ob_start();
         $type->getPng();
         $png = ob_get_clean();
         $this->assertNotFalse($png);
         $this->assertEquals('PNG', substr($png, 1, 3));
+        $headers = xdebug_get_headers();
+        $this->assertEquals(
+            'Content-Disposition: inline; filename="474e4eb4cfd145be38fe1657909b21b2.png";',
+            $headers[5]
+        );
+
+        // invalid filename
+        ob_start();
+        $type->getPng('#~');
+        $png = ob_get_clean();
+        $this->assertNotFalse($png);
+        $this->assertEquals('PNG', substr($png, 1, 3));
+        $headers = xdebug_get_headers();
+        $this->assertEquals(
+            'Content-Disposition: inline; filename="474e4eb4cfd145be38fe1657909b21b2.png";',
+            $headers[5]
+        );
+
+        // valid filename
+        ob_start();
+        $type->getPng('test_PNG_filename-001');
+        $png = ob_get_clean();
+        $this->assertNotFalse($png);
+        $this->assertEquals('PNG', substr($png, 1, 3));
+        $headers = xdebug_get_headers();
+        $this->assertEquals(
+            'Content-Disposition: inline; filename="test_PNG_filename-001.png";',
+            $headers[5]
+        );
     }
 }
