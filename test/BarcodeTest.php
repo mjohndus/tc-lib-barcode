@@ -305,10 +305,10 @@ class BarcodeTest extends TestUtil
         $type->getSvg();
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('86e0362768e8b1b26032381232c0367f', md5($svg));
+        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
         $headers = xdebug_get_headers();
         $this->assertEquals(
-            'Content-Disposition: inline; filename="86e0362768e8b1b26032381232c0367f.svg";',
+            'Content-Disposition: inline; filename="cb3f20cda60c04b56af2f66e17ccdd51.svg";',
             $headers[5]
         );
 
@@ -317,10 +317,10 @@ class BarcodeTest extends TestUtil
         $type->getSvg('#~');
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('86e0362768e8b1b26032381232c0367f', md5($svg));
+        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
         $headers = xdebug_get_headers();
         $this->assertEquals(
-            'Content-Disposition: inline; filename="86e0362768e8b1b26032381232c0367f.svg";',
+            'Content-Disposition: inline; filename="cb3f20cda60c04b56af2f66e17ccdd51.svg";',
             $headers[5]
         );
 
@@ -329,14 +329,14 @@ class BarcodeTest extends TestUtil
         $type->getSvg('test_SVG_filename-001');
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('86e0362768e8b1b26032381232c0367f', md5($svg));
+        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
         $headers = xdebug_get_headers();
         $this->assertEquals(
             'Content-Disposition: inline; filename="test_SVG_filename-001.svg";',
             $headers[5]
         );
     }
-
+  
     public function testGetPng(): void
     {
         $barcode = $this->getTestObject();
