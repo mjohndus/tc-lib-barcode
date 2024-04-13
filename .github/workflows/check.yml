@@ -9,11 +9,11 @@ permissions:
 on:
   push:
     branches:
-      - 'mjohndus'
+      - 'maino'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - mjohndus
+      - maino
 
 jobs:
     test-php:
