@@ -342,6 +342,7 @@ class CodeThreeNineExtCheck extends \Com\Tecnick\Barcode\Type\Linear
         $this->ncols = 0;
         $this->nrows = 1;
         $this->bars = [];
+        $this->sbars = [];
         $this::FORMATCode();
         $clen = strlen($this->extcode);
         for ($chr = 0; $chr < $clen; ++$chr) {
@@ -355,11 +356,15 @@ class CodeThreeNineExtCheck extends \Com\Tecnick\Barcode\Type\Linear
                 if ((($pos % 2) == 0) && ($bar_width > 0)) {
                     $this->bars[] = [$this->ncols, 0, $bar_width, 1];
                 }
+                if ((($pos % 2) == 1) && ($bar_width > 0)) {
+                    $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
+                }
 
                 $this->ncols += $bar_width;
             }
 
             // intercharacter gap
+            $this->sbars[] = array($this->ncols, 0, $bar_width, 1);
             ++$this->ncols;
         }
 
