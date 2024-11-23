@@ -175,9 +175,15 @@ class BarcodeTest extends TestUtil
 
         $svg = $type->setBackgroundColor('yellow')->getSvgCode();
         $expected = '<?xml version="1.0" standalone="no" ?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="44.000000" height="8.000000"'
-        . ' viewBox="0 0 44.000000 8.000000" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg'
+        . ' version="1.2"'
+        . ' baseProfile="full"'
+        . ' xmlns="http://www.w3.org/2000/svg"'
+        . ' xmlns:xlink="http://www.w3.org/1999/xlink"'
+        . ' xmlns:ev="http://www.w3.org/2001/xml-events"'
+        . ' width="44.000000"'
+        . ' height="8.000000"'
+        . ' viewBox="0 0 44.000000 8.000000">
 	<desc>01001100011100001111,10110011100011110000</desc>
 	<rect x="0" y="0" rx="0" ry="0" width="44.000000" height="8.000000" fill="#ffff00" />
 	<g id="bars" fill="#800080" stroke="none" stroke-width="0" stroke-linecap="square">
@@ -305,10 +311,10 @@ class BarcodeTest extends TestUtil
         $type->getSvg();
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
+        $this->assertEquals('114f33435c265345f7c6cdf673922292', md5($svg));
         $headers = xdebug_get_headers();
         $this->assertEquals(
-            'Content-Disposition: inline; filename="cb3f20cda60c04b56af2f66e17ccdd51.svg";',
+            'Content-Disposition: inline; filename="114f33435c265345f7c6cdf673922292.svg";',
             $headers[5]
         );
 
@@ -317,10 +323,10 @@ class BarcodeTest extends TestUtil
         $type->getSvg('#~');
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
+        $this->assertEquals('114f33435c265345f7c6cdf673922292', md5($svg));
         $headers = xdebug_get_headers();
         $this->assertEquals(
-            'Content-Disposition: inline; filename="cb3f20cda60c04b56af2f66e17ccdd51.svg";',
+            'Content-Disposition: inline; filename="114f33435c265345f7c6cdf673922292.svg";',
             $headers[5]
         );
 
@@ -329,7 +335,7 @@ class BarcodeTest extends TestUtil
         $type->getSvg('test_SVG_filename-001');
         $svg = ob_get_clean();
         $this->assertNotFalse($svg);
-        $this->assertEquals('cb3f20cda60c04b56af2f66e17ccdd51', md5($svg));
+        $this->assertEquals('114f33435c265345f7c6cdf673922292', md5($svg));
         $headers = xdebug_get_headers();
         $this->assertEquals(
             'Content-Disposition: inline; filename="test_SVG_filename-001.svg";',
