@@ -37,7 +37,7 @@ abstract class Linear extends \Com\Tecnick\Barcode\Type
      * @var string
      */
     protected const TYPE = 'linear';
- 
+
     /**
      * Guard Bar
      *
@@ -62,5 +62,5 @@ abstract class Linear extends \Com\Tecnick\Barcode\Type
         }
 
         $this->mark = (int) $this->params[0];
-    }   
+    }
 }
