@@ -359,7 +359,7 @@ class CodeThreeNineExtCheck extends \Com\Tecnick\Barcode\Type\Linear
                 if ((($pos % 2) == 1) && ($bar_width > 0)) {
                     $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
                 }
-                
+
                 $this->ncols += $bar_width;
             }
 
