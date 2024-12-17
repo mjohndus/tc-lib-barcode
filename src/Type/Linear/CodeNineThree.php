@@ -352,7 +352,7 @@ class CodeNineThree extends \Com\Tecnick\Barcode\Type\Linear\CodeThreeNineExtChe
         $this->ncols = 0;
         $this->nrows = 1;
         $this->bars = [];
-        $this->sbars = [];        
+        $this->sbars = [];
         $this::FORMATCode();
         $clen = strlen($this->extcode);
         for ($chr = 0; $chr < $clen; ++$chr) {
