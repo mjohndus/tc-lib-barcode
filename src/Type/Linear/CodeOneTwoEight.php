@@ -174,6 +174,8 @@ class CodeOneTwoEight extends \Com\Tecnick\Barcode\Type\Linear\CodeOneTwoEight\P
      * @param array<int, int>  $code_data  Array of codepoints to alter
      * @param int    $key        Sequence current key
      * @param array{string, string, int} $seq        Sequence current value
+     *
+     * @throws BarcodeException in case of error
      */
     protected function processSequenceBB(
         array &$sequence,
@@ -234,12 +236,16 @@ class CodeOneTwoEight extends \Com\Tecnick\Barcode\Type\Linear\CodeOneTwoEight\P
         $this->ncols = 0;
         $this->nrows = 1;
         $this->bars = [];
+        $this->sbars = [];
         foreach ($code_data as $val) {
             $seq = $this::CHBAR[$val];
             for ($pos = 0; $pos < 6; ++$pos) {
                 $bar_width = (int) $seq[$pos];
                 if ((($pos % 2) == 0) && ($bar_width > 0)) {
                     $this->bars[] = [$this->ncols, 0, $bar_width, 1];
+                }
+                if ((($pos % 2) == 1) && ($bar_width > 0)) {
+                    $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
                 }
 
                 $this->ncols += $bar_width;
