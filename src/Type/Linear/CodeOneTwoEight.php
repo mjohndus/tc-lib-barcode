@@ -106,7 +106,6 @@ class CodeOneTwoEight extends \Com\Tecnick\Barcode\Type\Linear\CodeOneTwoEight\P
      * @param int    $key        Sequence current key
      * @param array{string, string, int} $seq        Sequence current value
      *
-     * @throws BarcodeException in case of error
      */
     protected function processSequenceB(
         array &$sequence,
