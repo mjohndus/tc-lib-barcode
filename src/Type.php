@@ -88,8 +88,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
     /**
      * Set the bars array
-     *
-     * @throws BarcodeException in case of error
      */
     protected function setBars(): void
     {
@@ -652,7 +650,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *
      * @throws BarcodeException if the GD library is not installed
      *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @SuppressWarnings("PHPMD.UnusedLocalVariable")
      */
     public function getGd(): \GdImage
     {
