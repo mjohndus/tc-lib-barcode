@@ -606,19 +606,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             } else {
                 $imagickdraw->rectangle(ceil($bw / 2), ceil($bw / 2), $width - $bw + 0, $height - $bw + 0);
             }
-        } else {
-            if ($br !== 0) {
-                $imagickdraw->roundrectangle(
-                    ceil($bw / 2),
-                    ceil($bw / 2),
-                    $width - $bw + 0,
-                    $height - $bw + 0,
-                    $br - $bw,
-                    $br - $bw
-                );
-            } else {
-                $imagickdraw->rectangle(ceil($bw / 2), ceil($bw / 2), $width - $bw + 0, $height - $bw + 0);
-            }
         }
 
         $rgbcolor = $this->color_obj->getNormalizedArray(255);
