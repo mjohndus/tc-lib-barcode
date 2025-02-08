@@ -47,7 +47,7 @@ abstract class Linear extends \Com\Tecnick\Barcode\Type
 
     /**
      * Set extra (optional) parameter:
-     *     0: MARKS -> longer guard bars for EAN,UPC... from 1 to 20
+     * 0: MARKS -> longer guard bars for EAN,UPC... from 1 to 20
      */
     protected function setParameters(): void
     {
