@@ -78,11 +78,15 @@ foreach ($linear as $type => $code) {
 
 $examples .= '<h3>Square</h3>' . "\n";
 foreach ($square as $type => $code) {
-    $bobj = $barcode->getBarcodeObj($type, $code[0], -4, -4, 'black', [0, 0, 0, 0]);
+    $bobj = $barcode->getBarcodeObj($type . ',10', $code[0], -4, -4, 'black', [0, 0, 0, 0]);
     $examples .= '<h4>[<span>' . $type . '</span>] ' . $code[1] . '</h4><p style="font-family:monospace;">' . $bobj->getHtmlDiv() . '</p>' . "\n";
 }
 
-$bobj = $barcode->getBarcodeObj('QRCODE,H', 'https://tecnick.com', -4, -4, 'black', [-2, -2, -2, -2])->setBackgroundColor('#f0f0f0');
+$bobj = $barcode->getBarcodeObj('QRCODE,H', 'https://tecnick.com', -4, -4, 'black', [-2, -2, -2, -2])
+                ->setBackgroundColor('#f0f0f0', 20)
+                ->setSpaceColor('yellow')
+                ->setBorder('#8b0000', 3)
+;
 
 echo "
 <!DOCTYPE html>
