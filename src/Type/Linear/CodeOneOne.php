@@ -131,6 +131,7 @@ class CodeOneOne extends \Com\Tecnick\Barcode\Type\Linear
         $this->ncols = 0;
         $this->nrows = 1;
         $this->bars = [];
+        $this->sbars = [];
         $this->formatCode();
         $clen = \strlen($this->extcode);
         for ($chr = 0; $chr < $clen; ++$chr) {
@@ -143,6 +144,9 @@ class CodeOneOne extends \Com\Tecnick\Barcode\Type\Linear
                 $bar_width = (int) $this::CHBAR[$char][$pos];
                 if ((($pos % 2) == 0) && ($bar_width > 0)) {
                     $this->bars[] = [$this->ncols, 0, $bar_width, 1];
+                }
+                if ((($pos % 2) == 1) && ($bar_width > 0)) {
+                    $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
                 }
 
                 $this->ncols += $bar_width;
