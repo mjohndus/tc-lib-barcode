@@ -365,7 +365,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the barcode as inline SVG code.
      *
-     * @return string inline SVG code.
+     * @return string Inline SVG code.
      */
     public function getInlineSvgCode(): string
     {
