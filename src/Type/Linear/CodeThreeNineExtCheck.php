@@ -363,6 +363,7 @@ class CodeThreeNineExtCheck extends \Com\Tecnick\Barcode\Type\Linear
                 $this->ncols += $bar_width;
             }
 
+            $this->sbars[] = [$this->ncols, 0, 1, 1];
             // intercharacter gap
             ++$this->ncols;
         }
