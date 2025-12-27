@@ -328,18 +328,18 @@ abstract class Convert
     {
         $mark = [];
         $smark = [];
-        if (!empty($this->marks)) {
+        if (! \empty($this->marks)) {
             $size = count($this->bars);
             for ($abc = 0; $abc < $size; ++$abc) {
-                if (!in_array($this->bars[$abc][0], $this->marks)) {
+                if (! \in_array($this->bars[$abc][0], $this->marks)) {
                     $mark[] = $this->mark;
                 } else {
                     $mark[] = 0;
                 }
             }
-            $size = count($this->sbars);
+            $size = \count($this->sbars);
             for ($abc = 0; $abc < $size; ++$abc) {
-                if (!in_array($this->sbars[$abc][0], $this->marks)) {
+                if (! \in_array($this->sbars[$abc][0], $this->marks)) {
                     $smark[] = $this->mark;
                 } else {
                     $smark[] = 0;
