@@ -747,7 +747,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $rect[] = $this->getBarRectXYXY($bar);
 
 
-            if (! \empty($mark)) {
+            if (! empty($mark)) {
                 $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
                 $abc++;
             }
@@ -765,7 +765,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect1[] = $this->getBarRectXYXY($bar);
 
-            if (! \empty($smark)) {
+            if (! empty($smark)) {
                 $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }
@@ -823,7 +823,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $rect[] = $this->getBarRectXYWH($bar);
 
 
-            if (! \empty($mark)) {
+            if (! empty($mark)) {
                 $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
                 $abc++;
             }
@@ -841,7 +841,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect1[] = $this->getBarRectXYWH($bar);
 
-            if (! \empty($smark)) {
+            if (! empty($smark)) {
                 $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }
