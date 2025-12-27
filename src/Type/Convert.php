@@ -328,7 +328,7 @@ abstract class Convert
     {
         $mark = [];
         $smark = [];
-        if (! \empty($this->marks)) {
+        if (! empty($this->marks)) {
             $size = count($this->bars);
             for ($abc = 0; $abc < $size; ++$abc) {
                 if (! \in_array($this->bars[$abc][0], $this->marks)) {
