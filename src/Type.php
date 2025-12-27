@@ -369,7 +369,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getInlineSvgCode(): string
     {
-        if (array_sum($this->padding) / 4 < 12) {
+        if (\array_sum($this->padding) / 4 < 12) {
             $br = 0;
             $bw = $this->bordw;
         } else {
@@ -401,8 +401,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . ' y="' . ($bw / 2) . '"'
             . ' rx="' . $br . '"'
             . ' ry="' . $br . '"'
-            . ' width="' . sprintf('%F', ($width - $bw)) . '"'
-            . ' height="' . sprintf('%F', ($height - $bw)) . '"';
+            . ' width="' . \sprintf('%F', ($width - $bw)) . '"'
+            . ' height="' . \sprintf('%F', ($height - $bw)) . '"';
         if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             $svg .= ' fill="' . $this->bg_color_obj->getRgbHexColor() . '"';
         } else {
@@ -426,19 +426,19 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $rect) {
             $svg .= "\t\t" . '<rect'
-            . ' x="' . sprintf('%F', $rect[0]) . '"'
-            . ' y="' . sprintf('%F', $rect[1]) . '"'
-            . ' width="' . sprintf('%F', $rect[2]) . '"'
-            . ' height="' . sprintf('%F', $rect[3]) . '"'
+            . ' x="' . \sprintf('%F', $rect[0]) . '"'
+            . ' y="' . \sprintf('%F', $rect[1]) . '"'
+            . ' width="' . \sprintf('%F', $rect[2]) . '"'
+            . ' height="' . \sprintf('%F', $rect[3]) . '"'
             . ' />' . "\n";
         }
         if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             foreach ($sbars as $rect1) {
                 $svg .= "\t\t" . '<rect'
-                . ' x="' . sprintf('%F', $rect1[0]) . '"'
-                . ' y="' . sprintf('%F', $rect1[1]) . '"'
-                . ' width="' . sprintf('%F', $rect1[2]) . '"'
-                . ' height="' . sprintf('%F', $rect1[3]) . '"'
+                . ' x="' . \sprintf('%F', $rect1[0]) . '"'
+                . ' y="' . \sprintf('%F', $rect1[1]) . '"'
+                . ' width="' . \sprintf('%F', $rect1[2]) . '"'
+                . ' height="' . \sprintf('%F', $rect1[3]) . '"'
                 . ' fill="' . $this->fs_color_obj->getRgbHexColor() . '"'
                 . ' />' . "\n";
             }
@@ -466,7 +466,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getHtmlDiv(): string
     {
-        if (array_sum($this->padding) / 4 < 12) {
+        if (\array_sum($this->padding) / 4 < 12) {
             $br = 0;
             $bw = $this->bordw;
         } else {
@@ -514,10 +514,10 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             foreach ($sbars as $rect1) {
                 $html .= "\t" . '<div style="background-color:' . $this->fs_color_obj->getCssColor() . ';'
-                    . 'left:' . sprintf('%F', $rect1[0]) . 'px;'
-                    . 'top:' . sprintf('%F', $rect1[1]) . 'px;'
-                    . 'width:' . sprintf('%F', $rect1[2]) . 'px;'
-                    . 'height:' . sprintf('%F', $rect1[3]) . 'px;'
+                    . 'left:' . \sprintf('%F', $rect1[0]) . 'px;'
+                    . 'top:' . \sprintf('%F', $rect1[1]) . 'px;'
+                    . 'width:' . \sprintf('%F', $rect1[2]) . 'px;'
+                    . 'height:' . \sprintf('%F', $rect1[3]) . 'px;'
                     . 'position:absolute;'
                     . 'border:none;'
                     . 'padding:0;'
@@ -602,15 +602,15 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $imagickdraw->setstrokewidth($bw);
             if ($br !== 0) {
                 $imagickdraw->roundrectangle(
-                    ceil($bw / 2),
-                    ceil($bw / 2),
+                    \ceil($bw / 2),
+                    \ceil($bw / 2),
                     $width - $bw + 0,
                     $height - $bw + 0,
                     $br - $bw,
                     $br - $bw
                 );
             } else {
-                $imagickdraw->rectangle(ceil($bw / 2), ceil($bw / 2), $width - $bw + 0, $height - $bw + 0);
+                $imagickdraw->rectangle(\ceil($bw / 2), \ceil($bw / 2), $width - $bw + 0, $height - $bw + 0);
             }
         }
 
@@ -747,7 +747,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $rect[] = $this->getBarRectXYXY($bar);
 
 
-            if (!empty($mark)) {
+            if (! \empty($mark)) {
                 $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
                 $abc++;
             }
@@ -765,7 +765,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect1[] = $this->getBarRectXYXY($bar);
 
-            if (!empty($smark)) {
+            if (! \empty($smark)) {
                 $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }
@@ -823,7 +823,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $rect[] = $this->getBarRectXYWH($bar);
 
 
-            if (!empty($mark)) {
+            if (! \empty($mark)) {
                 $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
                 $abc++;
             }
@@ -841,7 +841,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect1[] = $this->getBarRectXYWH($bar);
 
-            if (!empty($smark)) {
+            if (! \empty($smark)) {
                 $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
                 $abc++;
             }
