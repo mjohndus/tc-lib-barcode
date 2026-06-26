@@ -1,5 +1,5 @@
 {
-    "name": "tecnickcom/tc-lib-barcode",
+    "name": "mjohndus/tc-lib-barcode",
     "description": "PHP library to generate linear and bidimensional barcodes",
     "type": "library",
     "homepage": "https://tcpdf.org",
@@ -89,7 +89,7 @@
         "source": "https://github.com/tecnickcom/tc-lib-barcode"
     },
     "scripts": {
-        "test": "@php -d xdebug.mode=coverage vendor/bin/phpunit --stderr test",
+        "test": "@php -d xdebug.mode=coverage vendor/bin/phpunit --stderr test --no-coverage",
         "analyse": ["@analyse:src", "@analyse:test"],
         "analyse:src": "mago --config mago.src.toml analyze src",
         "analyse:test": "mago --config mago.test.toml analyze test",
