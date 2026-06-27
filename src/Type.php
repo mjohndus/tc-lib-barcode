@@ -434,7 +434,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . ' stroke-linecap="square"'
             . '>'
             . "\n";
-        $bars = $this->getBarsArrayXYWH();
+        list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $bar) {
             $svg .= \sprintf(
                 '		<rect x="%F" y="%F" width="%F" height="%F" />' . "\n",
@@ -475,7 +475,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         }
 
         $html .= '">' . "\n";
-        $bars = $this->getBarsArrayXYWH();
+        list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $bar) {
             $html .= \sprintf(
                 '	<div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
@@ -598,7 +598,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . (string) $this->getRgbComponent($rgbcolor, 'B')
             . ')',
         );
-        $bars = $this->getBarsArrayXYXY();
+        list($bars, $sbars) = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             $imagickdraw->rectangle($bar[0], $bar[1], $bar[2], $bar[3]);
         }
