@@ -480,12 +480,19 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             $html .= 'background-color:' . $this->bg_color_obj->getCssColor() . ';';
         }
+        if ($bw != 0) {
+            $html .= 'border:solid;'
+                . 'border-width:' . $bw . 'px;';
+            if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+                $html .= 'border-color:' . $this->bd_color_obj->getCssColor() . ';';
+            }
+        }
 
         $html .= '">' . "\n";
         list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $bar) {
             $html .= \sprintf(
-                '    <div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>''
+                '    <div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
                 . "\n",
                 $this->color_obj->getCssColor(),
                 $bar[0],
