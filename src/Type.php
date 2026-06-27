@@ -674,10 +674,10 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         foreach ($bars as $bar) {
             \imagefilledrectangle(
                 $img,
-                (int) \floor($bar[0]),
-                (int) \floor($bar[1]),
-                (int) \floor($bar[2]),
-                (int) \floor($bar[3]),
+                (int) \floor($bar[0] ?? 0),
+                (int) \floor($bar[1] ?? 0),
+                (int) \floor($bar[2] ?? 0),
+                (int) \floor($bar[3] ?? 0),
                 $bar_color,
             );
         }
