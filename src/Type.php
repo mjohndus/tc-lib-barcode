@@ -669,7 +669,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         if ($bar_color === false) {
             throw new BarcodeException('Unable to allocate GD foreground color');
         }
-        $bars = $this->getBarsArrayXYXY();
+        list($bars, $sbars)  = $this->getBarsArrayXYXY();
+        //$bars = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             \imagefilledrectangle(
                 $img,
@@ -704,11 +705,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return array{list<array<0|1|2|3, float>>, list<array<0|1|2|3, float>>}
      */
     public function getBarsArrayXYXY(): array
     {
+        list($mark, $smark) = $this->guard();
         $rect = [];
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -719,11 +722,35 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect[] = $this->getBarRectXYXY($bar);
+
+
+            if (! empty($mark)) {
+                $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                $abc++;
+            }
+        }
+        $rect1 = [];
+        $abc = 0;
+        foreach ($this->sbars as $bar) {
+            if ($bar[2] <= 0) {
+                continue;
+            }
+
+            if ($bar[3] <= 0) {
+                continue;
+            }
+
+            $rect1[] = $this->getBarRectXYXY($bar);
+
+            if (! empty($smark)) {
+                $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
             // reprint rotated to cancel row gaps
-            $rot = $this->getRotatedBarArray();
+            list($rot, $rot1) = $this->getRotatedBarArray();
             foreach ($rot as $bar) {
                 if ($bar[2] <= 0) {
                     continue;
@@ -735,19 +762,32 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
                 $rect[] = $this->getBarRectXYXY($bar);
             }
+            foreach ($rot1 as $bar) {
+                if ($bar[2] <= 0) {
+                    continue;
+                }
+
+                if ($bar[3] <= 0) {
+                    continue;
+                }
+
+                $rect1[] = $this->getBarRectXYXY($bar);
+            }
         }
 
-        return $rect;
+        return [$rect, $rect1];
     }
 
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return array{list<array<0|1|2|3, float>>, list<array<0|1|2|3, float>>}
      */
     public function getBarsArrayXYWH(): array
     {
+        list($mark, $smark) = $this->guard();
         $rect = [];
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -758,11 +798,35 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect[] = $this->getBarRectXYWH($bar);
+
+
+            if (! empty($mark)) {
+                $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                $abc++;
+            }
+        }
+        $rect1 = [];
+        $abc = 0;
+        foreach ($this->sbars as $bar) {
+            if ($bar[2] <= 0) {
+                continue;
+            }
+
+            if ($bar[3] <= 0) {
+                continue;
+            }
+
+            $rect1[] = $this->getBarRectXYWH($bar);
+
+            if (! empty($smark)) {
+                $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
             // reprint rotated to cancel row gaps
-            $rot = $this->getRotatedBarArray();
+            list($rot, $rot1) = $this->getRotatedBarArray();
             foreach ($rot as $bar) {
                 if ($bar[2] <= 0) {
                     continue;
@@ -774,8 +838,34 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
                 $rect[] = $this->getBarRectXYWH($bar);
             }
+            foreach ($rot1 as $bar1) {
+                if ($bar1[2] <= 0) {
+                    continue;
+                }
+
+                if ($bar1[3] <= 0) {
+                    continue;
+                }
+
+                $rect1[] = $this->getBarRectXYWH($bar1);
+            }
         }
 
-        return $rect;
+        return [$rect, $rect1];
+    }
+
+    /**
+     * Get the array containing all the formatted R,G,B colors
+     *
+     * @return array<int, array<string, float>|null>
+     */
+    public function getcolor(): array
+    {
+            $fg_col = $this->color_obj->getNormalizedArray(255);
+            $bg_col = $this->bg_color_obj !== null ? $this->bg_color_obj->getNormalizedArray(255) : null;
+            $bd_col = $this->bd_color_obj !== null ? $this->bd_color_obj->getNormalizedArray(255) : null;
+            $fs_col = $this->fs_color_obj !== null ? $this->fs_color_obj->getNormalizedArray(255) : null;
+
+        return [$fg_col, $bg_col, $bd_col, $fs_col];
     }
 }
