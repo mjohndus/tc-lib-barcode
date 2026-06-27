@@ -705,7 +705,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array{list<array<0|1|2|3, float>>, list<array<0|1|2|3, float>>}
+     * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */
     public function getBarsArrayXYXY(): array
     {
@@ -725,7 +725,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
 
             if (! empty($mark)) {
-                $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                $rect[$abc][3] = ($rect[$abc][3] ?? 0.0) - ($mark[$abc] ?? 0.0);
                 $abc++;
             }
         }
@@ -743,7 +743,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $rect1[] = $this->getBarRectXYXY($bar);
 
             if (! empty($smark)) {
-                $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
+                $rect1[$abc][3] = ($rect1[$abc][3] ?? 0.0) - ($smark[$abc] ?? 0.0);
                 $abc++;
             }
         }
@@ -781,7 +781,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the array containing all the formatted bars coordinates
      *
-     * @return array{list<array<0|1|2|3, float>>, list<array<0|1|2|3, float>>}
+     * @return list{list<array{float, float, float, float}>, list<array{float, float, float, float}>}
      */
     public function getBarsArrayXYWH(): array
     {
@@ -799,9 +799,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
             $rect[] = $this->getBarRectXYWH($bar);
 
-
             if (! empty($mark)) {
-                $rect[$abc][3] = $rect[$abc][3] - $mark[$abc];
+                $rect[$abc][3] = ($rect[$abc][3] ?? 0.0) - ($mark[$abc] ?? 0.0);
                 $abc++;
             }
         }
@@ -819,7 +818,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $rect1[] = $this->getBarRectXYWH($bar);
 
             if (! empty($smark)) {
-                $rect1[$abc][3] = $rect1[$abc][3] - $smark[$abc];
+                $rect1[$abc][3] = ($rect1[$abc][3] ?? 0.0) - ($smark[$abc] ?? 0.0);
                 $abc++;
             }
         }
