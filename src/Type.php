@@ -465,8 +465,15 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getHtmlDiv(): string
     {
+        if (\array_sum($this->padding) / 4 < 12) {
+            $br = 0;
+            $bw = $this->bordw;
+        } else {
+            $br = $this->radius;
+            $bw = $this->bordw;
+        }
         $html = \sprintf(
-            '<div style="width:%Fpx;height:%Fpx;position:relative;font-size:0;border:none;padding:0;margin:0;',
+            '<div style="width:%Fpx;height:%Fpx;border-radius:' . $br . 'px;position:relative;font-size:0;border:none;padding:0;margin:0;',
             $this->width + $this->padding['L'] + $this->padding['R'],
             $this->height + $this->padding['T'] + $this->padding['B'],
         );
@@ -478,7 +485,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $bar) {
             $html .= \sprintf(
-                '	<div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
+                '    <div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>''
                 . "\n",
                 $this->color_obj->getCssColor(),
                 $bar[0],
@@ -486,6 +493,19 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $bar[2],
                 $bar[3],
             );
+        }
+        if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+            foreach ($sbars as $bar1) {
+                $html .= \sprintf(
+                    '       <div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
+                    . "\n",
+                    $this->fs_color_obj->getCssColor(),
+                    $bar1[0],
+                    $bar1[1],
+                    $bar1[2],
+                    $bar1[3],
+                );
+            }
         }
 
         return $html . ('</div>' . "\n");
