@@ -373,6 +373,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getInlineSvgCode(): string
     {
+        if (\array_sum($this->padding) / 4 < 12) {
+            $br = 0;
+            $bw = $this->bordw;
+        } else {
+            $br = $this->radius;
+            $bw = $this->bordw;
+        }
         // flags for htmlspecialchars
         $hflag = ENT_NOQUOTES;
         if (\defined('ENT_XML1') && \defined('ENT_DISALLOWED')) {
@@ -409,20 +416,23 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . "\n";
         if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             $svg .=
-                '	<rect x="0" y="0" width="'
-                . $width
-                . '"'
-                . ' height="'
-                . $height
-                . '"'
+                '	<rect x="' . ($bw / 2) . '" y="' . ($bw / 2) . '"'
+                . ' rx="' . $br . '"'
+                . ' ry="' . $br . '"'
+                . ' width="' . ((int)$width - $bw) . '"'
+                . ' height="' . ((int)$height - $bw) . '"'
                 . ' fill="'
                 . $this->bg_color_obj->getRgbHexColor()
-                . '"'
-                . ' stroke="none"'
-                . ' stroke-width="0"'
-                . ' stroke-linecap="square"'
-                . ' />'
-                . "\n";
+                . '"';
+            if ($bw != 0) {
+                if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+                    $svg .= ' stroke="' . $this->bd_color_obj->getRgbHexColor() . '"'
+                        . ' stroke-width="' . $bw . '"'
+                        . ' stroke-linecap="square"';
+                }
+            }
+        $svg .= ' />'
+              . "\n";
         }
 
         $svg .=
@@ -443,6 +453,27 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $bar[2],
                 $bar[3],
             );
+        }
+
+        if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+        $svg .=
+            '   <g id="sbars" fill="'
+            . $this->fs_color_obj->getRgbHexColor()
+            . '"'
+            . ' stroke="none"'
+            . ' stroke-width="0"'
+            . ' stroke-linecap="square"'
+            . '>'
+            . "\n";
+            foreach ($sbars as $bar1) {
+                $svg .= \sprintf(
+                    '               <rect x="%F" y="%F" width="%F" height="%F" />' . "\n",
+                    $bar1[0],
+                    $bar1[1],
+                    $bar1[2],
+                    $bar1[3],
+                );
+            }
         }
 
         return $svg . ('	</g>' . "\n" . '</svg>' . "\n");
