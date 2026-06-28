@@ -49,7 +49,7 @@ class InternalConvert extends \Com\Tecnick\Barcode\Type\Convert
     }
 
     /**
-     * @return array<int, array{int, int, int, int}>
+     * @return array{0: array<int, array{0: int, 1: int, 2: int, 3: int}>, 1: array<int, array{0: int, 1: int, 2: int, 3: int}>}
      */
     public function exposeGetRotatedBarArray(): array
     {
