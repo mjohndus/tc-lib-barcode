@@ -55,9 +55,12 @@ class TestUtil extends TestCase
     }
 
     /**
-     * @return array<int, string>
+     * Returns the response headers sent so far, or null when the SAPI does not expose them.
+     * The CLI SAPI discards the headers, so they are only readable through Xdebug.
+     *
+     * @return array<int, string>|null
      */
-    protected function getResponseHeaders(): array
+    protected function getResponseHeaders(): ?array
     {
         if (\function_exists('xdebug_get_headers')) {
             /** @var list<string> $rawHeaders */
@@ -70,6 +73,31 @@ class TestUtil extends TestCase
             return $headers;
         }
 
-        return \headers_list();
+        $headers = \headers_list();
+
+        return $headers === [] ? null : $headers;
+    }
+
+    /**
+     * Asserts the file name in the last Content-Disposition header.
+     * The assertion is skipped when the response headers are not readable.
+     */
+    protected function assertContentDisposition(string $filename, string $fileext): void
+    {
+        $headers = $this->getResponseHeaders();
+        if ($headers === null) {
+            return;
+        }
+
+        $disposition = '';
+        foreach ($headers as $header) {
+            if (!\str_starts_with($header, 'Content-Disposition:')) {
+                continue;
+            }
+
+            $disposition = $header;
+        }
+
+        $this->assertSame('Content-Disposition: inline; filename="' . $filename . '.' . $fileext . '";', $disposition);
     }
 }

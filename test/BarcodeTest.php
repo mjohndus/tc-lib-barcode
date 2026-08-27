@@ -404,11 +404,7 @@ class BarcodeTest extends TestUtil
         $svg = \ob_get_clean();
         $this->assertNotFalse($svg);
         $this->assertEquals('114f33435c265345f7c6cdf673922292', \md5($svg));
-        $headers = $this->getResponseHeaders();
-        $this->assertEquals(
-            'Content-Disposition: inline; filename="114f33435c265345f7c6cdf673922292.svg";',
-            $headers[5] ?? '',
-        );
+        $this->assertContentDisposition('114f33435c265345f7c6cdf673922292', 'svg');
 
         // invalid filename
         \ob_start();
@@ -416,11 +412,7 @@ class BarcodeTest extends TestUtil
         $svg = \ob_get_clean();
         $this->assertNotFalse($svg);
         $this->assertEquals('114f33435c265345f7c6cdf673922292', \md5($svg));
-        $headers = $this->getResponseHeaders();
-        $this->assertEquals(
-            'Content-Disposition: inline; filename="114f33435c265345f7c6cdf673922292.svg";',
-            $headers[5] ?? '',
-        );
+        $this->assertContentDisposition('114f33435c265345f7c6cdf673922292', 'svg');
 
         // valid filename
         \ob_start();
@@ -428,8 +420,7 @@ class BarcodeTest extends TestUtil
         $svg = \ob_get_clean();
         $this->assertNotFalse($svg);
         $this->assertEquals('114f33435c265345f7c6cdf673922292', \md5($svg));
-        $headers = $this->getResponseHeaders();
-        $this->assertEquals('Content-Disposition: inline; filename="test_SVG_filename-001.svg";', $headers[5] ?? '');
+        $this->assertContentDisposition('test_SVG_filename-001', 'svg');
     }
 
     /**
@@ -453,8 +444,7 @@ class BarcodeTest extends TestUtil
         $png = \ob_get_clean();
         $this->assertNotFalse($png);
         $this->assertEquals('PNG', \substr($png, 1, 3));
-        $headers = $this->getResponseHeaders();
-        $this->assertNotEmpty($headers[5] ?? '');
+        $this->assertContentDisposition(\md5($png), 'png');
 
         // invalid filename
         \ob_start();
@@ -462,8 +452,7 @@ class BarcodeTest extends TestUtil
         $png = \ob_get_clean();
         $this->assertNotFalse($png);
         $this->assertEquals('PNG', \substr($png, 1, 3));
-        $headers = $this->getResponseHeaders();
-        $this->assertNotEmpty($headers[5] ?? '');
+        $this->assertContentDisposition(\md5($png), 'png');
 
         // valid filename
         \ob_start();
@@ -471,8 +460,7 @@ class BarcodeTest extends TestUtil
         $png = \ob_get_clean();
         $this->assertNotFalse($png);
         $this->assertEquals('PNG', \substr($png, 1, 3));
-        $headers = $this->getResponseHeaders();
-        $this->assertEquals('Content-Disposition: inline; filename="test_PNG_filename-001.png";', $headers[5] ?? '');
+        $this->assertContentDisposition('test_PNG_filename-001', 'png');
     }
 
     /**
