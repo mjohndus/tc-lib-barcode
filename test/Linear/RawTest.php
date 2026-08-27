@@ -52,7 +52,7 @@ class RawTest extends TestUtil
     }
 
     /**
-     * Regression: bracket-separated rows used to be merged into a single row.
+     * Bracket-separated rows are kept as distinct rows.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception

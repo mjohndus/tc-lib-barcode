@@ -64,7 +64,7 @@ class RoyalMailFourCcTest extends TestUtil
     }
 
     /**
-     * Regression: a letter-valued check character used to be mangled to '0'.
+     * A letter-valued check character is kept in the extended code.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception

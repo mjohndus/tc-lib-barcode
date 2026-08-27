@@ -82,44 +82,44 @@ class PdfFourOneSevenTest extends TestUtil
             [
                 '',
                 \str_pad('', 1850, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-                '38e205c911b94a62c72b7d20fa4361f8',
+                'a089852112a7d7ad07e1ecbb6a1b389e',
             ],
             // max text
             [
                 '',
                 \str_pad('', 2710, '123456789'),
-                'c512b5d3ca975a16c21b47e938d2aecb',
+                'f275c92a1b3dd36f90763862d2b6a1c8',
             ],
             // max digits
             [
                 '',
                 'abc/abc',
-                '831874fe7d1b3d865c222858eba3507c',
+                '7fe8782974f21f9d84f0c96d53532cbd',
             ],
             [
                 '',
                 '0123456789',
-                '4f9cdac81d62f0020beb93fc3ecdd8ad',
+                'd5b01b60554a43cd21ca02e0a59f48e2',
             ],
             [
                 ',2,8,1,0,0,0,1,2',
                 \str_pad('', 1750, 'X'),
-                'f0874a35e15f11f9aa8bc070a4be24bf',
+                'b3227992cf0d805f8b99f11f7a84b121',
             ],
             [
                 ',15,8,1,0,0,0,1,2',
                 \str_pad('', 1750, 'X'),
-                '0288f0a87cc069fc34d6168d7a9f7846',
+                '00cf981dbcb354c10e1fdc41f0d64650',
             ],
             [
                 '',
                 \str_pad('', 350, '0123456789'),
-                '9a8e73c7a098fd10ce37605be1c87435',
+                '7f6b17381d56ff236f632bad09067b41',
             ],
             [
                 '',
                 'abcdefghijklmnopqrstuvwxyz01234567890123456789',
-                'bd4f4215aca0bbc3452a35b81fcf7bdb',
+                '9b3179d371874c047bfe7f4bf34c0454',
             ],
             [
                 '',
@@ -153,7 +153,7 @@ class PdfFourOneSevenTest extends TestUtil
                     . "\x8C\xF9\x95\xB6\xF8\x93\xED\x0A\x17\x70"
                     . "\x16\xF1\xCC\x4C\x17\x5E\x96\xE8\x0D\x2E"
                     . "\xF1\x95\xF3\xC1\x49\xBE\xE6\xEF\x6E\x18",
-                '1cae7ca47cde6ca52522ce31771a5c54',
+                'b05d9bbddc69cbeb400d696cd889a080',
             ],
             [
                 '',
@@ -257,7 +257,7 @@ class PdfFourOneSevenTest extends TestUtil
                     . "\x2D\xEC\xD5\xE1\xD2\xB6\x1B\x04\xB3\xA9"
                     . "\x46\x48\x65\xF6\x0A\xDD\xE1\x18\xBA\xD4"
                     . "\x71\x10\x73\xD3\xA5\x21\x0A\xBD\x1C\xDB",
-                '6c1033648fc11250ad22006398cd1bdc',
+                'd77636706791c66b414662e98788e785',
             ],
         ];
     }

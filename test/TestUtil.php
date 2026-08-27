@@ -3,13 +3,13 @@
 /**
  * TestUtil.php
  *
- * @since     2020-12-19
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2020-12-19
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * This file is part of tc-lib-color software library.
  */
@@ -19,15 +19,15 @@ namespace Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Web Color class test
+ * Base test case with the assertion and output capture helpers used by the test suite.
  *
- * @since     2020-12-19
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2020-12-19
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * @SuppressWarnings("PHPMD.NumberOfChildren")
  */

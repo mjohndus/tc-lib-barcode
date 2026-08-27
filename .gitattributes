@@ -1,4 +1,16 @@
-# Keep development-only files out of the Packagist dist archive.
+# Normalize the text sources to LF in the repository and on checkout.
+*.php      text eol=lf
+*.md       text eol=lf
+*.xml      text eol=lf
+*.xml.dist text eol=lf
+*.json     text eol=lf
+*.toml     text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.txt      text eol=lf
+Makefile   text eol=lf
+
+# Keep the contributor-only files out of the Packagist dist archive.
 /.editorconfig     export-ignore
 /.gitattributes    export-ignore
 /.github           export-ignore
@@ -9,6 +21,7 @@
 /Makefile          export-ignore
 /RELEASE           export-ignore
 /example           export-ignore
+/mago.example.toml export-ignore
 /mago.src.toml     export-ignore
 /mago.test.toml    export-ignore
 /phpunit.xml.dist  export-ignore

@@ -52,6 +52,38 @@ class CodabarTest extends TestUtil
     }
 
     /**
+     * Like ':', '/' and '.', '+' is three wide bars and no wide space, here bars 2, 3 and 4.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testPlusPattern(): void
+    {
+        $barcode = $this->getTestObject();
+        $grid = $barcode->getBarcodeObj('CODABAR', '+')->getGrid();
+        $this->assertEquals("10110010010101101101101011001001\n", $grid);
+    }
+
+    /**
+     * Every Codabar character is seven elements with two or three wide ones, so it is
+     * 9 or 10 modules wide. '0' is the 9-module reference.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testEveryCharacterKeepsTheStandardWidth(): void
+    {
+        $barcode = $this->getTestObject();
+        $reference = \strlen(\trim($barcode->getBarcodeObj('CODABAR', '0')->getGrid()));
+        foreach (\str_split('0123456789-$:/.+') as $char) {
+            $grid = \trim($barcode->getBarcodeObj('CODABAR', $char)->getGrid());
+            $width = 9 + \strlen($grid) - $reference;
+            $this->assertGreaterThanOrEqual(9, $width, 'character ' . $char);
+            $this->assertLessThanOrEqual(10, $width, 'character ' . $char);
+        }
+    }
+
+    /**
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
      */

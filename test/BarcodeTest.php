@@ -16,6 +16,8 @@
 
 namespace Test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Barcode class test
  *
@@ -121,6 +123,69 @@ class BarcodeTest extends TestUtil
         $bobjarr = $type->getArray();
         $this->assertNotNull($bobjarr['bg_color_obj']);
         $this->assertEquals('#66cdaaff', $bobjarr['bg_color_obj']->getRgbaHexColor());
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('getColorProvider')]
+    public function testColorResolutionOrder(string $color, string $expected): void
+    {
+        $barcode = $this->getTestObject();
+        $type = $barcode->getBarcodeObj('LRAW', '0101', -2, -2, $color);
+        $this->assertEquals($expected, $type->getArray()['color_obj']->getRgbaHexColor());
+    }
+
+    /**
+     * @return array<array{string, string}>
+     */
+    public static function getColorProvider(): array
+    {
+        return [
+            ['green',             '#008000ff'], // web color name, not the spot color of the same name
+            ['#00ff00',           '#00ff00ff'],
+            ['rgb(0,128,0)',      '#008000ff'],
+            ['hsl(120,100%,25%)', '#008000ff'],
+            ['all',               '#000000ff'], // spot-only color name
+            ['none',              '#ffffffff'], // spot-only color name
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('getInvalidColorProvider')]
+    public function testInvalidColorException(string $color): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Color\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj('LRAW', '0101', -2, -2, $color);
+    }
+
+    /**
+     * @return array<array{string}>
+     */
+    public static function getInvalidColorProvider(): array
+    {
+        return [
+            ['#GGG'],
+            ['notacolor'],
+            ['rgb(1.2.3,4,5)'],
+            ['unsupported(1,2,3)'],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testInvalidBackgroundColorException(): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Color\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj('LRAW', '0101', -2, -2, 'black')->setBackgroundColor('notacolor');
     }
 
     /**
@@ -245,62 +310,62 @@ class BarcodeTest extends TestUtil
         $hdiv = $type->setBackgroundColor('lightcoral')->getHtmlDiv();
         $expected =
             '<div style="width:44.000000px;height:8.000000px;position:relative;font-size:0;'
-            . 'border:none;padding:0;margin:0;background-color:rgb(94%,50%,50%);">
-	<div style="background-color:rgb(50%,0%,50%);left:3.000000px;top:4.000000px;'
+            . 'border:none;padding:0;margin:0;background-color:rgb(240,128,128);">
+	<div style="background-color:rgb(128,0,128);left:3.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:9.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:9.000000px;top:4.000000px;'
             . 'width:4.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:19.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:19.000000px;top:4.000000px;'
             . 'width:6.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:33.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:33.000000px;top:4.000000px;'
             . 'width:8.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:1.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:1.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:5.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:5.000000px;top:6.000000px;'
             . 'width:4.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:13.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:13.000000px;top:6.000000px;'
             . 'width:6.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:25.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:25.000000px;top:6.000000px;'
             . 'width:8.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:1.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:1.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:3.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:3.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:5.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:5.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:7.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:7.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:9.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:9.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:11.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:11.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:13.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:13.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:15.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:15.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:17.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:17.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:19.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:19.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:21.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:21.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:23.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:23.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:25.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:25.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:27.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:27.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:29.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:29.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:31.000000px;top:6.000000px;'
+	<div style="background-color:rgb(128,0,128);left:31.000000px;top:6.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:33.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:33.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:35.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:35.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:37.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:37.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
-	<div style="background-color:rgb(50%,0%,50%);left:39.000000px;top:4.000000px;'
+	<div style="background-color:rgb(128,0,128);left:39.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
 </div>
 ';
@@ -411,7 +476,7 @@ class BarcodeTest extends TestUtil
     }
 
     /**
-     * Regression: an over-long payload must be rejected early.
+     * A payload longer than Barcode::MAX_CODE_LENGTH is rejected.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
@@ -424,7 +489,7 @@ class BarcodeTest extends TestUtil
     }
 
     /**
-     * Regression: a pathological size multiplier must not trigger a huge image allocation.
+     * A size multiplier that exceeds the maximum image dimensions is rejected.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception

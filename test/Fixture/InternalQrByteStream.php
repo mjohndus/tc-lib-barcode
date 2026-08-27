@@ -17,6 +17,8 @@
 namespace Test\Fixture;
 
 /**
+ * Exposes the protected bit stream methods of the QR Code ByteStream class.
+ *
  * @phpstan-import-type Item from \Com\Tecnick\Barcode\Type\Square\QrCode\Estimate
  */
 class InternalQrByteStream extends \Com\Tecnick\Barcode\Type\Square\QrCode\ByteStream

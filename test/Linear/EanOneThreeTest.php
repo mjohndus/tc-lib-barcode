@@ -74,8 +74,8 @@ class EanOneThreeTest extends TestUtil
     }
 
     /**
-     * Regression: a full code that already carries its (valid) check digit must not
-     * gain a spurious extra digit in the extended code.
+     * A code that already carries its valid check digit is kept unchanged in the
+     * extended code.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
