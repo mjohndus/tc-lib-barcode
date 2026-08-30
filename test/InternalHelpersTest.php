@@ -20,6 +20,17 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Test\Fixture\InternalBarcodeType;
 use Test\Fixture\InternalQrByteStream;
 
+/**
+ * Internal helper methods test
+ *
+ * @since       2026-04-19
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
+ */
 class InternalHelpersTest extends TestUtil
 {
     /**

@@ -53,7 +53,7 @@ class KlantIndexTest extends TestUtil
     }
 
     /**
-     * Regression: invalid characters used to be silently mis-encoded.
+     * Characters outside the KIX character set are rejected.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
@@ -66,7 +66,7 @@ class KlantIndexTest extends TestUtil
     }
 
     /**
-     * Regression: empty input used to raise an uncaught DivisionByZeroError.
+     * An empty payload is rejected.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception

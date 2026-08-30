@@ -16,6 +16,9 @@
 
 namespace Test\Fixture;
 
+/**
+ * PDF417 barcode type using the pure-PHP arithmetic fallback.
+ */
 class FallbackMathPdfFourOneSeven extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSeven
 {
     use FallbackMath;

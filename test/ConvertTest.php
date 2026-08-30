@@ -18,6 +18,17 @@ namespace Test;
 
 use Test\Fixture\InternalConvert;
 
+/**
+ * Convert class test
+ *
+ * @since       2026-05-21
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
+ */
 class ConvertTest extends TestUtil
 {
     /**
@@ -44,6 +55,26 @@ class ConvertTest extends TestUtil
                 [2, 0, 1, 1],
                 [1, 1, 1, 1],
                 [3, 1, 1, 1],
+            ],
+            $helper->getBars(),
+        );
+    }
+
+    /**
+     * Consecutive dark modules of an integer row are merged into a single bar.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     */
+    public function testProcessBinarySequenceMergesRunsOfIntegerRows(): void
+    {
+        $helper = new InternalConvert();
+        $helper->exposeProcessBinarySequence([[1, 1, 1, 0, 1], [0, 1, 1, 0, 0]]);
+
+        $this->assertSame(
+            [
+                [0, 0, 3, 1],
+                [4, 0, 1, 1],
+                [1, 1, 2, 1],
             ],
             $helper->getBars(),
         );

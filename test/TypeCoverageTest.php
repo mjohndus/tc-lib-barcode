@@ -18,6 +18,17 @@ namespace Test;
 
 use Test\Fixture\InternalBarcodeType;
 
+/**
+ * Type class test
+ *
+ * @since       2026-05-21
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
+ */
 class TypeCoverageTest extends TestUtil
 {
     /**
