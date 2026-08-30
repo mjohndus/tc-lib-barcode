@@ -648,21 +648,14 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         $imagickdraw = new \ImagickDraw();
         if ($this->bg_color_obj !== null) {
             $imagickdraw->setfillcolor($this->bg_color_obj->getRgbHexColor());
-            } else {
-                $imagickdraw->setfillcolor('#00000000');
+            //            } else {
+//                $imagickdraw->setfillcolor('#00000000');
         }
 
-        if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
-            $rgbcolor = $this->bd_color_obj->getNormalizedArray(255);
-            $imagickdraw->setstrokecolor(
-                'rgb('
-                . (string) $this->getRgbComponent($rgbcolor, 'R')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'G')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'B')
-                . ')',
-            );
+        if ($this->bd_color_obj !== null) {
+            $imagickdraw->setstrokecolor($this->bd_color_obj->getRgbHexColor());
+//            } else {
+//                $imagickdraw->setfillcolor('#00000000');
         }
 
         $imagickdraw->setstrokewidth($bw);
@@ -680,46 +673,23 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         }
 
         $imagickdraw->setfillcolor($this->color_obj->getRgbHexColor());
-
-        $imagickdraw->setstrokecolor(
-            'rgb('
-            . (string) $this->getRgbComponent($rgbcolor, 'R')
-            . ','
-            . (string) $this->getRgbComponent($rgbcolor, 'G')
-            . ','
-            . (string) $this->getRgbComponent($rgbcolor, 'B')
-            . ')',
-        );
+        $imagickdraw->setstrokecolor($this->color_obj->getRgbHexColor());
         $imagickdraw->setStrokeWidth(0);
         list($bars, $sbars) = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             $imagickdraw->rectangle($bar[0], $bar[1], $bar[2], $bar[3]);
         }
 
-        if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
-            $rgbcolor = $this->fs_color_obj->getNormalizedArray(255);
-            $imagickdraw->setfillcolor(
-                'rgb('
-                . (string) $this->getRgbComponent($rgbcolor, 'R')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'G')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'B')
-                . ')',
-            );
-            $imagickdraw->setStrokecolor(
-                'rgb('
-                . (string) $this->getRgbComponent($rgbcolor, 'R')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'G')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'B')
-                . ')',
-            );
-            $imagickdraw->setStrokeWidth(0);
-            foreach ($sbars as $bar1) {
-                $imagickdraw->rectangle($bar1[0], $bar1[1], $bar1[2], $bar1[3]);
-            }
+        if ($this->fs_color_obj !== null) {
+            $imagickdraw->setfillcolor($this->fs_color_obj->getRgbHexColor());
+            $imagickdraw->setstrokecolor($this->fs_color_obj->getRgbHexColor());
+//            } else {
+//                $imagickdraw->setfillcolor('#00000000');
+        }
+
+        $imagickdraw->setStrokeWidth(0);
+        foreach ($sbars as $bar1) {
+            $imagickdraw->rectangle($bar1[0], $bar1[1], $bar1[2], $bar1[3]);
         }
 
         $imagick->drawimage($imagickdraw);
