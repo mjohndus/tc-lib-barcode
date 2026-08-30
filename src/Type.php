@@ -790,7 +790,16 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
         $this->applyGdBackground($img, $width, $height);
 
-        $bar_color = $this->allocateGdColor($img, $this->color_obj, 'GD foreground');
+        $rgbcolor = $this->color_obj->getNormalizedArray(255);
+        $bar_color = \imagecolorallocate(
+            $img,
+            (int) \round($this->getRgbComponent($rgbcolor, 'R')),
+            (int) \round($this->getRgbComponent($rgbcolor, 'G')),
+            (int) \round($this->getRgbComponent($rgbcolor, 'B')),
+        );
+        if ($bar_color === false) {
+            throw new BarcodeException('Unable to allocate GD foreground color');
+        }
         list($bars, $sbars)  = $this->getBarsArrayXYXY();
         //$bars = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
