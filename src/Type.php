@@ -648,8 +648,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         $imagickdraw = new \ImagickDraw();
         if ($this->bg_color_obj !== null) {
             $imagickdraw->setfillcolor($this->bg_color_obj->getRgbHexColor());
-            //            } else {
-//                $imagickdraw->setfillcolor('#00000000');
+            } else {
+                $imagickdraw->setfillcolor('#00000000');
         }
 
         if ($this->bd_color_obj !== null) {
