@@ -426,12 +426,6 @@ abstract class Convert
             ];
         }
 */
-        $grid = $this->getGridArray();
-        if (\count($grid) < 2) {
-            // array_map(null, ...) is the identity on a single row
-            return [];
-        }
-
         $cols = \array_map(null, ...$grid);
         $bars = [];
         $sbars = [];
