@@ -373,9 +373,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getInlineSvgCode(): string
     {
-
-
-
+        if (array_sum($this->padding) / 4 < 12) {
+            $br = 0;
+            $bw = $this->bordw;
+        } else {
+            $br = $this->radius;
+            $bw = $this->bordw;
+        }
         // ENT_SUBSTITUTE replaces the invalid UTF-8 sequences of a binary payload
         $hflag = ENT_XML1 | ENT_DISALLOWED | ENT_SUBSTITUTE;
 
