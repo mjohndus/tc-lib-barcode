@@ -631,7 +631,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
         $imagick->newImage($width, $height, 'none', 'png');
         $imagickdraw = new \ImagickDraw();
-
         if ($this->bg_color_obj !== null) {
             $imagickdraw->setfillcolor($this->bg_color_obj->getRgbHexColor());
             $imagickdraw->rectangle(0, 0, $width, $height);
@@ -639,70 +638,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
         $imagickdraw->setfillcolor($this->color_obj->getRgbHexColor());
         $bars = $this->getBarsArrayXYXY();
-
-        if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
-            $rgbcolor = $this->bg_color_obj->getNormalizedArray(255);
-            $imagickdraw->setfillcolor(
-                'rgb('
-                . (string) $this->getRgbComponent($rgbcolor, 'R')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'G')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'B')
-                . ')',
-            );
-            } else {
-                $imagickdraw->setfillcolor('#00000000');
-        }
-
-        if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
-            $rgbcolor = $this->bd_color_obj->getNormalizedArray(255);
-            $imagickdraw->setstrokecolor(
-                'rgb('
-                . (string) $this->getRgbComponent($rgbcolor, 'R')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'G')
-                . ','
-                . (string) $this->getRgbComponent($rgbcolor, 'B')
-                . ')',
-            );
-        }
-
-        $imagickdraw->setstrokewidth($bw);
-        if ($br !== 0) {
-            $imagickdraw->roundrectangle(
-                \ceil($bw / 2),
-                \ceil($bw / 2),
-                $width - $bw + 0,
-                $height - $bw + 0,
-                $br - $bw,
-                $br - $bw
-            );
-           } else {
-                $imagickdraw->rectangle(\ceil($bw / 2), \ceil($bw / 2), $width - $bw + 0, $height - $bw + 0);
-        }
-
-        $rgbcolor = $this->color_obj->getNormalizedArray(255);
-        $imagickdraw->setfillcolor(
-            'rgb('
-            . (string) $this->getRgbComponent($rgbcolor, 'R')
-            . ','
-            . (string) $this->getRgbComponent($rgbcolor, 'G')
-            . ','
-            . (string) $this->getRgbComponent($rgbcolor, 'B')
-            . ')',
-        );
-        $imagickdraw->setstrokecolor(
-            'rgb('
-            . (string) $this->getRgbComponent($rgbcolor, 'R')
-            . ','
-            . (string) $this->getRgbComponent($rgbcolor, 'G')
-            . ','
-            . (string) $this->getRgbComponent($rgbcolor, 'B')
-            . ')',
-        );
-        $imagickdraw->setStrokeWidth(0);
-        list($bars, $sbars) = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             $imagickdraw->rectangle($bar[0], $bar[1], $bar[2], $bar[3]);
         }
