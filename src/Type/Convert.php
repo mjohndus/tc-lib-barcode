@@ -416,7 +416,6 @@ abstract class Convert
      */
     protected function getRotatedBarArray(): array
     {
-/*
         $grid = $this->getGridArray();
         if ($grid === []) {
 //            return [];
@@ -425,7 +424,7 @@ abstract class Convert
                 1 => []
             ];
         }
-*/
+
         $cols = \array_map(null, ...$grid);
         $bars = [];
         $sbars = [];
