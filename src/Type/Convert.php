@@ -436,6 +436,16 @@ abstract class Convert
      */
     protected function getRotatedBarArray(): array
     {
+/*
+        $grid = $this->getGridArray();
+        if ($grid === []) {
+//            return [];
+            return [
+                0 => [],
+                1 => []
+            ];
+        }
+*/
         $grid = $this->getGridArray();
         if (\count($grid) < 2) {
             // array_map(null, ...) is the identity on a single row
