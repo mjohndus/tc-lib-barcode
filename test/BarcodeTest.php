@@ -308,7 +308,7 @@ class BarcodeTest extends TestUtil
 
         $hdiv = $type->setBackgroundColor('lightcoral')->getHtmlDiv();
         $expected =
-            '<div style="width:44.000000px;height:8.000000px;position:relative;font-size:0;'
+            '<div style="width:44.000000px;height:8.000000px;border-radius:0px;position:relative;font-size:0;'
             . 'border:none;padding:0;margin:0;background-color:rgb(240,128,128);">
 	<div style="background-color:rgb(128,0,128);left:3.000000px;top:4.000000px;'
             . 'width:2.000000px;height:2.000000px;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>
