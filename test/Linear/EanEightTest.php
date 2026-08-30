@@ -50,7 +50,7 @@ class EanEightTest extends TestUtil
     }
 
     /**
-     * Non-numeric input is rejected.
+     * Regression: non-numeric input used to produce a malformed barcode instead of throwing.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception

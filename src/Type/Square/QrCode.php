@@ -49,9 +49,10 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
     protected const FORMAT = 'QRCODE';
 
     /**
-     * QR Code version, from 1 to 40.
-     * Version 1 is a 21x21 matrix and each version adds 4 modules per side,
-     * up to the 177x177 matrix of version 40.
+     * QR code version.
+     * The Size of QRcode is defined as version. Version is an integer value from 1 to 40.
+     * Version 1 is 21*21 matrix. And 4 modules increases whenever 1 version increases.
+     * So version 40 is 177*177 matrix.
      */
     protected int $version = 0;
 
@@ -78,8 +79,8 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
     protected int $random_mask = -1;
 
     /**
-     * If true, evaluates every mask and selects the best one, as required by the
-     * specification; if false, the default mask is applied.
+     * If true, estimates the best mask (spec default, but slower);
+     * set to false for a significant performance boost but (probably) lower quality code.
      */
     protected bool $best_mask = true;
 
@@ -175,12 +176,7 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
         $this->best_mask = (bool) $this->params[5];
 
         // default mask
-        if (
-            ($this->params[6] ?? null) === null
-            || $this->params[6] === ''
-            || $this->params[6] < 0
-            || $this->params[6] > 7
-        ) {
+        if (($this->params[6] ?? null) === null) {
             $this->params[6] = 2;
         }
 

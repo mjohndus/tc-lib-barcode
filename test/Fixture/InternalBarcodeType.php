@@ -16,9 +16,6 @@
 
 namespace Test\Fixture;
 
-/**
- * Minimal concrete barcode type that exercises the Type base class hooks.
- */
 class InternalBarcodeType extends \Com\Tecnick\Barcode\Type
 {
     protected const TYPE = 'linear';

@@ -21,8 +21,6 @@ namespace Com\Tecnick\Barcode\Type\Square\QrCode;
 /**
  * Com\Tecnick\Barcode\Type\Square\QrCode\MaskNum
  *
- * Mask pattern generation methods for QrCode Barcode type class
- *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode

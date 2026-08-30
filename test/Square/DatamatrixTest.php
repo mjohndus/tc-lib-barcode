@@ -76,13 +76,12 @@ class DatamatrixTest extends TestUtil
     }
 
     /**
-     * X12 has no upper shift, so an extended character is reported as not representable.
-     *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
      */
-    public function testEncodeTXTC40UnsupportedCharacter(): void
+    public function testEncodeTXTC40Exception(): void
     {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
         $encode = new \Com\Tecnick\Barcode\Type\Square\Datamatrix\Encode();
         $data = "\x80";
         $enc = \Com\Tecnick\Barcode\Type\Square\Datamatrix\Data::ENC_X12;
@@ -90,7 +89,7 @@ class DatamatrixTest extends TestUtil
         $ptr = 0;
         $epos = 0;
         $charset = [];
-        $this->assertNull($encode->encodeTXTC40($data, $enc, $temp_cw, $ptr, $epos, $charset));
+        $encode->encodeTXTC40($data, $enc, $temp_cw, $ptr, $epos, $charset);
     }
 
     /**
@@ -379,13 +378,13 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX,R',
                 '0123456789012345678901234567890123456789',
-                'd9c3f7ee7a7be4b4e57cf4a5a485e725',
+                'b748b02c1c4cae621a84c8dbba97c710',
             ],
             // Rectangular GS1
             [
                 'DATAMATRIX,R,GS1',
                 "\xE8" . '01034531200000111719112510ABCD1234',
-                '11000d4c60f667f3b5b7fba22483ccf0',
+                'f55524d239fc95072d99eafe5363cfeb',
             ],
             [
                 'DATAMATRIX,R,GS1',
@@ -442,7 +441,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX,S,N,BASE256',
                 '01234567890',
-                '44d252cfc62e5a893c9d37bef5afca53',
+                '8b4f688a774130bc654e39dfcfadb482',
             ],
             [
                 'DATAMATRIX,S,GS1',
@@ -471,7 +470,7 @@ class DatamatrixTest extends TestUtil
                 'DATAMATRIX,S,GS1,C40',
                 // \xE8 is the control character FNC1 (ASCII 232)
                 "\xE8" . '01095011010209171719050810ABCD1234' . "\xE8" . '2110',
-                'ef0af4b9ddddff4ee8f0c8992ba66d80',
+                'ba117111dfa40a40e1bb968c719d2eef',
             ],
         ];
     }

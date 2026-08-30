@@ -16,9 +16,6 @@
 
 namespace Test\Fixture;
 
-/**
- * Exposes the protected conversion methods of the Convert class.
- */
 class InternalConvert extends \Com\Tecnick\Barcode\Type\Convert
 {
     /**

@@ -16,9 +16,6 @@
 
 namespace Test\Fixture;
 
-/**
- * IMB barcode type using the pure-PHP arithmetic fallback.
- */
 class FallbackMathImb extends \Com\Tecnick\Barcode\Type\Linear\Imb
 {
     use FallbackMath;

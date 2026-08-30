@@ -18,7 +18,9 @@
 
 ## Overview
 
-`tc-lib-barcode` is a pure-PHP library that encodes data as linear, 2D and postal barcode symbols and renders them as SVG, PNG, HTML or text.
+`tc-lib-barcode` is a pure-PHP barcode generation library with broad support for industrial, retail, logistics, and document automation use cases.
+
+It focuses on deterministic output and specification-driven encoding, making it suitable for labels, tickets, warehouse flows, and compliance documents. The API is structured so applications can generate barcode data once and render it as vectors or raster images depending on their output target.
 
 | | |
 |---|---|
@@ -37,7 +39,7 @@
 | Format | Description |
 |--------|-------------|
 | C39 | CODE 39 - ANSI MH10.8M-1983 - USD-3 - 3 of 9 |
-| C39+ | CODE 39 + CHECKSUM |
+| C39+ | CODE 39 with checksum |
 | C39E | CODE 39 EXTENDED |
 | C39E+ | CODE 39 EXTENDED + CHECKSUM |
 | C93 | CODE 93 - USS-93 |
@@ -49,8 +51,8 @@
 | C128A | CODE 128 A |
 | C128B | CODE 128 B |
 | C128C | CODE 128 C |
-| EAN2 | EAN 2-Digits UPC-Based Extension |
-| EAN5 | EAN 5-Digits UPC-Based Extension |
+| EAN2 | 2-Digits UPC-Based Extension |
+| EAN5 | 5-Digits UPC-Based Extension |
 | EAN8 | EAN 8 |
 | EAN13 | EAN 13 |
 | UPCA | UPC-A |
@@ -61,7 +63,6 @@
 | CODE11 | CODE 11 |
 | PHARMA | PHARMACODE |
 | PHARMA2T | PHARMACODE TWO-TRACKS |
-| LRAW | 1D RAW MODE (comma-separated rows of 01 strings) |
 
 ### 2D
 
@@ -79,23 +80,22 @@
 |--------|-------------|
 | POSTNET | POSTNET |
 | PLANET | PLANET |
-| RMS4CC | RMS4CC (Royal Mail 4-state Customer Bar Code) |
+| RMS4CC | RMS4CC (Royal Mail 4-state Customer Code) - CBC (Customer Bar Code) |
 | KIX | KIX (Klant index - Customer index) |
 | IMB | IMB - Intelligent Mail Barcode - Onecode - USPS-B-3200 |
-| IMBPRE | IMB - Intelligent Mail Barcode pre-processed |
+| IMBPRE | IMB - Intelligent Mail Barcode - Onecode - USPS-B-3200 - pre-processed |
 
----
+## Rendering
+- HTML output for web previews
+- Image-based rendering for downstream processing
+- Configurable dimensions, padding, and color
 
-## Output Formats
-
-- SVG image (file, inline code, or standalone document)
-- PNG image (via GD or Imagick)
-- GD image object
-- HTML `div` elements
-- Character grid string
-- Array of bar coordinates
-
-Width, height, padding, foreground and background color are set per barcode.
+### Output Formats
+- PNG Image
+- SVG Image
+- HTML DIV
+- Unicode String
+- Binary String
 
 ---
 

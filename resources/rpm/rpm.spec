@@ -16,7 +16,7 @@ BuildArch: noarch
 
 Requires:  php(language) >= 8.2.0
 Requires:  php-composer(%{c_vendor}/tc-lib-color) < 3.0.0
-Requires:  php-composer(%{c_vendor}/tc-lib-color) >= 3.0.2
+Requires:  php-composer(%{c_vendor}/tc-lib-color) >= 2.13.5
 Requires:  php-ctype
 Requires:  php-date
 Requires:  php-gd
@@ -33,8 +33,8 @@ PHP classes to generate linear and bidimensional barcodes:
 CODE 39, ANSI MH10.8M-1983, USD-3, 3 of 9, CODE 93, USS-93,
 Standard 2 of 5, Interleaved 2 of 5, CODE 128 A/B/C,
 2 and 5 Digits UPC-Based Extension, EAN 8, EAN 13, UPC-A,
-UPC-E, MSI, POSTNET, PLANET, RMS4CC (Royal Mail 4-state Customer Bar Code),
-KIX (Klant index - Customer index),
+UPC-E, MSI, POSTNET, PLANET, RMS4CC (Royal Mail 4-state Customer Code),
+CBC (Customer Bar Code), KIX (Klant index - Customer index),
 Intelligent Mail Barcode, Onecode, USPS-B-3200, CODABAR, CODE 11,
 PHARMACODE, PHARMACODE TWO-TRACKS, AZTEC, Datamatrix ECC200, QR-Code, PDF417.
 
@@ -54,8 +54,6 @@ rm -rf "%{buildroot}"
 # Optional config files can be listed here when used by a project.
 
 %changelog
-* %{_builddate} Nicola Asuni <info@tecnick.com> %{version}-%{release}
-- Refer to the project git history for the contents of this release.
 * Thu Jul 02 2026 Nicola Asuni <info@tecnick.com> 1.2.0-1
 - Changed package name, add provides section
 * Tue Feb 24 2026 Nicola Asuni <info@tecnick.com> 1.0.0-1

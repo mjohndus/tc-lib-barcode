@@ -1,5 +1,6 @@
 <?php
 
+// @codingStandardsIgnoreFile
 /**
  * TestStrings.php
  *
@@ -34,6 +35,7 @@ class TestStrings
      *
      * @var array<array{string}>
      *
+     * @phpcs:disable Generic.Files.LineLength.TooLong
      */
     public static array $data = [
         // Reserved keywords

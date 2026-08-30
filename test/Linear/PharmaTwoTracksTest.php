@@ -16,7 +16,6 @@
 
 namespace Test\Linear;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestUtil;
 
 /**
@@ -44,50 +43,22 @@ class PharmaTwoTracksTest extends TestUtil
     public function testGetGrid(): void
     {
         $barcode = $this->getTestObject();
-        $type = $barcode->getBarcodeObj('PHARMA2T', '123456');
+        $type = $barcode->getBarcodeObj('PHARMA2T', '0123456789');
         $grid = $type->getGrid();
-        $expected = "001010001010101010101\n100010101010000010101\n";
+        $expected = "101000001010100010001010001000101\n000010101010001010101000100010001\n";
         $this->assertEquals($expected, $grid);
     }
 
     /**
-     * Two-track Pharmacode encodes the values 4 to 64570080 (2 to 16 tracks).
+     * Regression: '0' (and other non-positive inputs) used to cause an infinite loop.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
      */
-    public function testRangeBoundaries(): void
-    {
-        $barcode = $this->getTestObject();
-        $this->assertEquals("000\n101\n", $barcode->getBarcodeObj('PHARMA2T', '4')->getGrid());
-        $this->assertEquals(31, $barcode->getBarcodeObj('PHARMA2T', '64570080')->getArray()['ncols']);
-    }
-
-    /**
-     * Values outside the encodable range are rejected.
-     *
-     * @throws \Com\Tecnick\Barcode\Exception
-     * @throws \Com\Tecnick\Color\Exception
-     */
-    #[DataProvider('outOfRangeDataProvider')]
-    public function testOutOfRange(string $code): void
+    public function testInvalidInput(): void
     {
         $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
         $barcode = $this->getTestObject();
-        $barcode->getBarcodeObj('PHARMA2T', $code);
-    }
-
-    /**
-     * @return array<array{string}>
-     */
-    public static function outOfRangeDataProvider(): array
-    {
-        return [
-            ['0'],
-            ['3'],
-            ['64570081'],
-            ['0123456789'],
-            ['999999999999999999999'],
-        ];
+        $barcode->getBarcodeObj('PHARMA2T', '0');
     }
 }

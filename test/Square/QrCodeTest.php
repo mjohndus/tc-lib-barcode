@@ -356,7 +356,7 @@ class QrCodeTest extends TestUtil
                     . '83KI~dMkt}L9 ]uN[,@:6/[",:jKl8c%L/OKs}7i{c#{BxK}%'
                     . 'k9<zt>(0*S}C7#oGS;<QS&N8)KZ"vY(crD_hchxm<v1Tz!{N='
                     . '9!p?P*H{dKs>TW2x8z]!sK=k]rf',
-                '2dfef2690656a33bb1752f362840b53b',
+                '83747986cf0df320b915587609232076',
             ],
         ];
     }

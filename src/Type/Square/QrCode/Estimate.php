@@ -23,8 +23,6 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
 /**
  * Com\Tecnick\Barcode\Type\Square\QrCode\Estimate
  *
- * Bit stream size estimation methods for QrCode Barcode type class
- *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode
@@ -153,7 +151,7 @@ abstract class Estimate
      */
     public function estimateBitsModeAn(int $size): int
     {
-        $bits = (int) ($size / 2) * 11; // 11 bits per character pair
+        $bits = (int) ($size * 5.5); // (size / 2 ) * 11
         if (($size & 1) !== 0) {
             $bits += 6;
         }
@@ -241,7 +239,7 @@ abstract class Estimate
      */
     protected function estimateBitStreamSize(array $items, int $version): int
     {
-        $size = 0;
+        $bits = 0;
         if ($version === 0) {
             $version = 1;
         }
@@ -261,8 +259,7 @@ abstract class Estimate
                     $bits = $this->estimateBitsModeKanji($item['size']);
                     break;
                 case $this->getEncModeValue('ST'):
-                    $size += Data::STRUCTURE_HEADER_BITS;
-                    continue 2;
+                    return Data::STRUCTURE_HEADER_BITS;
                 default:
                     return 0;
             }
@@ -270,9 +267,9 @@ abstract class Estimate
             $len = $this->getLengthIndicator($item['mode'], $version);
             $mod = 1 << $len;
             $num = (int) (($item['size'] + $mod - 1) / $mod);
-            $size += $bits + ($num * (4 + $len));
+            $bits += $num * (4 + $len);
         }
 
-        return $size;
+        return $bits;
     }
 }

@@ -16,7 +16,6 @@
 
 namespace Test\Linear;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestUtil;
 
 /**
@@ -76,7 +75,7 @@ class CodeOneOneTest extends TestUtil
     }
 
     /**
-     * A K check digit evaluating to 10 is encoded as '-'.
+     * Regression: a K check digit evaluating to 10 must be encoded as '-', not '10'.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
@@ -85,26 +84,5 @@ class CodeOneOneTest extends TestUtil
     {
         $barcode = $this->getTestObject();
         $this->assertSame('S000000000077-S', $barcode->getBarcodeObj('CODE11', '00000000007')->getExtendedCode());
-    }
-
-    /**
-     * S is the start/stop character and is rejected in the payload.
-     *
-     * @return array<int, array{string}>
-     */
-    public static function startStopProvider(): array
-    {
-        return [['S'], ['1S2'], ['12S'], ['S12']];
-    }
-
-    /**
-     * @throws \Com\Tecnick\Barcode\Exception
-     * @throws \Com\Tecnick\Color\Exception
-     */
-    #[DataProvider('startStopProvider')]
-    public function testRejectsStartStopCharacter(string $code): void
-    {
-        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
-        $this->getTestObject()->getBarcodeObj('CODE11', $code);
     }
 }

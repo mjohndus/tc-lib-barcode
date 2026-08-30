@@ -303,20 +303,6 @@ class CodeThreeNineExtCheck extends \Com\Tecnick\Barcode\Type\Linear
     }
 
     /**
-     * Check that the code does not contain the reserved start/stop character.
-     *
-     * @param string $code Code to check
-     *
-     * @throws BarcodeException if the code contains an asterisk
-     */
-    protected function validateNoStartStop(string $code): void
-    {
-        if (\str_contains($code, '*')) {
-            throw new BarcodeException('The asterisk is reserved as the start/stop character');
-        }
-    }
-
-    /**
      * Encode a string to be used for CODE 39 Extended mode.
      *
      * @param string $code Code to extend
