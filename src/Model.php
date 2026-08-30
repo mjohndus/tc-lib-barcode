@@ -5,13 +5,13 @@ declare(strict_types=1);
 /**
  * Model.php
  *
- * @since       2015-02-21
- * @category    Library
- * @package     Barcode
- * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link        https://github.com/tecnickcom/tc-lib-barcode
+ * @since     2015-02-21
+ * @category  Library
+ * @package   Barcode
+ * @author    Nicola Asuni <info@tecnick.com>
+ * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link      https://github.com/tecnickcom/tc-lib-barcode
  *
  * This file is part of tc-lib-barcode software library.
  */
@@ -27,13 +27,13 @@ use Com\Tecnick\Color\Model\Rgb;
  *
  * Barcode Model interface
  *
- * @since       2015-02-21
- * @category    Library
- * @package     Barcode
- * @author      Nicola Asuni <info@tecnick.com>
- * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link        https://github.com/tecnickcom/tc-lib-barcode
+ * @since     2015-02-21
+ * @category  Library
+ * @package   Barcode
+ * @author    Nicola Asuni <info@tecnick.com>
+ * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link      https://github.com/tecnickcom/tc-lib-barcode
  */
 interface Model
 {
@@ -58,7 +58,6 @@ interface Model
      * An empty or transparent foreground color is rejected with a BarcodeException.
      *
      * @param string $color Foreground color in Web notation (color name, or hexadecimal code, or CSS syntax)
-     *                      or PDF spot color name
      *
      * @throws ColorException in case of color error
      * @throws BarcodeException in case of empty or transparent color
@@ -78,7 +77,6 @@ interface Model
      * Set the background color and radius.
      *
      * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
-     *                      or PDF spot color name
      *
      * @param int $radius from 4 to 22
      *
@@ -216,14 +214,14 @@ interface Model
     public function getGridArray(string $space_char = '0', string $bar_char = '1'): array;
 
     /**
-     * Get the array containing all the formatted bars coordinates (x1, y1, x2, y2)
+     * Get the array containing all the formatted bars coordinates
      *
      * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */
     public function getBarsArrayXYXY(): array;
 
     /**
-     * Get the array containing all the formatted bars coordinates (x, y, width, height)
+     * Get the array containing all the formatted bars coordinates
      *
      * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */

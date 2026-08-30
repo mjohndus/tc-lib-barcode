@@ -195,18 +195,8 @@ abstract class Convert
         $this->bars = [];
         $this->sbars = [];
         foreach ($rows as $posy => $row) {
-            // the modules are compared as strings while scanning the runs below
-            $row = \is_array($row) ? \array_map(\strval(...), $row) : \str_split($row, 1);
-
-            if (\count($row) !== $this->ncols) {
-                throw new BarcodeException(
-                    'All the rows must have the same length: row '
-                    . $posy
-                    . ' has '
-                    . \count($row)
-                    . ' columns instead of '
-                    . $this->ncols,
-                );
+            if (!\is_array($row)) {
+                $row = \str_split($row, 1);
             }
 
             $prevcol = '';
@@ -226,7 +216,7 @@ abstract class Convert
                 }
 
                 ++$bar_width;
-                $prevcol = $row[$posx] ?? '0';
+                $prevcol = (string) ($row[$posx] ?? '0');
             }
         }
     }
@@ -254,17 +244,7 @@ abstract class Convert
             throw new BarcodeException('Invalid input string');
         }
 
-        $rows = \explode(',', $code);
-        foreach ($rows as $posy => $row) {
-            // only the characters 0 and 1 are valid modules
-            if (\strspn($row, '01') !== \strlen($row)) {
-                throw new BarcodeException(
-                    'The rows must only contain the characters 0 and 1: row ' . $posy . ' is "' . $row . '"',
-                );
-            }
-        }
-
-        return $rows;
+        return \explode(',', $code);
     }
 
     /**

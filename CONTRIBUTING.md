@@ -5,10 +5,6 @@ Contributions of all kinds are welcome: bug reports, bug fixes, documentation im
 
 Please take a moment to read this guide before opening an issue or pull request.
 
-> **Pull requests are restricted to project collaborators.** If you are not a collaborator, [open an issue](https://github.com/tecnickcom/tc-lib-barcode/issues) describing the bug or feature instead.
->
-> Issues should describe the problem or the desired behaviour, not the solution. Please do not post patches, diffs, or proposed code in issues: unsolicited code cannot be merged without a signed CLA, and it prevents the maintainer from implementing the change independently.
-
 ---
 
 ## Table of Contents
@@ -47,7 +43,6 @@ Please follow the [Security Policy](SECURITY.md) and report them privately.
 - PHP **≥ 8.2**
 - [Composer](https://getcomposer.org/) v2
 - `make`, `git`
-- `gawk` (used by `make versionup`)
 - Optional: `rpmbuild` (RPM packaging), `dpkg-buildpackage` (DEB packaging)
 
 ### Local setup
@@ -55,8 +50,7 @@ Please follow the [Security Policy](SECURITY.md) and report them privately.
 ```bash
 git clone https://github.com/tecnickcom/tc-lib-barcode.git
 cd tc-lib-barcode
-make deps
-make qa
+make buildall
 ```
 
 To verify everything is working after a change:
@@ -65,8 +59,7 @@ To verify everything is working after a change:
 make qa
 ```
 
-This checks the formatting and runs linting, static analysis and the full unit-test suite.
-No coverage driver is needed; use `make test-coverage` when a report is wanted.
+This runs linting, static analysis, and the full unit-test suite with coverage.
 
 ---
 
@@ -74,28 +67,24 @@ No coverage driver is needed; use `make test-coverage` when a report is wanted.
 
 Before opening an issue:
 
-1. **Check the [Security Policy](SECURITY.md)**: if the bug is a security vulnerability, do not file a public issue.
+1. **Check the [Security Policy](SECURITY.md)** — if the bug is a security vulnerability, do not file a public issue.
 2. **Search [existing issues](https://github.com/tecnickcom/tc-lib-barcode/issues)** to avoid duplicates.
 
 If no existing issue matches, [open a new one](https://github.com/tecnickcom/tc-lib-barcode/issues/new) and include:
 
 - A **clear title and description** of the problem.
 - The **library version** (`composer show tecnickcom/tc-lib-barcode`) and PHP version.
-- A **minimal, self-contained reproduction**: a short PHP script or a failing PHPUnit test case.
-- **Expected vs. actual behaviour**: what you expected to happen and what actually happened.
+- A **minimal, self-contained reproduction** — a short PHP script or a failing PHPUnit test case is ideal.
+- **Expected vs. actual behaviour** — what you expected to happen and what actually happened.
 - Any relevant **stack trace or error output**.
 
-Describe the failure, not the fix. A reproduction case or a failing test is welcome; a proposed patch or diff is not, and will not be used.
+The more precise and reproducible the report, the faster it can be triaged and fixed.
 
 ---
 
 ## Submitting a Bug Fix
 
-> Only project collaborators can open pull requests. If you are not a collaborator, [open an issue](https://github.com/tecnickcom/tc-lib-barcode/issues/new) describing the bug (see [Reporting a Bug](#reporting-a-bug)).
-
-Collaborators preparing a fix:
-
-1. Create a branch from `main`:
+1. [Fork the repository](https://github.com/tecnickcom/tc-lib-barcode/fork) and create a branch from `main`:
    ```bash
    git checkout -b fix/short-description-of-bug
    ```
@@ -116,10 +105,10 @@ Collaborators preparing a fix:
 
 Before writing any code:
 
-1. **Open a Feature Request** on [GitHub Issues](https://github.com/tecnickcom/tc-lib-barcode/issues/new) describing the use case and the expected behaviour. Keep it at the level of intent and API surface; do not attach an implementation.
+1. **Open a Feature Request** on [GitHub Issues](https://github.com/tecnickcom/tc-lib-barcode/issues/new) describing the use case and proposed API.
 2. Wait for feedback from the maintainer. This avoids investing time in a direction that may not be accepted.
 
-Once the feature is agreed upon, a collaborator implements it with the same branch, code, test, and pull request workflow as for bug fixes, using a branch named `feature/short-description`.
+Once the feature is agreed upon, follow the same branch → code → test → PR workflow as for bug fixes, using a branch named `feature/short-description`.
 
 ---
 
@@ -129,12 +118,11 @@ The `Makefile` exposes all common development tasks:
 
 | Command | Description |
 |---------|-------------|
-| `make qa` | Check the formatting, run linting, static analysis and tests |
-| `make test` | Run PHPUnit (no coverage driver needed) |
-| `make test-coverage` | Run PHPUnit and write the coverage report to `target/coverage/` |
+| `make qa` | Run linting, static analysis, tests, and reports |
+| `make test` | Run PHPUnit with code coverage |
 | `make lint` | Check coding standards |
 | `make format` | Auto-format the code |
-| `make buildall` | Install dependencies, run QA and the reports, and build packages |
+| `make buildall` | Install dependencies, fix style, run QA, and build packages |
 | `make clean` | Remove `vendor/` and `target/` directories |
 | `make server` | Start the built-in PHP development server for the examples |
 
@@ -144,8 +132,9 @@ Run `make help` to see the full list of available targets.
 
 ## Coding Standards
 
-- Formatting is enforced by `mago fmt`; run `make format` before committing.
-- Run `make lint` to catch the remaining issues.
+- The codebase follows **PSR-12** for formatting.
+- Run `make format` to auto-format the code.
+- Run `make lint` to catch remaining issues.
 - All source files live under `src/`, all tests under `test/`.
 - Use strict types and explicit visibility on all class members.
 - Avoid introducing new external dependencies without prior discussion.
@@ -157,11 +146,11 @@ Run `make help` to see the full list of available targets.
 Tests are written with [PHPUnit](https://phpunit.de/) and live in `test/`.
 
 ```bash
-# Run the full test suite
+# Run the full test suite with coverage
 make test
 
 # Run a specific test file
-XDEBUG_MODE=coverage ./vendor/bin/phpunit test/AztecHintTest.php
+XDEBUG_MODE=coverage ./vendor/bin/phpunit test/HTMLTest.php
 ```
 
 Requirements for contributions:
@@ -169,17 +158,14 @@ Requirements for contributions:
 - Every bug fix must be accompanied by a regression test that fails before the fix and passes after.
 - Every new feature must be accompanied by tests that cover both the happy path and edge cases.
 
-Coverage reports are generated in `target/coverage/` by `make test-coverage`.
+Coverage reports are generated in `target/coverage/`.
 
 ---
 
 ## Pull Request Guidelines
 
-> Opening pull requests is restricted to project collaborators. If you are an external contributor, please [open an issue](https://github.com/tecnickcom/tc-lib-barcode/issues/new) describing the problem or feature in detail instead.
-
-- **Sign the Contributor License Agreement (CLA).** On your first pull request the CLA Assistant bot will comment with a link to sign; the PR cannot be merged until the CLA is signed.
 - Target the `main` branch.
-- Keep PRs focused: one fix or feature per PR.
+- Keep PRs focused — one fix or feature per PR.
 - Ensure `make qa` passes locally before opening the PR.
 - Do not bump the version number in your PR; that is handled by the maintainer at release time.
 - Be responsive to review feedback; stale PRs may be closed after an extended period of inactivity.
@@ -191,11 +177,11 @@ Coverage reports are generated in `target/coverage/` by `make test-coverage`.
 Use concise, imperative-mood commit messages:
 
 ```
-fix: reject an out-of-range component value
-feat: add an accessor for the normalized value
+fix: correct path traversal in font loader
+feat: add support for XYZ
 test: add regression test for #123
 docs: update CONTRIBUTING workflow
-refactor: extract the duplicated lookup into a helper
+refactor: extract text measurement into helper
 ```
 
 Prefix tags: `fix`, `feat`, `test`, `docs`, `refactor`, `chore`, `ci`.  
