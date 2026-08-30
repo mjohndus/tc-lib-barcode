@@ -15,7 +15,7 @@ SHELL=/bin/bash
 .SHELLFLAGS=-e -o pipefail -c
 
 # Project owner
-OWNER=tecnickcom
+OWNER=mjohndus
 
 # Project vendor
 VENDOR=${OWNER}

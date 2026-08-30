@@ -188,16 +188,48 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
-     * Set the background color
+     * Set the Space bars color.
+     *
+     * @param string $color Space bars color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setSpaceColor(string $color): static
+    {
+        $this->fs_color_obj = $this->getRgbColorObject($color);
+        return $this;
+    }
+
+    /**
+     * Set the background color and radius.
      *
      * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
      *                      or PDF spot color name
      *
+     * @param int $radius from 4 to 22
+     *
      * @throws ColorException in case of color error
      */
-    public function setBackgroundColor(string $color): static
+    public function setBackgroundColor(string $color, int $radius = 0): static
     {
         $this->bg_color_obj = $this->getRgbColorObject($color);
+        $this->radius = (($radius > 4 and $radius <= 22) ? $radius : 0);
+        return $this;
+    }
+
+    /**
+     * Set the border color and line-width
+     *
+     * @param string $color Border color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @param float $bordw from 0.4 to 4
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setBorder(string $color, float $bordw): static
+    {
+        $this->bd_color_obj = $this->getRgbColorObject($color);
+        $this->bordw = (($bordw > 0.4 and $bordw <= 4.0) ? $bordw : 0);
         return $this;
     }
 
@@ -239,6 +271,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *             'type': string,
      *             'format': string,
      *             'params': array<int|float|string>,
+     *             'marks': array<int, string>,
      *             'code': string,
      *             'extcode': string,
      *             'ncols': int,
@@ -251,8 +284,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *             'full_width': int,
      *             'full_height': int,
      *             'color_obj': Rgb,
+     *             'fs_color_obj': ?Rgb,
      *             'bg_color_obj': ?Rgb,
+     *             'bd_color_obj': ?Rgb,
+     *             'bordw':float,
+     *             'radius':int,
      *             'bars': array<array{int, int, int, int}>,
+     *             'sbars': array<array{int, int, int, int}>,
      *         }
      */
     public function getArray(): array
@@ -261,6 +299,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             'type' => $this::TYPE,
             'format' => $this::FORMAT,
             'params' => $this->params,
+            'marks' => $this->marks,
             'code' => $this->code,
             'extcode' => $this->extcode,
             'ncols' => $this->ncols,
@@ -273,8 +312,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             'full_width' => $this->width + $this->padding['L'] + $this->padding['R'],
             'full_height' => $this->height + $this->padding['T'] + $this->padding['B'],
             'color_obj' => $this->color_obj,
+            'fs_color_obj' => $this->fs_color_obj,
             'bg_color_obj' => $this->bg_color_obj,
+            'bd_color_obj' => $this->bd_color_obj,
+            'bordw' => $this->bordw,
+            'radius' => $this->radius,
             'bars' => $this->bars,
+            'sbars' => $this->sbars,
         ];
     }
 
@@ -371,20 +415,23 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . "\n";
         if ($this->bg_color_obj !== null) {
             $svg .=
-                '	<rect x="0" y="0" width="'
-                . $width
-                . '"'
-                . ' height="'
-                . $height
-                . '"'
+                '	<rect x="' . ($bw / 2) . '" y="' . ($bw / 2) . '"'
+                . ' rx="' . $br . '"'
+                . ' ry="' . $br . '"'
+                . ' width="' . ((int)$width - $bw) . '"'
+                . ' height="' . ((int)$height - $bw) . '"'
                 . ' fill="'
                 . $this->bg_color_obj->getRgbHexColor()
-                . '"'
-                . ' stroke="none"'
-                . ' stroke-width="0"'
-                . ' stroke-linecap="square"'
-                . ' />'
-                . "\n";
+                . '"';
+            if ($bw != 0) {
+                if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+                    $svg .= ' stroke="' . $this->bd_color_obj->getRgbHexColor() . '"'
+                        . ' stroke-width="' . $bw . '"'
+                        . ' stroke-linecap="square"';
+                }
+            }
+        $svg .= ' />'
+              . "\n";
         }
 
         $svg .=
@@ -396,7 +443,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . ' stroke-linecap="square"'
             . '>'
             . "\n";
-        $bars = $this->getBarsArrayXYWH();
+        list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $bar) {
             $svg .= \sprintf(
                 '		<rect x="%F" y="%F" width="%F" height="%F" />' . "\n",
@@ -405,6 +452,27 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $bar[2],
                 $bar[3],
             );
+        }
+
+        if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+        $svg .=
+            '   <g id="sbars" fill="'
+            . $this->fs_color_obj->getRgbHexColor()
+            . '"'
+            . ' stroke="none"'
+            . ' stroke-width="0"'
+            . ' stroke-linecap="square"'
+            . '>'
+            . "\n";
+            foreach ($sbars as $bar1) {
+                $svg .= \sprintf(
+                    '               <rect x="%F" y="%F" width="%F" height="%F" />' . "\n",
+                    $bar1[0],
+                    $bar1[1],
+                    $bar1[2],
+                    $bar1[3],
+                );
+            }
         }
 
         return $svg . ('	</g>' . "\n" . '</svg>' . "\n");
@@ -427,20 +495,34 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getHtmlDiv(): string
     {
+        if (\array_sum($this->padding) / 4 < 12) {
+            $br = 0;
+            $bw = $this->bordw;
+        } else {
+            $br = $this->radius;
+            $bw = $this->bordw;
+        }
         $html = \sprintf(
-            '<div style="width:%Fpx;height:%Fpx;position:relative;font-size:0;border:none;padding:0;margin:0;',
+            '<div style="width:%Fpx;height:%Fpx;border-radius:' . $br . 'px;position:relative;font-size:0;border:none;padding:0;margin:0;',
             $this->width + $this->padding['L'] + $this->padding['R'],
             $this->height + $this->padding['T'] + $this->padding['B'],
         );
         if ($this->bg_color_obj !== null) {
             $html .= 'background-color:' . $this->bg_color_obj->getCssColor() . ';';
         }
+        if ($bw != 0) {
+            $html .= 'border:solid;'
+                . 'border-width:' . $bw . 'px;';
+            if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+                $html .= 'border-color:' . $this->bd_color_obj->getCssColor() . ';';
+            }
+        }
 
         $html .= '">' . "\n";
-        $bars = $this->getBarsArrayXYWH();
+        list($bars, $sbars) = $this->getBarsArrayXYWH();
         foreach ($bars as $bar) {
             $html .= \sprintf(
-                '	<div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
+                '    <div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
                 . "\n",
                 $this->color_obj->getCssColor(),
                 $bar[0],
@@ -448,6 +530,19 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
                 $bar[2],
                 $bar[3],
             );
+        }
+        if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+            foreach ($sbars as $bar1) {
+                $html .= \sprintf(
+                    '       <div style="background-color:%s;left:%Fpx;top:%Fpx;width:%Fpx;height:%Fpx;position:absolute;border:none;padding:0;margin:0;">&nbsp;</div>'
+                    . "\n",
+                    $this->fs_color_obj->getCssColor(),
+                    $bar1[0],
+                    $bar1[1],
+                    $bar1[2],
+                    $bar1[3],
+                );
+            }
         }
 
         return $html . ('</div>' . "\n");
@@ -533,6 +628,15 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     {
         $imagick = new \Imagick();
         [$width, $height] = $this->getImageSize();
+
+        if (array_sum($this->padding) / 4 < 12) {
+            $br = 0;
+            $bw = $this->bordw;
+        } else {
+            $br = $this->radius;
+            $bw = $this->bordw;
+        }
+
         $imagick->newImage($width, $height, 'none', 'png');
         $imagickdraw = new \ImagickDraw();
         if ($this->bg_color_obj !== null) {
@@ -646,11 +750,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     /**
      * Get the array containing all the formatted bars coordinates (x1, y1, x2, y2)
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */
     public function getBarsArrayXYXY(): array
     {
+        list($mark, $smark) = $this->guard();
         $rect = [];
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -661,11 +767,35 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect[] = $this->getBarRectXYXY($bar);
+
+
+            if (! empty($mark)) {
+                $rect[$abc][3] = ($rect[$abc][3] ?? 0.0) - ($mark[$abc] ?? 0.0);
+                $abc++;
+            }
+        }
+        $rect1 = [];
+        $abc = 0;
+        foreach ($this->sbars as $bar) {
+            if ($bar[2] <= 0) {
+                continue;
+            }
+
+            if ($bar[3] <= 0) {
+                continue;
+            }
+
+            $rect1[] = $this->getBarRectXYXY($bar);
+
+            if (! empty($smark)) {
+                $rect1[$abc][3] = ($rect1[$abc][3] ?? 0.0) - ($smark[$abc] ?? 0.0);
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
             // reprint rotated to cancel row gaps
-            $rot = $this->getRotatedBarArray();
+            list($rot, $rot1) = $this->getRotatedBarArray();
             foreach ($rot as $bar) {
                 if ($bar[2] <= 0) {
                     continue;
@@ -677,19 +807,32 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
                 $rect[] = $this->getBarRectXYXY($bar);
             }
+            foreach ($rot1 as $bar) {
+                if ($bar[2] <= 0) {
+                    continue;
+                }
+
+                if ($bar[3] <= 0) {
+                    continue;
+                }
+
+                $rect1[] = $this->getBarRectXYXY($bar);
+            }
         }
 
-        return $rect;
+        return [$rect, $rect1];
     }
 
     /**
      * Get the array containing all the formatted bars coordinates (x, y, width, height)
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return list{list<array{float, float, float, float}>, list<array{float, float, float, float}>}
      */
     public function getBarsArrayXYWH(): array
     {
+        list($mark, $smark) = $this->guard();
         $rect = [];
+        $abc = 0;
         foreach ($this->bars as $bar) {
             if ($bar[2] <= 0) {
                 continue;
@@ -700,11 +843,34 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             }
 
             $rect[] = $this->getBarRectXYWH($bar);
+
+            if (! empty($mark)) {
+                $rect[$abc][3] = ($rect[$abc][3] ?? 0.0) - ($mark[$abc] ?? 0.0);
+                $abc++;
+            }
+        }
+        $rect1 = [];
+        $abc = 0;
+        foreach ($this->sbars as $bar) {
+            if ($bar[2] <= 0) {
+                continue;
+            }
+
+            if ($bar[3] <= 0) {
+                continue;
+            }
+
+            $rect1[] = $this->getBarRectXYWH($bar);
+
+            if (! empty($smark)) {
+                $rect1[$abc][3] = ($rect1[$abc][3] ?? 0.0) - ($smark[$abc] ?? 0.0);
+                $abc++;
+            }
         }
 
         if ($this->nrows > 1) {
             // reprint rotated to cancel row gaps
-            $rot = $this->getRotatedBarArray();
+            list($rot, $rot1) = $this->getRotatedBarArray();
             foreach ($rot as $bar) {
                 if ($bar[2] <= 0) {
                     continue;
@@ -716,8 +882,34 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
                 $rect[] = $this->getBarRectXYWH($bar);
             }
+            foreach ($rot1 as $bar1) {
+                if ($bar1[2] <= 0) {
+                    continue;
+                }
+
+                if ($bar1[3] <= 0) {
+                    continue;
+                }
+
+                $rect1[] = $this->getBarRectXYWH($bar1);
+            }
         }
 
-        return $rect;
+        return [$rect, $rect1];
+    }
+
+    /**
+     * Get the array containing all the formatted R,G,B colors
+     *
+     * @return array<int, array<string, float>|null>
+     */
+    public function getcolor(): array
+    {
+            $fg_col = $this->color_obj->getNormalizedArray(255);
+            $bg_col = $this->bg_color_obj !== null ? $this->bg_color_obj->getNormalizedArray(255) : null;
+            $bd_col = $this->bd_color_obj !== null ? $this->bd_color_obj->getNormalizedArray(255) : null;
+            $fs_col = $this->fs_color_obj !== null ? $this->fs_color_obj->getNormalizedArray(255) : null;
+
+        return [$fg_col, $bg_col, $bd_col, $fs_col];
     }
 }

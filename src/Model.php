@@ -66,14 +66,36 @@ interface Model
     public function setColor(string $color): static;
 
     /**
-     * Set the background color
+     * Set the Space bars color.
+     *
+     * @param string $color Space bars color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setSpaceColor(string $color): static;
+
+    /**
+     * Set the background color and radius.
      *
      * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
      *                      or PDF spot color name
      *
+     * @param int $radius from 4 to 22
+     *
      * @throws ColorException in case of color error
      */
-    public function setBackgroundColor(string $color): static;
+    public function setBackgroundColor(string $color, int $radius = 0): static;
+
+    /**
+     * Set the border color and line-width
+     *
+     * @param string $color Border color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *
+     * @param float $bordw from 0.4 to 4
+     *
+     * @throws ColorException in case of color error
+     */
+    public function setBorder(string $color, float $bordw): static;
 
     /**
      * Get the barcode raw array
@@ -82,6 +104,7 @@ interface Model
      *             'type': string,
      *             'format': string,
      *             'params': array<int|float|string>,
+     *             'marks': array<int, string>,     
      *             'code': string,
      *             'extcode': string,
      *             'ncols': int,
@@ -94,8 +117,13 @@ interface Model
      *             'full_width': int,
      *             'full_height': int,
      *             'color_obj': Rgb,
+     *             'fs_color_obj': ?Rgb,
      *             'bg_color_obj': ?Rgb,
+     *             'bd_color_obj': ?Rgb,
+     *             'bordw':float,
+     *             'radius':int,
      *             'bars': array<array{int, int, int, int}>,
+     *             'sbars': array<array{int, int, int, int}>,
      *         }
      */
     public function getArray(): array;
@@ -190,14 +218,21 @@ interface Model
     /**
      * Get the array containing all the formatted bars coordinates (x1, y1, x2, y2)
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */
     public function getBarsArrayXYXY(): array;
 
     /**
      * Get the array containing all the formatted bars coordinates (x, y, width, height)
      *
-     * @return array<int, array{float, float, float, float}>
+     * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */
     public function getBarsArrayXYWH(): array;
+
+    /**
+     * Get the array containing all the formatted R,G,B colors
+     *
+     * @return array<int, array<string, float>|null>
+     */
+    public function getcolor(): array;
 }

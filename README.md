@@ -1,3 +1,5 @@
+![Linear Example](https://raw.github.com/mjohndus/tc-lib-barcode/mjohndus/example/images/qr-code.png)  ![Linear Example](https://raw.github.com/mjohndus/tc-lib-barcode/mjohndus/example/images/linear.png)
+
 # tc-lib-barcode
 
 > PHP library for generating linear and 2D barcodes.
