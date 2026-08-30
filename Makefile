@@ -269,7 +269,7 @@ tag:
 test: ensuretarget
 	cp phpunit.xml.dist phpunit.xml
 	#./vendor/bin/phpunit --migrate-configuration || true
-	XDEBUG_MODE=coverage ./vendor/bin/phpunit --stderr test
+	XDEBUG_MODE=coverage ./vendor/bin/phpunit --stderr test --no-coverage
 
 ## Remove all installed files
 .PHONY: uninstall
