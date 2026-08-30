@@ -382,6 +382,13 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getInlineSvgCode(): string
     {
+        if (\array_sum($this->padding) / 4 < 12) {
+            $br = 0;
+            $bw = $this->bordw;
+        } else {
+            $br = $this->radius;
+            $bw = $this->bordw;
+        }
         // ENT_SUBSTITUTE replaces the invalid UTF-8 sequences of a binary payload
         $hflag = ENT_XML1 | ENT_DISALLOWED | ENT_SUBSTITUTE;
 
@@ -641,13 +648,78 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         $imagickdraw = new \ImagickDraw();
         if ($this->bg_color_obj !== null) {
             $imagickdraw->setfillcolor($this->bg_color_obj->getRgbHexColor());
-            $imagickdraw->rectangle(0, 0, $width, $height);
+            } else {
+                $imagickdraw->setfillcolor('#00000000');
+        }
+
+        if ($this->bd_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+            $rgbcolor = $this->bd_color_obj->getNormalizedArray(255);
+            $imagickdraw->setstrokecolor(
+                'rgb('
+                . (string) $this->getRgbComponent($rgbcolor, 'R')
+                . ','
+                . (string) $this->getRgbComponent($rgbcolor, 'G')
+                . ','
+                . (string) $this->getRgbComponent($rgbcolor, 'B')
+                . ')',
+            );
+        }
+
+        $imagickdraw->setstrokewidth($bw);
+        if ($br !== 0) {
+            $imagickdraw->roundrectangle(
+                \ceil($bw / 2),
+                \ceil($bw / 2),
+                $width - $bw + 0,
+                $height - $bw + 0,
+                $br - $bw,
+                $br - $bw
+            );
+           } else {
+                $imagickdraw->rectangle(\ceil($bw / 2), \ceil($bw / 2), $width - $bw + 0, $height - $bw + 0);
         }
 
         $imagickdraw->setfillcolor($this->color_obj->getRgbHexColor());
-        $bars = $this->getBarsArrayXYXY();
+
+        $imagickdraw->setstrokecolor(
+            'rgb('
+            . (string) $this->getRgbComponent($rgbcolor, 'R')
+            . ','
+            . (string) $this->getRgbComponent($rgbcolor, 'G')
+            . ','
+            . (string) $this->getRgbComponent($rgbcolor, 'B')
+            . ')',
+        );
+        $imagickdraw->setStrokeWidth(0);
+        list($bars, $sbars) = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             $imagickdraw->rectangle($bar[0], $bar[1], $bar[2], $bar[3]);
+        }
+
+        if ($this->fs_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+            $rgbcolor = $this->fs_color_obj->getNormalizedArray(255);
+            $imagickdraw->setfillcolor(
+                'rgb('
+                . (string) $this->getRgbComponent($rgbcolor, 'R')
+                . ','
+                . (string) $this->getRgbComponent($rgbcolor, 'G')
+                . ','
+                . (string) $this->getRgbComponent($rgbcolor, 'B')
+                . ')',
+            );
+            $imagickdraw->setStrokecolor(
+                'rgb('
+                . (string) $this->getRgbComponent($rgbcolor, 'R')
+                . ','
+                . (string) $this->getRgbComponent($rgbcolor, 'G')
+                . ','
+                . (string) $this->getRgbComponent($rgbcolor, 'B')
+                . ')',
+            );
+            $imagickdraw->setStrokeWidth(0);
+            foreach ($sbars as $bar1) {
+                $imagickdraw->rectangle($bar1[0], $bar1[1], $bar1[2], $bar1[3]);
+            }
         }
 
         $imagick->drawimage($imagickdraw);
@@ -715,7 +787,8 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         $this->applyGdBackground($img, $width, $height);
 
         $bar_color = $this->allocateGdColor($img, $this->color_obj, 'GD foreground');
-        $bars = $this->getBarsArrayXYXY();
+        list($bars, $sbars)  = $this->getBarsArrayXYXY();
+        //$bars = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             \imagefilledrectangle(
                 $img,
