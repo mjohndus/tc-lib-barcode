@@ -631,6 +631,15 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
         $imagick->newImage($width, $height, 'none', 'png');
         $imagickdraw = new \ImagickDraw();
+
+        if ($this->bg_color_obj !== null) {
+            $imagickdraw->setfillcolor($this->bg_color_obj->getRgbHexColor());
+            $imagickdraw->rectangle(0, 0, $width, $height);
+        }
+
+        $imagickdraw->setfillcolor($this->color_obj->getRgbHexColor());
+        $bars = $this->getBarsArrayXYXY();
+
         if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
             $rgbcolor = $this->bg_color_obj->getNormalizedArray(255);
             $imagickdraw->setfillcolor(
