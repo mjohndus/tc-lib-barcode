@@ -788,8 +788,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
         $this->applyGdBackground($img, $width, $height);
 
         $bar_color = $this->allocateGdColor($img, $this->color_obj, 'GD foreground');
-        list($bars, $sbars)  = $this->getBarsArrayXYXY();
-        //$bars = $this->getBarsArrayXYXY();
+        $bars = $this->getBarsArrayXYXY();
         foreach ($bars as $bar) {
             \imagefilledrectangle(
                 $img,
