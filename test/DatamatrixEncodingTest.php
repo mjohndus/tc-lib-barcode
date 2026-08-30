@@ -61,7 +61,32 @@ class DatamatrixEncodingTest extends TestUtil
 
     public function testFromLooseUnknownFallsBackToAscii(): void
     {
-        $this->assertSame(DatamatrixEncoding::ASCII, DatamatrixEncoding::fromLoose('EDIFACT'));
+        $this->assertSame(DatamatrixEncoding::ASCII, DatamatrixEncoding::fromLoose('EDF200'));
         $this->assertSame(DatamatrixEncoding::ASCII, DatamatrixEncoding::fromLoose(''));
+    }
+
+    /**
+     * EDIFACT is the name Datamatrix::setParameters() documents for the EDF scheme.
+     */
+    public function testFromLooseAcceptsTheEdifactAlias(): void
+    {
+        $this->assertSame(DatamatrixEncoding::EDF, DatamatrixEncoding::fromLoose('EDIFACT'));
+    }
+
+    /**
+     * The EDIFACT token selects the EDF encodation and not the default ASCII one.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testEdifactTokenSelectsTheEdfEncodation(): void
+    {
+        $barcode = new \Com\Tecnick\Barcode\Barcode();
+        $code = 'ABCDEFGHIJKLMNOP';
+        $edf = $barcode->getBarcodeObj('DATAMATRIX,S,N,EDF', $code)->getGrid();
+        $ascii = $barcode->getBarcodeObj('DATAMATRIX,S,N,ASCII', $code)->getGrid();
+
+        $this->assertSame($edf, $barcode->getBarcodeObj('DATAMATRIX,S,N,EDIFACT', $code)->getGrid());
+        $this->assertNotSame($ascii, $edf);
     }
 }

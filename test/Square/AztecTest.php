@@ -3,13 +3,13 @@
 /**
  * AztecTest.php
  *
- * @since     2023-10-20
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2023-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2023-10-20
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2023-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * This file is part of tc-lib-barcode software library.
  */
@@ -22,13 +22,13 @@ use Test\TestUtil;
 /**
  * AZTEC Barcode class test
  *
- * @since     2023-10-20
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2023-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2023-10-20
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2023-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 class AztecTest extends TestUtil
 {
@@ -61,7 +61,7 @@ class AztecTest extends TestUtil
     }
 
     /**
-     * Regression: the ECC percentage parameter used to be silently ignored (always 33%).
+     * The ECC percentage parameter changes the generated symbol.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
@@ -96,7 +96,7 @@ class AztecTest extends TestUtil
             [
                 ',100,A,A,0',
                 'A',
-                'c48da49052f674edc66fa02e52334b17',
+                'a3f5480ba1f7c9eb6cf226f5da38e2a8',
             ],
             [
                 '',
@@ -264,5 +264,32 @@ class AztecTest extends TestUtil
     public static function getStringDataProvider(): array
     {
         return \Test\TestStrings::$data;
+    }
+
+    /**
+     * Payloads with the size of the symbol the layer selection must choose for them.
+     *
+     * @return array<int, array{string, string, int}>
+     */
+    public static function symbolSizeProvider(): array
+    {
+        return [
+            ['AZTEC', \str_repeat('A', 34), 23],
+            ['AZTEC,25', \str_repeat('a', 62), 27],
+            ['AZTEC,33', \str_repeat('AB', 17), 23],
+            ['AZTEC,50', \str_repeat('0', 65), 27],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('symbolSizeProvider')]
+    public function testSymbolSize(string $options, string $code, int $expected): void
+    {
+        $array = $this->getTestObject()->getBarcodeObj($options, $code)->getArray();
+        $this->assertSame($expected, $array['ncols']);
+        $this->assertSame($expected, $array['nrows']);
     }
 }

@@ -5,13 +5,13 @@ declare(strict_types=1);
 /**
  * Type.php
  *
- * @since     2015-02-21
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2015-02-21
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * This file is part of tc-lib-barcode software library.
  */
@@ -22,19 +22,20 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
 use Com\Tecnick\Color\Exception as ColorException;
 use Com\Tecnick\Color\Model\Rgb;
 use Com\Tecnick\Color\Pdf;
+use Com\Tecnick\Color\Web;
 
 /**
  * Com\Tecnick\Barcode\Type
  *
  * Barcode Type class
  *
- * @since     2015-02-21
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2015-02-21
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * @SuppressWarnings("PHPMD.ExcessiveClassComplexity")
  */
@@ -52,6 +53,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *                                           factor for each row.
      * @param string                    $color   Foreground color in Web notation
      *                                           (color name, or hexadecimal code, or CSS syntax)
+     *                                           or PDF spot color name
      * @param array<int|float|string>   $params  Array containing extra parameters for the specified barcode type
      * @param array{int, int, int, int} $padding Additional padding to add around the barcode
      *                                           (top, right, bottom, left) in user units. A
@@ -139,7 +141,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     protected function setPadding(array $padding): static
     {
-        if (\count($padding) !== 4) {
+        if (\array_keys($padding) !== [0, 1, 2, 3]) {
             throw new BarcodeException('Invalid padding, expecting an array of 4 numbers (top, right, bottom, left)');
         }
 
@@ -165,18 +167,11 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
-     * @param array<string, float> $rgbcolor
-     */
-    protected function getRgbComponent(array $rgbcolor, string $channel): float
-    {
-        return $rgbcolor[$channel] ?? 0.0;
-    }
-
-    /**
      * Set the color of the bars.
      * An empty or transparent foreground color is rejected with a BarcodeException.
      *
      * @param string $color Foreground color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *                      or PDF spot color name
      *
      * @throws ColorException in case of color error
      * @throws BarcodeException in case of empty or transparent color
@@ -184,7 +179,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     public function setColor(string $color): static
     {
         $colobj = $this->getRgbColorObject($color);
-        if (!$colobj instanceof \Com\Tecnick\Color\Model\Rgb) {
+        if ($colobj === null) {
             throw new BarcodeException('The foreground color cannot be empty or transparent');
         }
 
@@ -209,6 +204,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      * Set the background color and radius.
      *
      * @param string $color Background color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *                      or PDF spot color name
      *
      * @param int $radius from 4 to 22
      *
@@ -238,21 +234,34 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
-     * Get the RGB Color object for the given color representation
+     * Get the RGB Color object for the given color representation.
+     * Web and CSS notations are resolved first, then PDF spot color names.
      *
      * @param string $color Color in Web notation (color name, or hexadecimal code, or CSS syntax)
+     *                      or PDF spot color name
      *
-     * @throws ColorException in case of color error
+     * @return ?Rgb Null if the color is empty or transparent
+     *
+     * @throws ColorException if the color cannot be parsed
      */
     protected function getRgbColorObject(string $color): ?Rgb
     {
-        $pdf = new Pdf();
-        $cobj = $pdf->getColorObject($color);
-        if ($cobj instanceof \Com\Tecnick\Color\Model) {
-            return new Rgb($cobj->toRgbArray());
+        $web = new Web();
+        try {
+            $cobj = $web->getColorObj($color);
+        } catch (ColorException $colorException) {
+            $pdf = new Pdf();
+            $cobj = $pdf->getColorObject($color);
+            if ($cobj === null) {
+                throw $colorException;
+            }
         }
 
-        return null;
+        if ($cobj === null) {
+            return null;
+        }
+
+        return $cobj instanceof Rgb ? $cobj : new Rgb($cobj->toRgbArray());
     }
 
     /**
@@ -404,7 +413,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             . \htmlspecialchars($this->code, $hflag, 'UTF-8')
             . '</desc>'
             . "\n";
-        if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+        if ($this->bg_color_obj !== null) {
             $svg .=
                 '	<rect x="' . ($bw / 2) . '" y="' . ($bw / 2) . '"'
                 . ' rx="' . $br . '"'
@@ -498,7 +507,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             $this->width + $this->padding['L'] + $this->padding['R'],
             $this->height + $this->padding['T'] + $this->padding['B'],
         );
-        if ($this->bg_color_obj instanceof \Com\Tecnick\Color\Model\Rgb) {
+        if ($this->bg_color_obj !== null) {
             $html .= 'background-color:' . $this->bg_color_obj->getCssColor() . ';';
         }
         if ($bw != 0) {
@@ -581,7 +590,6 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
 
     /**
      * Maximum width or height, in pixels, of a rendered barcode image.
-     * Guards against pathological size multipliers triggering huge allocations.
      */
     protected const MAX_IMAGE_SIDE = 30_000;
 
@@ -647,6 +655,29 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
+     * Allocate a color in the palette of a GD image.
+     *
+     * @param string $role Color role to report in the error message
+     *
+     * @throws BarcodeException if the allocation fails
+     */
+    protected function allocateGdColor(\GdImage $img, Rgb $color, string $role): int
+    {
+        $rgbcolor = $color->getNormalizedArray(255);
+        $index = \imagecolorallocate(
+            $img,
+            (int) ($rgbcolor['R'] ?? 0.0),
+            (int) ($rgbcolor['G'] ?? 0.0),
+            (int) ($rgbcolor['B'] ?? 0.0),
+        );
+        if ($index === false) {
+            throw new BarcodeException('Unable to allocate ' . $role . ' color');
+        }
+
+        return $index;
+    }
+
+    /**
      * Apply GD background color/alpha strategy.
      *
      * @throws BarcodeException if background allocation fails
@@ -654,32 +685,17 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     protected function applyGdBackground(\GdImage $img, int $width, int $height): void
     {
         $bgColorObj = $this->bg_color_obj;
-        if ($bgColorObj instanceof \Com\Tecnick\Color\Model\Rgb) {
-            $rgbcolor = $bgColorObj->getNormalizedArray(255);
-            $bg_color = \imagecolorallocate(
-                $img,
-                (int) \round($this->getRgbComponent($rgbcolor, 'R')),
-                (int) \round($this->getRgbComponent($rgbcolor, 'G')),
-                (int) \round($this->getRgbComponent($rgbcolor, 'B')),
-            );
-            if ($bg_color === false) {
-                throw new BarcodeException('Unable to allocate GD background color');
-            }
+        if ($bgColorObj !== null) {
+            $bg_color = $this->allocateGdColor($img, $bgColorObj, 'GD background');
             \imagefilledrectangle($img, 0, 0, $width, $height, $bg_color);
             return;
         }
 
-        $bgobj = clone $this->color_obj;
-        $rgbcolor = $bgobj->invertColor()->getNormalizedArray(255);
-        $background_color = \imagecolorallocate(
+        $background_color = $this->allocateGdColor(
             $img,
-            (int) \round($this->getRgbComponent($rgbcolor, 'R')),
-            (int) \round($this->getRgbComponent($rgbcolor, 'G')),
-            (int) \round($this->getRgbComponent($rgbcolor, 'B')),
+            $this->color_obj->withInvertedColor(),
+            'default GD background',
         );
-        if ($background_color === false) {
-            throw new BarcodeException('Unable to allocate default GD background color');
-        }
         \imagecolortransparent($img, $background_color);
     }
 
@@ -732,7 +748,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
-     * Get the array containing all the formatted bars coordinates
+     * Get the array containing all the formatted bars coordinates (x1, y1, x2, y2)
      *
      * @return list{list<array{0: float, 1: float, 2: float, 3: float}>, list<array{0: float, 1: float, 2: float, 3: float}>}
      */
@@ -808,7 +824,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
     }
 
     /**
-     * Get the array containing all the formatted bars coordinates
+     * Get the array containing all the formatted bars coordinates (x, y, width, height)
      *
      * @return list{list<array{float, float, float, float}>, list<array{float, float, float, float}>}
      */

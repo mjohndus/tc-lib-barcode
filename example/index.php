@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * index.php
  *
@@ -44,8 +46,8 @@ $linear = [
     'KIX' => ['0123456789', 'KIX (Klant index - Customer index)'],
     'MSI+' => ['0123456789', 'MSI + CHECKSUM (modulo 11)'],
     'MSI' => ['0123456789', 'MSI (Variation of Plessey code)'],
-    'PHARMA2T' => ['0123456789', 'PHARMACODE TWO-TRACKS'],
-    'PHARMA' => ['0123456789', 'PHARMACODE'],
+    'PHARMA2T' => ['123456', 'PHARMACODE TWO-TRACKS'],
+    'PHARMA' => ['123456', 'PHARMACODE'],
     'PLANET' => ['0123456789', 'PLANET'],
     'POSTNET' => ['0123456789', 'POSTNET'],
     'RMS4CC' => ['0123456789', 'RMS4CC (Royal Mail 4-state Customer Bar Code)'],
@@ -150,7 +152,7 @@ echo
         . '</p>
         <h3>Unicode String</h3>
         <pre style="font-family:monospace;line-height:0.61em;font-size:6px;">'
-        . $bobj->getGrid(\json_decode('"\u00A0"'), \json_decode('"\u2584"'))
+        . $bobj->getGrid((string) \json_decode('"\u00A0"'), (string) \json_decode('"\u2584"'))
         . '</pre>
         <h3>Binary String</h3>
         <pre style="font-family:monospace;">'

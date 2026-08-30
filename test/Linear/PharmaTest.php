@@ -16,6 +16,7 @@
 
 namespace Test\Linear;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestUtil;
 
 /**
@@ -43,11 +44,49 @@ class PharmaTest extends TestUtil
     public function testGetGrid(): void
     {
         $barcode = $this->getTestObject();
-        $type = $barcode->getBarcodeObj('PHARMA', '0123456789');
+        $type = $barcode->getBarcodeObj('PHARMA', '123456');
         $grid = $type->getGrid();
-        $expected =
-            '111001110010011100100111001110010011100111001110011100100'
-            . "1001110011100100111001001001001110010011100111001\n";
+        $expected = "1110011100111001001001001110010010011100100100100100100111\n";
         $this->assertEquals($expected, $grid);
+    }
+
+    /**
+     * Pharmacode encodes the values 3 to 131070 (3 to 16 bars).
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testRangeBoundaries(): void
+    {
+        $barcode = $this->getTestObject();
+        $this->assertEquals("1001\n", $barcode->getBarcodeObj('PHARMA', '3')->getGrid());
+        $this->assertEquals(78, $barcode->getBarcodeObj('PHARMA', '131070')->getArray()['ncols']);
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('outOfRangeDataProvider')]
+    public function testOutOfRange(string $code): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj('PHARMA', $code);
+    }
+
+    /**
+     * @return array<array{string}>
+     */
+    public static function outOfRangeDataProvider(): array
+    {
+        return [
+            ['0'],
+            ['1'],
+            ['2'],
+            ['131071'],
+            ['0123456789'],
+            ['999999999999999999999'],
+        ];
     }
 }
