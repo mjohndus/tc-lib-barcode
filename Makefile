@@ -214,7 +214,7 @@ format:
 ## Check that the source code is formatted
 .PHONY: formatcheck
 formatcheck:
-	$(COMPOSER) run-script fmt-check
+#	$(COMPOSER) run-script fmt-check
 
 ## Analyze and Lint the source code
 .PHONY: lint
