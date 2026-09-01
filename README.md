@@ -1,6 +1,6 @@
 # tc-lib-barcode
 
-> PHP library for generating linear and 2D barcodes.
+> PHP library for generating linear, 2D and postal barcodes.
 
 [![Latest Stable Version](https://poser.pugx.org/tecnickcom/tc-lib-barcode/version)](https://packagist.org/packages/tecnickcom/tc-lib-barcode)
 [![Build](https://github.com/tecnickcom/tc-lib-barcode/actions/workflows/check.yml/badge.svg)](https://github.com/tecnickcom/tc-lib-barcode/actions/workflows/check.yml)
@@ -16,7 +16,7 @@
 
 ## Overview
 
-`tc-lib-barcode` is a pure-PHP library that encodes data as linear, 2D and postal barcode symbols and renders them as SVG, PNG, HTML or text.
+`tc-lib-barcode` is a pure-PHP library that encodes data in 72 linear, 2D and postal barcode formats and outputs them as SVG, PNG, HTML, text grids, GD images or arrays of bar coordinates.
 
 | | |
 |---|---|
