@@ -44,6 +44,16 @@ class InternalAztec extends \Com\Tecnick\Barcode\Type\Square\Aztec\Encode
     }
 
     /**
+     * Expose the number of bits that the largest symbol of a layer table holds.
+     *
+     * @param array<int, array{0: int, 1: int, 2: int, 3: int, 4: int, 5: int, 6: int}> $data
+     */
+    public function exposeLayerMaxBits(array $data): int
+    {
+        return $this->getLayerMaxBits($data);
+    }
+
+    /**
      * Expose the selected symbol layout and the number of data codewords.
      *
      * @return array{'compact': bool, 'layers': int, 'datacdw': int}

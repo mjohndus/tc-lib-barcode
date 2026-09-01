@@ -22,6 +22,40 @@ namespace Test\Fixture;
 class InternalQrEstimate extends \Com\Tecnick\Barcode\Type\Square\QrCode\Estimate
 {
     /**
+     * Version that the search of the smallest one returns, when set.
+     */
+    public ?int $forcedMinVer = null;
+
+    /**
+     * Expose the encoding mode values.
+     */
+    public function exposeEncModeValue(string $mode): int
+    {
+        return $this->getEncModeValue($mode);
+    }
+
+    /**
+     * Expose the number of data codewords of a version.
+     */
+    public function exposeCapacityWordsValue(int $version): int
+    {
+        return $this->getCapacityWordsValue($version);
+    }
+
+    /**
+     * Expose the number of error correction codewords of a version and level.
+     */
+    public function exposeCapacityEcValue(int $version, int $level): int
+    {
+        return $this->getCapacityEcValue($version, $level);
+    }
+
+    protected function getMinimumVersion(int $size, int $level): int
+    {
+        return $this->forcedMinVer ?? parent::getMinimumVersion($size, $level);
+    }
+
+    /**
      * Expose the bit stream size estimator.
      *
      * @param array<int, array{

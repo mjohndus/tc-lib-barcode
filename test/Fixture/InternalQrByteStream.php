@@ -62,6 +62,38 @@ class InternalQrByteStream extends \Com\Tecnick\Barcode\Type\Square\QrCode\ByteS
     }
 
     /**
+     * @param array<int, int> $bitstream
+     * @param array<int, int> $append
+     *
+     * @return array<int, int>
+     */
+    public function exposeAppendBitstream(array $bitstream, array $append): array
+    {
+        return $this->appendBitstream($bitstream, $append);
+    }
+
+    /**
+     * @param array<int, int> $bitstream
+     *
+     * @return array<int, int>
+     */
+    public function exposeAppendNum(array $bitstream, int $bits, int $num): array
+    {
+        return $this->appendNum($bitstream, $bits, $num);
+    }
+
+    /**
+     * @param array<int, int> $bitstream
+     * @param array<int, int> $data
+     *
+     * @return array<int, int>
+     */
+    public function exposeAppendBytes(array $bitstream, int $size, array $data): array
+    {
+        return $this->appendBytes($bitstream, $size, $data);
+    }
+
+    /**
      * @param array<int, int> $bstream
      *
      * @return array<int, int>

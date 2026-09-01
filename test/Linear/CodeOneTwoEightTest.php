@@ -16,6 +16,8 @@
 
 namespace Test\Linear;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use Test\Fixture\InternalCodeOneTwoEight;
 use Test\TestUtil;
 
 /**
@@ -138,8 +140,8 @@ class CodeOneTwoEightTest extends TestUtil
         $bobj = $barcode->getBarcodeObj('C128', \chr(241) . "000000\tABCDEF");
         $grid = $bobj->getGrid();
         $expected =
-            '1101001110011110101110111101011101101100110011011001100110110011001110101111010000110100101000'
-            . "110001000101100010001000110101100010001000110100010001100010100001100101100011101011\n";
+            '1101001110011110101110110110011001101100110011011001100111010111101000011010010100011000100010'
+            . "1100010001000110101100010001000110100010001100010111010111101100011101011\n";
         $this->assertEquals($expected, $grid);
 
         $bobj = $barcode->getBarcodeObj('C128', "\tABCD\tEFGH");
@@ -168,8 +170,8 @@ class CodeOneTwoEightTest extends TestUtil
         $bobj = $barcode->getBarcodeObj('C128', \chr(241) . "\tABCD");
         $grid = $bobj->getGrid();
         $expected =
-            '1101000010011110101110111101011101000011010010100011000100010110001000100011010110001000110111'
-            . "011101100011101011\n";
+            '1101000010011110101110100001101001010001100010001011000100010001101011000100011000101110110001'
+            . "1101011\n";
         $this->assertEquals($expected, $grid);
 
         $bobj = $barcode->getBarcodeObj('C128', "\ta");
@@ -180,16 +182,147 @@ class CodeOneTwoEightTest extends TestUtil
         $bobj = $barcode->getBarcodeObj('C128', \chr(241) . '00123456780000000001');
         $grid = $bobj->getGrid();
         $expected =
-            '1101001110011110101110111101011101101100110010110011100100010110001110001011011000010100110110'
-            . "0110011011001100110110011001101100110011001101100100101111001100011101011\n";
+            '1101001110011110101110110110011001011001110010001011000111000101101100001010011011001100110110'
+            . "01100110110011001101100110011001101100100010011001100011101011\n";
         $this->assertEquals($expected, $grid);
 
         $bobj = $barcode->getBarcodeObj('C128', \chr(241) . '42029651' . \chr(241) . '9405510200864168997758');
         $grid = $bobj->getGrid();
         $expected =
-            '11010011100111101011101111010111010110111000110011001101011110001011011101000101111011101111010'
-            . '1110101110111101000101111010001001100110111010001100110011011011001100111101001001100010001010'
-            . "000100110101110111101111011101011101100010100100110001100011101011\n";
+            '1101001110011110101110101101110001100110011010111100010110111010001011110111011110101110101110'
+            . '1111010001011110100010011001101110100011001100110110110011001111010010011000100010100001001101'
+            . "01110111101111011101011101100010100101100001100011101011\n";
         $this->assertEquals($expected, $grid);
+    }
+
+    /**
+     * A leading FNC1 is encoded once, as the symbol character that follows the
+     * start character, whichever code set the start character selects.
+     *
+     * @return array<int, array{string, string}>
+     */
+    public static function leadingFunctionCharacterProvider(): array
+    {
+        return [
+            // start code set C
+            ['C128C', \chr(241) . '0109501101020917'],
+            // start code set A
+            ['C128A', \chr(241) . "\tABCD"],
+            // start code set B
+            ['C128B', \chr(241) . 'abcd'],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('leadingFunctionCharacterProvider')]
+    public function testLeadingFunctionCharacterIsNotRepeated(string $type, string $code): void
+    {
+        $barcode = $this->getTestObject();
+        $this->assertSame(
+            $barcode->getBarcodeObj($type, $code)->getGrid(),
+            $barcode->getBarcodeObj('C128', $code)->getGrid(),
+        );
+    }
+
+    /**
+     * Of the four function characters only FNC1 exists in code set C, as the
+     * symbol character 102, so only a leading FNC1 is carried by a start code
+     * set C. The other three are encoded in code set B, which the start
+     * character selects, and the digits that follow them take a code set C
+     * switch of their own.
+     *
+     * @return array<int, array{string, array<int, int>}>
+     */
+    public static function leadingFunctionCharacterCodeDataProvider(): array
+    {
+        return [
+            // start code set C, then FNC1
+            [\chr(241) . '12345678', [105, 102, 12, 34, 56, 78]],
+            // start code set B, then FNC2, then the code set C switch
+            [\chr(242) . '12345678', [104, 97, 99, 12, 34, 56, 78]],
+            // the same for FNC3
+            [\chr(243) . '12345678', [104, 96, 99, 12, 34, 56, 78]],
+            // FNC4 is 100 in code set B, not the 101 of code set A
+            [\chr(244) . '12345678', [104, 100, 99, 12, 34, 56, 78]],
+        ];
+    }
+
+    /**
+     * @param array<int, int> $expected
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('leadingFunctionCharacterCodeDataProvider')]
+    public function testLeadingFunctionCharacterCodeSet(string $code, array $expected): void
+    {
+        $type = new InternalCodeOneTwoEight($code);
+        $this->assertSame($expected, \array_slice($type->exposeCodeData(), 0, \count($expected)));
+    }
+
+    /**
+     * A leading FNC2 or FNC3 must not read as the digit pair that its code set
+     * A value would be in code set C.
+     *
+     * @return array<int, array{string, string}>
+     */
+    public static function functionCharacterCollisionProvider(): array
+    {
+        return [
+            [\chr(242) . '12345678', '9712345678'],
+            [\chr(243) . '12345678', '9612345678'],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('functionCharacterCollisionProvider')]
+    public function testFunctionCharacterDoesNotCollideWithDigits(string $code, string $digits): void
+    {
+        $barcode = $this->getTestObject();
+        $this->assertNotSame(
+            $barcode->getBarcodeObj('C128', $digits)->getGrid(),
+            $barcode->getBarcodeObj('C128', $code)->getGrid(),
+        );
+    }
+
+    /**
+     * A single character of the other code set takes one shift character, while
+     * a longer run takes a latch character on each side.
+     *
+     * @return array<int, array{string, int}>
+     */
+    public static function shiftProvider(): array
+    {
+        // code and number of symbol characters, the start and the check
+        // character included
+        return [
+            // the two control characters belong to Code Set A only
+            ["\x01\x01", 4],
+            // the lower case letter takes a shift to Code Set B
+            ["\x01a\x01", 6],
+            // two of them take a latch to Code Set B and back
+            ["\x01ab\x01", 8],
+            ["\x01abc\x01", 9],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('shiftProvider')]
+    public function testShiftCharacter(string $code, int $chars): void
+    {
+        $barcode = $this->getTestObject();
+        $data = $barcode->getBarcodeObj('C128', $code)->getArray();
+
+        // every symbol character is 11 modules, the stop character is 13
+        $this->assertSame((11 * $chars) + 13, $data['ncols']);
     }
 }

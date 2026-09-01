@@ -16,6 +16,7 @@
 
 namespace Test\Linear\CodeOneTwoEight;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestUtil;
 
 /**
@@ -74,5 +75,49 @@ class CodeOneTwoEightATest extends TestUtil
         $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
         $barcode = $this->getTestObject();
         $barcode->getBarcodeObj('C128A', \chr(246) . '01234567891');
+    }
+
+    /**
+     * The four function characters of Code Set A, which the input carries as
+     * the bytes 241 to 244.
+     *
+     * @return array<int, array{int}>
+     */
+    public static function functionCharacterProvider(): array
+    {
+        return [[241], [242], [243], [244]];
+    }
+
+    /**
+     * A function character takes one symbol character of eleven modules.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('functionCharacterProvider')]
+    public function testFunctionCharacterWidth(int $char): void
+    {
+        $barcode = $this->getTestObject();
+        $plain = $barcode->getBarcodeObj('C128A', 'ABC')->getArray();
+        $withFunction = $barcode->getBarcodeObj('C128A', \chr($char) . 'ABC')->getArray();
+
+        $this->assertSame($plain['ncols'] + 11, $withFunction['ncols']);
+    }
+
+    /**
+     * The four function characters are four different symbol characters.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testFunctionCharactersDiffer(): void
+    {
+        $barcode = $this->getTestObject();
+        $grids = [];
+        foreach (self::functionCharacterProvider() as $row) {
+            $grids[] = $barcode->getBarcodeObj('C128A', \chr($row[0]) . 'ABC')->getGrid();
+        }
+
+        $this->assertCount(4, \array_unique($grids));
     }
 }

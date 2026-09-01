@@ -253,6 +253,10 @@ class EncodingIntegrityTest extends TestUtil
             'separator inside an x12 field' => [['S', 'GS1'], "\xE8" . 'AB*CD>' . "\xE8" . 'EF*GH>'],
             'separator inside a base 256 field' => [['S', 'GS1'], "\xE8\xC0\xC1\xC2\xC3\xE8\xC4\xC5\xC6\xC7"],
             'consecutive separators' => [['S', 'GS1'], "\xE8\xE8" . 'ABCDEF' . "\xE8\xE8"],
+            'separator at the end of the data' => [['S', 'GS1'], "\xE8" . 'ABCDEFGHIJ' . "\xE8"],
+            // the field ends on a separator before its last triple is complete
+            'separator inside a c40 triple' => [['S', 'GS1', 'C40'], "\xE8" . '*ABC*' . "\xE8" . '>DEF<'],
+            'separator inside a text triple' => [['S', 'GS1', 'TXT'], "\xE8" . 'AB' . "\xE8" . 'CD'],
             'rectangular' => [['R', 'GS1'], $payload],
         ];
     }

@@ -86,7 +86,7 @@ PORT?=8000
 # PHP binary
 PHP=$(shell which php)
 
-# Composer executable, with the APC cache disabled
+# Composer executable (APC disabled to work around a bug)
 COMPOSER=$(PHP) -d "apc.enable_cli=0" $(shell which composer)
 
 # phpDocumentor executable file

@@ -556,7 +556,7 @@ class Imb extends \Com\Tecnick\Barcode\Type\Linear
         $this->bars = [];
         $code_arr = \explode('-', $this->code);
         $tracking_number = $code_arr[0];
-        if (!\preg_match('/^\d{2,20}$/', $tracking_number)) {
+        if (!\preg_match('/^\d{2,20}\z/', $tracking_number)) {
             throw new BarcodeException('Invalid tracking number');
         }
 

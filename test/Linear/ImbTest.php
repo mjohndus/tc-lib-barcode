@@ -16,6 +16,7 @@
 
 namespace Test\Linear;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestUtil;
 
 /**
@@ -130,5 +131,46 @@ class ImbTest extends TestUtil
         $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
         $barcode = $this->getTestObject();
         $barcode->getBarcodeObj('IMB', '01234567094987654321-1');
+    }
+
+    /**
+     * A tracking number with a trailing newline is not a run of digits.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testTrailingNewlineInTrackingNumber(): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj('IMB', "01234567094987654321\n");
+    }
+
+    /**
+     * The tracking number and the routing code are runs of digits.
+     *
+     * @return array<int, array{string}>
+     */
+    public static function invalidCodeProvider(): array
+    {
+        return [
+            ['0123456709498765432A'],
+            ['A1234567094987654321'],
+            ['012345670949876543 1'],
+            ['01234567094987654321-0123A'],
+            ['01234567094987654321-01234 '],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('invalidCodeProvider')]
+    public function testInvalidCode(string $code): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj('IMB', $code);
     }
 }

@@ -122,6 +122,34 @@ class MathTest extends TestUtil
         $this->assertSame($remainder, Math::fallbackMod($left, $right));
     }
 
+    /**
+     * The operations must give the same result whether they are served by the
+     * bcmath extension or by the pure-PHP implementation.
+     */
+    #[DataProvider('getOperationsProvider')]
+    public function testOperationsWithoutBcmath(
+        string $left,
+        string $right,
+        string $sum,
+        string $product,
+        string $quotient,
+        string $remainder,
+    ): void {
+        $bcmath = new \ReflectionProperty(Math::class, 'bcmath');
+        $bcmath->setValue(null, false);
+
+        try {
+            $this->assertFalse(Math::hasBcmath());
+            $this->assertSame($sum, Math::add($left, $right));
+            $this->assertSame($product, Math::mul($left, $right));
+            $this->assertSame($quotient, Math::div($left, $right));
+            $this->assertSame($remainder, Math::mod($left, $right));
+        } finally {
+            // back to the lazy detection of the extension
+            $bcmath->setValue(null, null);
+        }
+    }
+
     public function testHasBcmath(): void
     {
         $this->assertSame(\function_exists('bcadd'), Math::hasBcmath());

@@ -39,7 +39,7 @@ class BarcodeTypeTest extends TestUtil
         $this->assertSame('C39+', BarcodeType::C39Plus->value);
         $this->assertSame('QRCODE', BarcodeType::QRCODE->value);
         $this->assertSame('DATAMATRIX', BarcodeType::DATAMATRIX->value);
-        $this->assertCount(37, BarcodeType::cases());
+        $this->assertCount(72, BarcodeType::cases());
     }
 
     /**

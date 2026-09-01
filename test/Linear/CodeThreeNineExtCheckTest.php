@@ -16,6 +16,8 @@
 
 namespace Test\Linear;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use Test\Fixture\InternalCodeThreeNineExtCheck;
 use Test\TestUtil;
 
 /**
@@ -61,5 +63,63 @@ class CodeThreeNineExtCheckTest extends TestUtil
         $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
         $barcode = $this->getTestObject();
         $barcode->getBarcodeObj('C39E+', \chr(218));
+    }
+
+    /**
+     * The check character alphabet of CODE 39: the digits, the upper case
+     * letters and six punctuation characters.
+     *
+     * @return array<int, array{string, int}>
+     */
+    public static function checksumAlphabetProvider(): array
+    {
+        return [
+            ['0', 0],
+            ['9', 9],
+            ['A', 10],
+            ['Z', 35],
+            ['-', 36],
+            ['.', 37],
+            [' ', 38],
+            ['$', 39],
+            ['/', 40],
+            ['+', 41],
+            ['%', 42],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('checksumAlphabetProvider')]
+    public function testChecksumAlphabet(string $char, int $index): void
+    {
+        $type = new InternalCodeThreeNineExtCheck('A');
+
+        $this->assertSame($index, $type->exposeChecksumIndex($char));
+        $this->assertSame($char, $type->exposeChecksumChar($index));
+    }
+
+    /**
+     * A character outside the alphabet takes the value of the first one.
+     *
+     * @return array<int, array{string}>
+     */
+    public static function unknownChecksumCharProvider(): array
+    {
+        return [['a'], ['*'], ['#'], [''], ["\x00"]];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('unknownChecksumCharProvider')]
+    public function testUnknownChecksumChar(string $char): void
+    {
+        $type = new InternalCodeThreeNineExtCheck('A');
+
+        $this->assertSame(0, $type->exposeChecksumIndex($char));
     }
 }

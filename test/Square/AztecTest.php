@@ -16,7 +16,9 @@
 
 namespace Test\Square;
 
+use Com\Tecnick\Barcode\Type\Square\Aztec\Data;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Test\Fixture\InternalAztec;
 use Test\TestUtil;
 
 /**
@@ -291,5 +293,22 @@ class AztecTest extends TestUtil
         $array = $this->getTestObject()->getBarcodeObj($options, $code)->getArray();
         $this->assertSame($expected, $array['ncols']);
         $this->assertSame($expected, $array['nrows']);
+    }
+
+    /**
+     * The number of bits of the largest symbol of a layer table, which is the
+     * one of its last layer.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testLayerMaxBits(): void
+    {
+        $type = new InternalAztec('A');
+
+        // the 4 layers of a Compact symbol and the 32 layers of a full range one
+        $this->assertSame(608, $type->exposeLayerMaxBits(Data::SIZE_COMPACT));
+        $this->assertSame(19_968, $type->exposeLayerMaxBits(Data::SIZE_FULL));
+        $this->assertSame(0, $type->exposeLayerMaxBits([]));
     }
 }

@@ -188,6 +188,15 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
     }
 
     /**
+     * Get the character sequence to encode.
+     * Subclasses that build the payload from the input code override this.
+     */
+    protected function getEncodedPayload(): string
+    {
+        return $this->code;
+    }
+
+    /**
      * Get the bars array
      *
      * @throws BarcodeException in case of error
@@ -195,13 +204,14 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
      */
     protected function setBars(): void
     {
-        if (\strlen($this->code) === 0) {
+        $code = $this->getEncodedPayload();
+        if (\strlen($code) === 0) {
             throw new BarcodeException('Empty input');
         }
 
         $this->bsObj = new ByteStream($this->hint, $this->version, $this->level);
         // generate the qrcode
-        $this->processBinarySequence($this->binarize($this->encodeString($this->code)));
+        $this->processBinarySequence($this->binarize($this->encodeString($code)));
     }
 
     /**
