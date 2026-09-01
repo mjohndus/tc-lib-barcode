@@ -25,5 +25,5 @@ Makefile   text eol=lf
 #/mago.src.toml     export-ignore
 #/mago.test.toml    export-ignore
 #/phpunit.xml.dist  export-ignore
-/resources         export-ignore
-/test              export-ignore
+#/resources         export-ignore
+#/test              export-ignore
