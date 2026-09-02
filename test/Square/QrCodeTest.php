@@ -82,62 +82,62 @@ class QrCodeTest extends TestUtil
             [
                 '',
                 '0123456789',
-                'cbe3cb526c79dda0724c82909f9085b8',
+                '28ee054692521339b743b7538bbb73b3',
             ],
             [
                 ',L',
                 '0123456789',
-                'cbe3cb526c79dda0724c82909f9085b8',
+                '28ee054692521339b743b7538bbb73b3',
             ],
             [
                 ',M',
                 '0123456789',
-                '0466ebcc27249a255a86c5d56dbecbc5',
+                '34ea08c4590af0981588958764d53016',
             ],
             [
                 ',Q',
                 '0123456789',
-                'f86abd0beaa6248bfaefa615576aa307',
+                '06b3a8a73f9dd6e74a5b8ccec0e15ee4',
             ],
             [
                 ',H',
                 '0123456789',
-                '484f378c4145b9185ac4abad9004257e',
+                '07c7cc526ed4efdc303ff133f3912619',
             ],
             [
                 ',H,NM',
                 '0123456789',
-                '484f378c4145b9185ac4abad9004257e',
+                '07c7cc526ed4efdc303ff133f3912619',
             ],
             [
                 ',L,8B,0,0',
                 '123aeiouàèìòù',
-                'c3fd2c824d01489db10656d10fd87918',
+                'f37b6fcd41c775d70fa1bda239b0787d',
             ],
             [
                 ',H,KJ,0,0',
                 'ぎポ亊',
-                'da38eb4502dfb463c6656a66a091242a',
+                '9d3fe60b4b83d30ea29fd77ad5dd115d',
             ],
             [
                 ',H,ST,0,0',
                 'ABCdef0123',
-                '0b77291a05fe7cea3e3a10390b212eff',
+                'a09df8f57bfd39faaf08acaa23eca45c',
             ],
             [
                 '',
                 \str_pad('', 350, '0123456789'),
-                'ac4a6f109485c3b8533e3fd45d3d390f',
+                'c3be167712b21d747fb736d43b80a422',
             ],
             [
                 '',
                 'abcdefghijklmnopqrstuvwxyz01234567890123456789',
-                '7f214823a228ce1d09867983ef58f571',
+                '7028e556474907bad6a87d9b80ecfaa8',
             ],
             [
                 ',H,AN,40,1,0,1,2',
                 'abcdefghijklmnopqrstuvwxyz01234567890123456789',
-                '029359ec799e5d3932f0921fddf2a3a0',
+                '5ba221be81b269ab1f105b07bf49b372',
             ],
             [
                 '',
@@ -171,7 +171,7 @@ class QrCodeTest extends TestUtil
                     . "\x8C\xF9\x95\xB6\xF8\x93\xED\x0A\x17\x70"
                     . "\x16\xF1\xCC\x4C\x17\x5E\x96\xE8\x0D\x2E"
                     . "\xF1\x95\xF3\xC1\x49\xBE\xE6\xEF\x6E\x18",
-                'a4348e923cab614b0cdb24f75290b005',
+                '6a418df382be3ad883e29c92ff7c4a6b',
             ],
             [
                 '',
@@ -275,7 +275,7 @@ class QrCodeTest extends TestUtil
                     . "\x2D\xEC\xD5\xE1\xD2\xB6\x1B\x04\xB3\xA9"
                     . "\x46\x48\x65\xF6\x0A\xDD\xE1\x18\xBA\xD4"
                     . "\x71\x10\x73\xD3\xA5\x21\x0A\xBD\x1C\xDB",
-                'ecc4ed49744b5989924c389f8994161c',
+                '07ccbcd39df55bafd143a4f6044174c3',
             ],
             [
                 ',H,NM',
@@ -286,7 +286,7 @@ class QrCodeTest extends TestUtil
                     . "\x26\x33\x9E\x07\xF3\xE5\x27\x96\xA5\x45"
                     . "\xF7\xF6\x51\x92\x89\x95\x94\x06\x7A\xC5",
 
-                '0cce5662f779e833e3ba245b16870b42',
+                '0a9539069b0dee3c64937aebe956039d',
             ],
             [
                 ',H,AN',
@@ -297,7 +297,7 @@ class QrCodeTest extends TestUtil
                     . "\x7D\xFC\x54\x2E\x4D\x37\xC8\x0D\xAD\x90"
                     . "\xE3\x2C\x7D\xEE\x49\x71\xEE\x4C\x8C\x85",
 
-                '331fe3a2dfd2b11220fe14c64f90fa3f',
+                '55cd590ed76d12591c6df3b673904530',
             ],
             [
                 ',H,KJ',
@@ -307,7 +307,7 @@ class QrCodeTest extends TestUtil
                     . "\x8E\x94\x59\xA3\x2A\xF6\xD8\xE9\xDA\xC5"
                     . "\xD8\x81\x30\xC5\x7A\xC7\x01\xAA\x29\x46",
 
-                'e321fe9f1d87881478a3ba36f988d3d3',
+                '6df0bb8b272f1d407116f19acd815b99',
             ],
             [
                 ',H,8B',
@@ -316,7 +316,7 @@ class QrCodeTest extends TestUtil
                     . "\x67\x09\x85\x96\xCE\xFE\x5F\xCE\xAA\x88"
                     . "\x16\x35\xA2\x86\xC7\x2D\x12\xAE\x96\xA5"
                     . "\x36\x6D\xC9\x51\x9E\x90\x96\xC6\x32\xC4",
-                '4837b62f48789200e4a7346ad7c37e11',
+                '79cd9a4177f47a47ddb74399b90630d5',
             ],
             [
                 ',H,ST',
@@ -325,7 +325,7 @@ class QrCodeTest extends TestUtil
                     . "\xBF\xDB\xE9\x89\x2D\x89\x1B\xC2\x50\x4C"
                     . "\x88\x1B\xE3\x57\x6A\x14\xF3\xB8\xA1\x61"
                     . "\xB3\xB8\xE2\xE2\x72\xEB\xD9\x58\x06\x81",
-                '8518ea1c986fdce7ade7a2155c6ba76e',
+                '4d1992b38c59d844d17e3a79bb5e8a32',
             ],
             [
                 '',
@@ -371,7 +371,7 @@ class QrCodeTest extends TestUtil
                     . '83KI~dMkt}L9 ]uN[,@:6/[",:jKl8c%L/OKs}7i{c#{BxK}%'
                     . 'k9<zt>(0*S}C7#oGS;<QS&N8)KZ"vY(crD_hchxm<v1Tz!{N='
                     . '9!p?P*H{dKs>TW2x8z]!sK=k]rf',
-                '03372d4acc2c53cc69e900360fd63ae5',
+                '267d2cb621c402913addd3ad6739ee0d',
             ],
         ];
     }

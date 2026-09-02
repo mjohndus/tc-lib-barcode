@@ -184,7 +184,7 @@ class QrCodeDecoder
                 $pos === 6 => 7,
                 default => 8,
             };
-            $format |= ($this->matrix[$row][$col] ?? 0) << $pos;
+            $format |= ($this->matrix[$row][$col] ?? 0) << (14 - $pos);
         }
 
         $format ^= Data::FORMAT_MASK;

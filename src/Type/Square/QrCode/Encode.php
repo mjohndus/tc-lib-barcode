@@ -689,7 +689,7 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
         $data = ((Data::ECC_INDICATOR[$this->level] ?? 0) << 3) | ($mask ?? $this->mask);
         $format = $this->getBchCode($data, Data::FORMAT_GENERATOR, 5, 10) ^ Data::FORMAT_MASK;
         for ($pos = 0; $pos < 15; ++$pos) {
-            $bit = ($format >> $pos) & 1;
+            $bit = ($format >> (14 - $pos)) & 1;
             $this->matrix[$this->getFormatRow($pos)][$this->getFormatCol($pos)] = $bit;
             if ($pos < 7) {
                 $this->matrix[$this->size - 1 - $pos][8] = $bit;

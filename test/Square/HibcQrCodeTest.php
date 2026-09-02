@@ -103,8 +103,8 @@ class HibcQrCodeTest extends TestUtil
     public static function getGridDataProvider(): array
     {
         return [
-            ['+A123BJC5D6E71',      '2764f2a1ebca4d619f996f7cc9c83f41'],
-            ['+H123ABC01234567890', '9e344f7cbc72e3a9561e9d43e1be87c1'],
+            ['+A123BJC5D6E71',      '92621d5eccf3c425c885d76e06f45485'],
+            ['+H123ABC01234567890', '4637525a0e5800e5c8860261a1628d2a'],
         ];
     }
 
