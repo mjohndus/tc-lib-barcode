@@ -396,8 +396,8 @@ class DmreTest extends TestUtil
     }
 
     /**
-     * The encoder must draw every published reference symbol module for module,
-     * given the content and the size the published symbol has.
+     * The encoder must draw every reference symbol module for module, given the
+     * content and the size of the symbol.
      *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
@@ -406,7 +406,8 @@ class DmreTest extends TestUtil
     {
         $barcode = $this->getTestObject();
         foreach (DmreReferenceSymbols::SYMBOLS as $name => $symbol) {
-            $type = $barcode->getBarcodeObj('DMRE,N,ASCII,' . $name, DmreReferenceSymbols::CONTENT);
+            $content = DmreReferenceSymbols::CONTENT[$name] ?? '';
+            $type = $barcode->getBarcodeObj('DMRE,N,ASCII,' . $name, $content);
             $this->assertSame($symbol, \explode("\n", \trim($type->getGrid())), 'modules of the ' . $name);
         }
     }
@@ -499,13 +500,13 @@ class DmreTest extends TestUtil
     }
 
     /**
-     * Every symbol size must read back its published reference symbol: the
-     * finder pattern of its data regions, the encoded content and the error
-     * correction codewords.
+     * Every reference symbol must hold what ISO/IEC 21471 states for its size:
+     * the finder pattern of each of its data regions, the encoded content and
+     * the error correction codewords.
      *
      * @throws \RuntimeException
      */
-    public function testPublishedReferenceSymbols(): void
+    public function testSizeReferenceSymbols(): void
     {
         $decoder = new DatamatrixDecoder();
         $errorCorrection = new ErrorCorrection();
@@ -534,7 +535,9 @@ class DmreTest extends TestUtil
 
             $codewords = self::readSymbolCodewords($symbol, $drows, $dcols, $regions, $regionCols, $data + $ecc);
             $payload = \array_slice($codewords, 0, $data);
-            $this->assertSame(DmreReferenceSymbols::CONTENT, $decoder->decode($payload), 'content of the ' . $name);
+            $content = DmreReferenceSymbols::CONTENT[$name] ?? '';
+            $this->assertSame($content, $decoder->decode($payload), 'content of the ' . $name);
+            $this->assertSame($data, \strlen($content), 'the content fills the data capacity of the ' . $name);
             $this->assertSame(
                 $codewords,
                 $errorCorrection->getErrorCorrection($payload, 1, $data, $ecc),

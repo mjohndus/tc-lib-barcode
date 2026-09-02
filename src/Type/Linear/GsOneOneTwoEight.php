@@ -35,6 +35,8 @@ use Com\Tecnick\Barcode\Type\GsOneElementString;
  * Element strings whose Application Identifier is not listed in PREDEFINED are
  * of variable length and are followed by an FNC1 separator unless they are last.
  *
+ * GS1 and GS1-128 are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

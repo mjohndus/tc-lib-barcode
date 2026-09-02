@@ -27,6 +27,8 @@ namespace Com\Tecnick\Barcode\Type\Linear;
  * Reduced height variation of GS1 DataBar Omnidirectional, 96 modules wide by
  * 13 modules high. The encoding is identical.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

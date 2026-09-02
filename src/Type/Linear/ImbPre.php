@@ -26,6 +26,9 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * ImbPre Barcode type class
  * IMB - Intelligent Mail Barcode pre-processed (USPS-B-3200)
  *
+ * Intelligent Mail is a registered trademark of the United States
+ * Postal Service.
+ *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode

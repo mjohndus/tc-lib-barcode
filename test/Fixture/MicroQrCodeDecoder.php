@@ -291,15 +291,6 @@ class MicroQrCodeDecoder
      */
     private function getAlphanumCharset(): array
     {
-        $charset = [];
-        foreach (QrData::AN_TABLE as $ord => $value) {
-            if ($value < 0) {
-                continue;
-            }
-
-            $charset[$value] = \chr((int) $ord);
-        }
-
-        return $charset;
+        return \str_split(QrData::AN_CHARS);
     }
 }

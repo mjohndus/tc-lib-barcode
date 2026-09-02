@@ -33,6 +33,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * and a one module high separator pattern divides them. The encoding is
  * identical to GS1 DataBar Omnidirectional.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

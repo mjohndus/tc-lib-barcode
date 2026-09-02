@@ -37,6 +37,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * finder patterns between them carry the modulo 79 checksum of the data
  * character elements.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

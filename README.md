@@ -214,6 +214,48 @@ require_once '/usr/share/php/Com/Tecnick/Barcode/autoload.php';
 
 ---
 
+## Identifiers issued by a registration body
+
+The library encodes the data it is given. Several formats carry a number that
+only its registration body can issue, so a symbol is valid in its scheme only
+once that number has been obtained:
+
+| Format | Issued by |
+|--------|-----------|
+| EAN, UPC, ITF-14, GS1-128, SSCC-18, GS1-14, GS1 DataBar | a GS1 member organisation, which issues the company prefix |
+| HIBC39, HIBC128, HIBCDM, HIBCQR, HIBCAZ | HIBCC, which assigns the Labeler Identification Code |
+| MAILMARK | Royal Mail, which issues the Supply Chain ID carried in the barcode |
+| PZN | IFA GmbH, which allocates the Pharmazentralnummer |
+| IDENTCODE, LEITCODE | Deutsche Post DHL, which assigns the customer number and the street codes |
+| C32 | AIFA, which assigns the Italian AIC number |
+
+---
+
+## Trademarks
+
+The names below identify the symbologies this library encodes and belong to
+their respective owners. They are used descriptively; no affiliation with or
+endorsement by their owners is claimed or implied.
+
+| Name | Owner |
+|------|-------|
+| QR Code | DENSO WAVE INCORPORATED |
+| GS1, GS1-128, GS1 DataBar | GS1 AISBL |
+| Mailmark | Royal Mail Group Ltd |
+| Intelligent Mail | United States Postal Service |
+| PHARMA-CODE | Laetus GmbH |
+| Telepen | S.B. Electronic Systems Ltd |
+| HIBC, HIBCC | Health Industry Business Communications Council |
+| KIX | PostNL |
+| Identcode, Leitcode | Deutsche Post DHL |
+
+GS1 licenses the claims necessary to implement its standards under its
+[IP Policy](https://www.gs1.org/standards/ip), to GS1 members and to the
+participants of the work group that developed the standard, rather than to the
+public at large.
+
+---
+
 ## Contributing
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md) before submitting a pull request.

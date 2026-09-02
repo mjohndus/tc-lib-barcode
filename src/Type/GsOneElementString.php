@@ -33,6 +33,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * in PREDEFINED are of variable length and need an FNC1 separator unless they
  * are last.
  *
+ * GS1 is a registered trademark of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

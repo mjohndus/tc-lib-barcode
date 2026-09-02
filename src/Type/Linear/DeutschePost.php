@@ -28,6 +28,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * Both are Interleaved 2 of 5 symbols of a fixed digit count whose check digit
  * weights the data digits with 4 and 9 instead of the 3 and 1 of the symbology.
  *
+ * Identcode and Leitcode are trademarks of Deutsche Post DHL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

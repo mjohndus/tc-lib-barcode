@@ -32,6 +32,11 @@ use Com\Tecnick\Barcode\Type\HibcPayload;
  * appended by Hibc. The data structure is encoded as it is, without the data
  * format envelope of ISO/IEC 15434.
  *
+ * HIBC and HIBCC are trademarks of the Health Industry Business
+ * Communications Council.
+ *
+ * QR Code is a registered trademark of DENSO WAVE INCORPORATED.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

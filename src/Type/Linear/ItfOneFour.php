@@ -31,6 +31,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * One module is half an X-dimension, so the 2.5:1 bar width ratio and the
  * symbol proportions are expressed as whole modules.
  *
+ * GS1 is a registered trademark of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

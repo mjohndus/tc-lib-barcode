@@ -38,6 +38,8 @@ use Com\Tecnick\Barcode\Type\Linear\GsOneDataBar\Data;
  * An incomplete last row with an odd number of finder patterns is moved one
  * module to the right, because its guard patterns would otherwise be symmetric.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

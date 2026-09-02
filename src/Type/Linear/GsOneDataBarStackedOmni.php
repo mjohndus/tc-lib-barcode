@@ -32,6 +32,8 @@ namespace Com\Tecnick\Barcode\Type\Linear;
  * symbol row, except over the finder pattern, where the ten modules that follow
  * its first element alternate. The middle row alternates over its whole width.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

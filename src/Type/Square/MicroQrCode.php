@@ -35,6 +35,8 @@ use Com\Tecnick\Barcode\Type\Square\MicroQrCode\MicroQrEncodingMode;
  *     Error correction levels:     L, M and Q; M1 carries error detection only
  *     Maximum data characters:     35 digits, 21 alphanumeric or 15 bytes
  *
+ * QR Code is a registered trademark of DENSO WAVE INCORPORATED.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

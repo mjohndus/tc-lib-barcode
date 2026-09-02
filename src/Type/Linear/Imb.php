@@ -35,6 +35,9 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  *  * Serial Number: 9 digits with a 6 digit Mailer ID, 6 digits with a 9 digit one.
  *  * Delivery Point ZIP Code: 0, 5, 9, or 11 digits, after the hyphen.
  *
+ * Intelligent Mail is a registered trademark of the United States
+ * Postal Service.
+ *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode

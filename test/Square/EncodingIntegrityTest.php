@@ -27,7 +27,7 @@ use Test\Fixture\DatamatrixDecoder;
 use Test\Fixture\InternalAztec;
 use Test\Fixture\InternalDatamatrix;
 use Test\Fixture\InternalPdfFourOneSeven;
-use Test\Fixture\InternalQrEstimate;
+use Test\Fixture\InternalQrEncode;
 use Test\TestUtil;
 
 /**
@@ -212,20 +212,15 @@ class EncodingIntegrityTest extends TestUtil
     }
 
     /**
-     * estimateBitStreamSize() accumulates the size of every item.
+     * getStreamBits() accumulates the bits of every segment.
      */
-    public function testQrCodeBitStreamSizeAccumulatesEveryItem(): void
+    public function testQrCodeBitStreamSizeAccumulatesEverySegment(): void
     {
-        $estimate = new InternalQrEstimate();
-        $item = [
-            'mode' => QrData::MODE_AN,
-            'size' => 8,
-            'data' => [],
-            'bstream' => [],
-        ];
+        $encode = InternalQrEncode::forSymbol();
+        $segment = [QrData::MODE_ALPHANUM, 0, 8];
 
-        $one = $estimate->exposeEstimateBitStreamSize([$item], 1);
-        $four = $estimate->exposeEstimateBitStreamSize(\array_fill(0, 4, $item), 1);
+        $one = $encode->exposeStreamBits([$segment], 0);
+        $four = $encode->exposeStreamBits(\array_fill(0, 4, $segment), 0);
 
         $this->assertSame(4 * $one, $four);
     }

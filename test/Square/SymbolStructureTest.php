@@ -23,7 +23,7 @@ use Com\Tecnick\Barcode\Type\Square\Datamatrix\Encode;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\Fixture\InternalAztec;
 use Test\Fixture\InternalPdfFourOneSeven;
-use Test\Fixture\InternalQrEstimate;
+use Test\Fixture\InternalQrEncode;
 use Test\TestUtil;
 
 /**
@@ -155,8 +155,11 @@ class SymbolStructureTest extends TestUtil
     #[DataProvider('alphanumericSizeProvider')]
     public function testQrCodeAlphanumericBitEstimate(int $size, int $expected): void
     {
-        $estimate = new InternalQrEstimate();
-        $this->assertSame($expected, $estimate->exposeEstimateBitsModeAn($size));
+        $encode = InternalQrEncode::forSymbol();
+        $this->assertSame($expected, $encode->exposeDataBits(
+            \Com\Tecnick\Barcode\Type\Square\QrCode\Data::MODE_ALPHANUM,
+            $size,
+        ));
     }
 
     /**

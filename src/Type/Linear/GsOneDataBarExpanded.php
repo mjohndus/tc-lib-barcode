@@ -41,6 +41,8 @@ use Com\Tecnick\Barcode\Type\Linear\GsOneDataBar\Encodation;
  * the first symbol character is a check character carrying the symbol length
  * and the modulo 211 checksum of the data character elements.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

@@ -32,6 +32,9 @@ use Com\Tecnick\Barcode\Type\HibcPayload;
  * appended by Hibc. The check character of the data structure is independent of
  * the CODE 128 symbol check character.
  *
+ * HIBC and HIBCC are trademarks of the Health Industry Business
+ * Communications Council.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

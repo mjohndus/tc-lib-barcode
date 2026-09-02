@@ -31,6 +31,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * string: a code of the full length must carry a valid check digit, a shorter
  * one is left-padded with zeros and the check digit is appended.
  *
+ * GS1 and GS1-128 are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

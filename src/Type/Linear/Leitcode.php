@@ -27,6 +27,8 @@ namespace Com\Tecnick\Barcode\Type\Linear;
  * Fourteen digits: five for the postal code, three for the street code, three
  * for the house number, two for the product code and the check digit.
  *
+ * Leitcode is a trademark of Deutsche Post DHL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

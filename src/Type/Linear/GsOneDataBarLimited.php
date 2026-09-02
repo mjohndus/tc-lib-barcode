@@ -37,6 +37,8 @@ use Com\Tecnick\Barcode\Type\Linear\GsOneDataBar\Data;
  * (26,7) data character, and the (18,7) check character between them carries
  * the modulo 89 checksum of the data character elements.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

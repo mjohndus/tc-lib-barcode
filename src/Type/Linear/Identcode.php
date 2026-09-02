@@ -27,6 +27,8 @@ namespace Com\Tecnick\Barcode\Type\Linear;
  * Twelve digits: two for the originating freight centre, three for the customer
  * identifier, six for the consignment number and the check digit.
  *
+ * Identcode is a trademark of Deutsche Post DHL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

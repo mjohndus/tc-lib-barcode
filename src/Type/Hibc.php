@@ -32,6 +32,9 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * that carries it, so the same string is handed unchanged to CODE 39, CODE 128,
  * Data Matrix, QR Code or Aztec Code.
  *
+ * HIBC and HIBCC are trademarks of the Health Industry Business
+ * Communications Council.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

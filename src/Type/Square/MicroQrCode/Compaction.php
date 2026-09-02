@@ -65,7 +65,7 @@ abstract class Compaction
     {
         $len = \strlen($code);
         for ($idx = 0; $idx < $len; ++$idx) {
-            if ((QrData::AN_TABLE[\ord($code[$idx])] ?? -1) < 0) {
+            if (!\str_contains(QrData::AN_CHARS, $code[$idx])) {
                 return false;
             }
         }
@@ -155,13 +155,13 @@ abstract class Compaction
         $bits = '';
         $len = \strlen($code);
         for ($idx = 0; $idx < $len; $idx += 2) {
-            $first = QrData::AN_TABLE[\ord($code[$idx])] ?? 0;
+            $first = \max(0, (int) \strpos(QrData::AN_CHARS, $code[$idx]));
             if (($idx + 1) >= $len) {
                 $bits .= $this->getBits($first, 6);
                 break;
             }
 
-            $second = QrData::AN_TABLE[\ord($code[$idx + 1])] ?? 0;
+            $second = \max(0, (int) \strpos(QrData::AN_CHARS, $code[$idx + 1]));
             $bits .= $this->getBits((45 * $first) + $second, 11);
         }
 

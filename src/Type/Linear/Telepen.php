@@ -32,6 +32,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * bits. The stream is split into single one bits and blocks of zero, any number
  * of one bits, zero, and each of those is one bar and space pair.
  *
+ * Telepen is a registered trademark of S.B. Electronic Systems Ltd.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

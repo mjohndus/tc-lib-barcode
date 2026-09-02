@@ -39,6 +39,8 @@ use Com\Tecnick\Barcode\Type\ReedSolomon;
  * The type of the barcode follows from the length of the Application String:
  * twenty two characters for the type C, twenty six for the type L.
  *
+ * Mailmark and Royal Mail are registered trademarks of Royal Mail Group Ltd.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

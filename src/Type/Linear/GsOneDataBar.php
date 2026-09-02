@@ -34,6 +34,8 @@ use Com\Tecnick\Barcode\Type\GsOneElementString;
  * subset combination algorithm, the weighted checksum and the drawing helpers
  * shared by the seven variations.
  *
+ * GS1 and GS1 DataBar are registered trademarks of GS1 AISBL.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode

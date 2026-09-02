@@ -32,6 +32,9 @@ use Com\Tecnick\Barcode\Type\HibcPayload;
  * appended by Hibc. There is no CODE 39 check character: the modulo 43 check
  * character of the data structure is computed over the same character values.
  *
+ * HIBC and HIBCC are trademarks of the Health Industry Business
+ * Communications Council.
+ *
  * @since       2026-09-01
  * @category    Library
  * @package     Barcode
