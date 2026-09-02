@@ -111,6 +111,7 @@ class Barcode
         'AZTECRUNE' => 'AZTEC Rune (ISO/IEC 24778:2008 Annex A)',
         'DATAMATRIX' => 'DATAMATRIX (ISO/IEC 16022)',
         'DMRE' => 'Data Matrix Rectangular Extension (ISO/IEC 21471)',
+        'HANXIN' => 'Han Xin Code (GB/T 21049, ISO/IEC 20830)',
         'HIBCAZ' => 'HIBC in AZTEC Code (ANSI/HIBC 2.6 and ANSI/HIBC 1.3)',
         'HIBCDM' => 'HIBC in DATAMATRIX (ANSI/HIBC 2.6 and ANSI/HIBC 1.3)',
         'HIBCQR' => 'HIBC in QR-CODE (ANSI/HIBC 2.6 and ANSI/HIBC 1.3)',
@@ -698,6 +699,7 @@ class Barcode
                 $padding,
             ),
             'DMRE' => new \Com\Tecnick\Barcode\Type\Square\Dmre($code, $width, $height, $color, $params, $padding),
+            'HANXIN' => new \Com\Tecnick\Barcode\Type\Square\HanXin($code, $width, $height, $color, $params, $padding),
             'HIBCAZ' => new \Com\Tecnick\Barcode\Type\Square\HibcAztec(
                 $code,
                 $width,

@@ -1,6 +1,6 @@
 {
   "name": "tecnickcom/tc-lib-barcode",
-  "description": "PHP library to generate 72 types of linear, 2D and postal barcodes as SVG, PNG, HTML or GD images",
+  "description": "PHP library to generate 73 types of linear, 2D and postal barcodes as SVG, PNG, HTML or GD images",
   "type": "library",
   "homepage": "https://tcpdf.org",
   "license": "LGPL-3.0-or-later",
@@ -37,6 +37,7 @@
     "GS1-128",
     "GS1-14",
     "GS1 DataBar",
+    "Han Xin Code",
     "HIBC",
     "IATA 2 of 5",
     "Identcode",
@@ -71,9 +72,11 @@
     "ISO IEC 15438",
     "ISO IEC 16022",
     "ISO IEC 18004",
+    "ISO IEC 20830",
     "ISO IEC 21471",
     "ISO IEC 24724",
-    "ISO IEC 24778"
+    "ISO IEC 24778",
+    "GB T 21049"
   ],
   "authors": [
     {

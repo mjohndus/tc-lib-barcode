@@ -165,6 +165,8 @@ enum BarcodeType: string
 
     case DMRE = 'DMRE';
 
+    case HANXIN = 'HANXIN';
+
     case HIBCAZ = 'HIBCAZ';
 
     case HIBCDM = 'HIBCDM';

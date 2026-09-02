@@ -53,6 +53,22 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
     public const MAX_CHARACTERS = 7089;
 
     /**
+     * Module sequence of the 1:1:3:1:1 ratio pattern of Table 11 of
+     * ISO/IEC 18004.
+     *
+     * @var string
+     */
+    protected const FINDER_PATTERN = '1011101';
+
+    /**
+     * Module sequence of the light area Table 11 of ISO/IEC 18004 requires
+     * beside the 1:1:3:1:1 ratio pattern.
+     *
+     * @var string
+     */
+    protected const FINDER_LIGHT = '0000';
+
+    /**
      * Number of modules of the encoding region by version, filled in as versions
      * are used. It follows from the geometry of the symbol, so it is computed
      * rather than tabulated.
@@ -254,8 +270,11 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
             }
         }
 
-        throw new BarcodeException('The data does not fit in a QR Code symbol, try a lower error correction level: '
-        . $code);
+        if ($version > 0) {
+            throw new BarcodeException('The data does not fit in the requested symbol version');
+        }
+
+        throw new BarcodeException('The data does not fit in a QR Code symbol, try a lower error correction level');
     }
 
     /**
@@ -560,8 +579,9 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
      */
     protected function getMaskPenalty(): int
     {
-        $penalty = $this->getRunPenalty() + $this->getBlockPenalty();
-        $penalty += $this->getFinderPenalty() + $this->getBalancePenalty();
+        $lines = $this->getLines();
+        $penalty = $this->getRunPenalty($lines) + $this->getBlockPenalty();
+        $penalty += $this->getFinderPenalty($lines) + $this->getBalancePenalty();
 
         return $penalty;
     }
@@ -569,11 +589,13 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
     /**
      * Returns the penalty points of the runs of more than five modules of the
      * same colour in a row or a column.
+     *
+     * @param array<int, string> $lines Rows and columns of the symbol.
      */
-    protected function getRunPenalty(): int
+    protected function getRunPenalty(array $lines): int
     {
         $penalty = 0;
-        foreach ($this->getLines() as $line) {
+        foreach ($lines as $line) {
             $run = 1;
             $len = \strlen($line);
             for ($idx = 1; $idx <= $len; ++$idx) {
@@ -621,17 +643,28 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
     /**
      * Returns the penalty points of the 1:1:3:1:1 patterns next to a light area
      * four modules wide, in a row or a column.
+     *
+     * Table 11 scores the existence of the pattern, so one that carries the
+     * light area on both sides scores once. The light area is looked for in the
+     * symbol alone, which section 7.8.3.1 states is the area evaluated: the
+     * quiet zone of section 6.3.8 surrounds the symbol and is not part of it.
+     *
+     * @param array<int, string> $lines Rows and columns of the symbol.
      */
-    protected function getFinderPenalty(): int
+    protected function getFinderPenalty(array $lines): int
     {
+        $width = \strlen(self::FINDER_PATTERN);
+        $light = \strlen(self::FINDER_LIGHT);
         $penalty = 0;
-        foreach ($this->getLines() as $line) {
-            foreach (['10111010000', '00001011101'] as $pattern) {
-                $pos = 0;
-                while (($pos = \strpos($line, $pattern, $pos)) !== false) {
+        foreach ($lines as $line) {
+            $pos = 0;
+            while (($pos = \strpos($line, self::FINDER_PATTERN, $pos)) !== false) {
+                $before = $pos < $light ? '' : \substr($line, $pos - $light, $light);
+                if ($before === self::FINDER_LIGHT || \substr($line, $pos + $width, $light) === self::FINDER_LIGHT) {
                     $penalty += Data::N3;
-                    ++$pos;
                 }
+
+                ++$pos;
             }
         }
 
@@ -680,7 +713,7 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Compaction
 
     /**
      * Place the two copies of the fifteen bits of the format information, the
-     * least significant one in the module zero, section 7.9.1 of ISO/IEC 18004.
+     * most significant one in the module zero, section 7.9.1 of ISO/IEC 18004.
      *
      * @param ?int $mask Mask to declare, or null for the mask of the symbol.
      */

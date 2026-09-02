@@ -177,6 +177,7 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\MicroQrCode\Compaction
      */
     protected function getSymbolNumber(string $code, string $level, int $version): int
     {
+        $candidates = 0;
         foreach (Data::SYMBOLS as $number => $symbol) {
             if ($version !== 0 && $version !== $symbol[0]) {
                 continue;
@@ -186,12 +187,39 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\MicroQrCode\Compaction
                 continue;
             }
 
+            ++$candidates;
             if ($this->getRequiredBits($code, $symbol[0]) <= $symbol[3]) {
                 return $number;
             }
         }
 
-        throw new BarcodeException('The data does not fit in a Micro QR Code symbol: ' . $code);
+        throw new BarcodeException($this->getCapacityMessage($candidates, $level, $version));
+    }
+
+    /**
+     * Returns the message of the exception thrown when no symbol carries the
+     * code: whether Table 13 of ISO/IEC 18004 pairs the requested version and
+     * error correction level at all, and which of the two narrowed the choice.
+     *
+     * @param int    $candidates Number of symbols the request left to choose from.
+     * @param string $level      Requested error correction level, or an empty string.
+     * @param int    $version    Requested version, or 0.
+     */
+    protected function getCapacityMessage(int $candidates, string $level, int $version): string
+    {
+        if ($candidates === 0) {
+            return 'Table 13 of ISO/IEC 18004 has no symbol of the requested version and error correction level';
+        }
+
+        if ($version !== 0) {
+            return 'The data does not fit in the requested symbol version';
+        }
+
+        if ($level !== '') {
+            return 'The data does not fit in a Micro QR Code symbol, try a lower error correction level';
+        }
+
+        return 'The data does not fit in a Micro QR Code symbol';
     }
 
     /**

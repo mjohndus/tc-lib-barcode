@@ -113,6 +113,12 @@ class QrCodeEncoderTest extends TestUtil
      * Encoding 01234567 in the version 1 at the level M with the mask 010 gives
      * the symbol of Figure I.2 of ISO/IEC 18004, module for module.
      *
+     * This is the conformance assertion of the encoder: QrCodeDecoder reads a
+     * symbol back through the same Geometry, the same Data tables and the same
+     * mask formulas the encoder writes it with, so the round trip proves self
+     * consistency, not conformance. The figure pins the geometry of the version
+     * 1 and the mask pattern 010 only.
+     *
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
      */

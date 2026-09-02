@@ -535,6 +535,17 @@ class QrCodeSpecTest extends TestUtil
         [, , $finder] = $encode->exposePenalties(['10111010000', '00000000000', '00000000000']);
         $this->assertSame(Data::N3, $finder);
 
+        // Table 11 scores the existence of the pattern, so the light area on
+        // both sides of it scores once and not twice
+        [, , $both] = $encode->exposePenalties(['000010111010000', '000000000000000', '000000000000000']);
+        $this->assertSame(Data::N3, $both);
+
+        // section 7.8.3.1 evaluates the symbol, and the quiet zone of section
+        // 6.3.8 surrounds it rather than belonging to it, so the pattern on the
+        // edge of the symbol scores nothing
+        [, , $edge] = $encode->exposePenalties(['101110110000000', '000000000000000', '000000000000000']);
+        $this->assertSame(0, $edge);
+
         // every module dark is fifty percent away from the balance, that is ten
         // steps of five percent
         [, , , $balance] = $encode->exposePenalties(['111', '111', '111']);

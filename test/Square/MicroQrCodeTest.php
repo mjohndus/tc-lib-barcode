@@ -277,6 +277,44 @@ class MicroQrCodeTest extends TestUtil
     }
 
     /**
+     * @return array<int, array{string, int, string}>
+     */
+    public static function capacityMessageProvider(): array
+    {
+        return [
+            ['MICROQR,M,1', 50, 'Table 13 of ISO/IEC 18004 has no symbol'],
+            ['MICROQR,Q,2', 50, 'Table 13 of ISO/IEC 18004 has no symbol'],
+            ['MICROQR,L,2', 50, 'The data does not fit in the requested symbol version'],
+            ['MICROQR,Q',   50, 'try a lower error correction level'],
+            ['MICROQR',     50, 'The data does not fit in a Micro QR Code symbol'],
+        ];
+    }
+
+    /**
+     * A version and error correction level Table 13 does not pair is reported
+     * as such rather than as a capacity failure, a code too long for a version
+     * the caller asked for names the version, and no capacity message repeats
+     * the code it was given.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('capacityMessageProvider')]
+    public function testCapacityExceptionMessage(string $options, int $length, string $expected): void
+    {
+        $code = \str_repeat('8', \max(0, $length));
+
+        try {
+            $this->getTestObject()->getBarcodeObj($options, $code);
+            self::fail('Expected a capacity exception for ' . $options);
+        } catch (\Com\Tecnick\Barcode\Exception $exception) {
+            $this->assertStringContainsString($expected, $exception->getMessage());
+            $this->assertStringNotContainsString($code, $exception->getMessage());
+            $this->assertLessThan(120, \strlen($exception->getMessage()));
+        }
+    }
+
+    /**
      * Assert that the code does not fit in the requested symbol.
      *
      * @throws \Com\Tecnick\Color\Exception

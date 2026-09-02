@@ -61,6 +61,41 @@ class QrCodeTest extends TestUtil
     }
 
     /**
+     * @return array<int, array{string, int, string}>
+     */
+    public static function capacityMessageProvider(): array
+    {
+        return [
+            ['QRCODE',        4400, 'try a lower error correction level'],
+            ['QRCODE,H,NL,1', 32,   'The data does not fit in the requested symbol version'],
+            ['QRCODE',        8000, 'The data does not fit in a QR Code symbol'],
+        ];
+    }
+
+    /**
+     * A code too long for the version the caller asked for names the version
+     * rather than the error correction level, and no capacity message repeats
+     * the code it was given.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('capacityMessageProvider')]
+    public function testCapacityExceptionMessage(string $options, int $length, string $expected): void
+    {
+        $code = \str_repeat('W', \max(0, $length));
+
+        try {
+            $this->getTestObject()->getBarcodeObj($options, $code);
+            self::fail('Expected a capacity exception for ' . $options);
+        } catch (\Com\Tecnick\Barcode\Exception $exception) {
+            $this->assertStringContainsString($expected, $exception->getMessage());
+            $this->assertStringNotContainsString($code, $exception->getMessage());
+            $this->assertLessThan(120, \strlen($exception->getMessage()));
+        }
+    }
+
+    /**
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
      */
@@ -275,7 +310,7 @@ class QrCodeTest extends TestUtil
                     . "\x2D\xEC\xD5\xE1\xD2\xB6\x1B\x04\xB3\xA9"
                     . "\x46\x48\x65\xF6\x0A\xDD\xE1\x18\xBA\xD4"
                     . "\x71\x10\x73\xD3\xA5\x21\x0A\xBD\x1C\xDB",
-                '07ccbcd39df55bafd143a4f6044174c3',
+                'ffed7d96ae53a9c63c88d426680833dd',
             ],
             [
                 ',H,NM',

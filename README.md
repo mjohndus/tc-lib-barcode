@@ -16,7 +16,7 @@
 
 ## Overview
 
-`tc-lib-barcode` is a pure-PHP library that encodes data in 72 linear, 2D and postal barcode formats and outputs them as SVG, PNG, HTML, text grids, GD images or arrays of bar coordinates.
+`tc-lib-barcode` is a pure-PHP library that encodes data in 73 linear, 2D and postal barcode formats and outputs them as SVG, PNG, HTML, text grids, GD images or arrays of bar coordinates.
 
 | | |
 |---|---|
@@ -25,6 +25,24 @@
 | **License** | [GNU LGPL v3](https://www.gnu.org/copyleft/lesser.html) - see [LICENSE](LICENSE) |
 | **API docs** | <https://tcpdf.org/docs/srcdoc/tc-lib-barcode> |
 | **Packagist** | <https://packagist.org/packages/tecnickcom/tc-lib-barcode> |
+
+---
+
+## Why this library
+
+- **One API for every format.** `getBarcodeObj()` returns the same object for a
+  UPC-A and a Han Xin Code; the same `getInlineSvgCode()`, `getPngData()`,
+  `getGrid()` and `getArray()` methods work across all 73 types.
+- **Pure PHP, one runtime dependency.** Only `tecnickcom/tc-lib-color`, plus the
+  `gd`, `ctype` and `pcre` extensions. `bcmath` and `imagick` are optional
+  accelerators, never required.
+- **Written to the published standards.** Each symbology follows its own
+  published specification, named alongside the format where one applies.
+- **Covered by tests.** Per-format encoding, ECC, size and input-validation
+  suites, run under strict static analysis on every commit.
+- **LGPL-3.0.** Usable in closed-source applications.
+- **Maintained.** Part of the [tc-lib-pdf / TCPDF](https://github.com/tecnickcom/tc-lib-pdf)
+  ecosystem, in continuous development since 2015.
 
 ---
 
@@ -96,6 +114,7 @@
 | PDF417C | Compact PDF417 - truncated (ISO/IEC 15438:2006) |
 | QRCODE | QR-CODE |
 | MICROQR | Micro QR Code (ISO/IEC 18004) |
+| HANXIN | Han Xin Code (GB/T 21049, ISO/IEC 20830) |
 | HIBCDM | HIBC in DATAMATRIX (ANSI/HIBC 2.6 and ANSI/HIBC 1.3) |
 | HIBCQR | HIBC in QR-CODE (ANSI/HIBC 2.6 and ANSI/HIBC 1.3) |
 | HIBCAZ | HIBC in AZTEC Code (ANSI/HIBC 2.6 and ANSI/HIBC 1.3) |

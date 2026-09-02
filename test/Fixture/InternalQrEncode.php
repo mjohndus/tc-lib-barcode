@@ -131,10 +131,12 @@ class InternalQrEncode extends Encode
             $this->matrix[$row] = \array_map(\intval(...), \str_split($line));
         }
 
+        $lines = $this->getLines();
+
         return [
-            $this->getRunPenalty(),
+            $this->getRunPenalty($lines),
             $this->getBlockPenalty(),
-            $this->getFinderPenalty(),
+            $this->getFinderPenalty($lines),
             $this->getBalancePenalty(),
         ];
     }

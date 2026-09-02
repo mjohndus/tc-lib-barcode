@@ -103,7 +103,7 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
     /**
      * Set extra (optional) parameters:
      *     1: LEVEL - error correction level: L, M, Q, H
-     *     2: HINT - encoding mode: NL=variable, NM=numeric, AN=alphanumeric, 8B=8bit, KJ=KANJI, ST=STRUCTURED
+     *     2: HINT - encoding mode: NL, NM, AN, 8B, KJ or ST
      *     3: VERSION - integer value from 1 to 40
      *     4: CASE SENSITIVE - if 0 the input string will be converted to uppercase
      *     5: RANDOM MASK - false or number of masks to be checked
@@ -112,7 +112,8 @@ class QrCode extends \Com\Tecnick\Barcode\Type\Square
      *
      * The encoding mode selects the modes the encoder may use. The numeric, the
      * alphanumeric and the byte modes are always available and are mixed as
-     * section 7.4.7 of ISO/IEC 18004 allows; KJ adds the kanji mode.
+     * section 7.4.7 of ISO/IEC 18004 allows; KJ adds the kanji mode. Every other
+     * token leaves that set unchanged, the structured append of ST included.
      *
      * @SuppressWarnings("PHPMD.CyclomaticComplexity")
      * @SuppressWarnings("PHPMD.NPathComplexity")
