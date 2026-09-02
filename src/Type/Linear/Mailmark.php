@@ -182,9 +182,11 @@ class Mailmark extends \Com\Tecnick\Barcode\Type\Linear\FourState
     {
         $table = [];
         for ($value = 1; $value < (1 << $this::SYMBOL_BITS); ++$value) {
-            if ((\substr_count(\decbin($value), '1') % 2) === $parity) {
-                $table[] = $value;
+            if ((\substr_count(\decbin($value), '1') % 2) !== $parity) {
+                continue;
             }
+
+            $table[] = $value;
         }
 
         return $table;
