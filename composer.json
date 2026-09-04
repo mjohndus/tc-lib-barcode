@@ -1,5 +1,5 @@
 {
-  "name": "mjohndus/tc-lib-barcode",
+  "name": "tecnickcom/tc-lib-barcode",
   "description": "PHP library to generate linear and bidimensional barcodes",
   "type": "library",
   "homepage": "https://tcpdf.org",
