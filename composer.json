@@ -1,5 +1,5 @@
 {
-  "name": "tecnickcom/tc-lib-barcode",
+  "name": "mjohndus/tc-lib-barcode",
   "description": "PHP library to generate 73 types of linear, 2D and postal barcodes as SVG, PNG, HTML or GD images",
   "type": "library",
   "homepage": "https://tcpdf.org",
