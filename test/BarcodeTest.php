@@ -413,6 +413,15 @@ class BarcodeTest extends TestUtil
         $this->assertEquals('114f33435c265345f7c6cdf673922292', \md5($svg));
         $this->assertContentDisposition('114f33435c265345f7c6cdf673922292', 'svg');
 
+        // a trailing newline does not make an otherwise valid filename, since
+        // the name is written into a response header
+        \ob_start();
+        $type->getSvg("valid_name\n");
+        $svg = \ob_get_clean();
+        $this->assertNotFalse($svg);
+        $this->assertEquals('114f33435c265345f7c6cdf673922292', \md5($svg));
+        $this->assertContentDisposition('114f33435c265345f7c6cdf673922292', 'svg');
+
         // valid filename
         \ob_start();
         $type->getSvg('test_SVG_filename-001');

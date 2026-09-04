@@ -44,6 +44,25 @@ class InternalPdfFourOneSeven extends \Com\Tecnick\Barcode\Type\Square\PdfFourOn
     }
 
     /**
+     * Expose the guard that keeps the arbitrary precision arithmetic on
+     * non-negative decimal integer strings.
+     */
+    public function exposeNormalizeNumericString(string $value): string
+    {
+        return $this->normalizeNumericString($value);
+    }
+
+    /**
+     * Expose the compaction mode of the last sequence.
+     *
+     * @param array<int, array{int, string}> $sequence_array
+     */
+    public function exposeLastSequenceMode(array $sequence_array): int
+    {
+        return $this->getLastSequenceMode($sequence_array);
+    }
+
+    /**
      * Expose the generated codeword sequence.
      *
      * @return array<int, int>

@@ -61,6 +61,41 @@ class QrCodeTest extends TestUtil
     }
 
     /**
+     * @return array<int, array{string, int, string}>
+     */
+    public static function capacityMessageProvider(): array
+    {
+        return [
+            ['QRCODE',        4400, 'try a lower error correction level'],
+            ['QRCODE,H,NL,1', 32,   'The data does not fit in the requested symbol version'],
+            ['QRCODE',        8000, 'The data does not fit in a QR Code symbol'],
+        ];
+    }
+
+    /**
+     * A code too long for the version the caller asked for names the version
+     * rather than the error correction level, and no capacity message repeats
+     * the code it was given.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('capacityMessageProvider')]
+    public function testCapacityExceptionMessage(string $options, int $length, string $expected): void
+    {
+        $code = \str_repeat('W', \max(0, $length));
+
+        try {
+            $this->getTestObject()->getBarcodeObj($options, $code);
+            self::fail('Expected a capacity exception for ' . $options);
+        } catch (\Com\Tecnick\Barcode\Exception $exception) {
+            $this->assertStringContainsString($expected, $exception->getMessage());
+            $this->assertStringNotContainsString($code, $exception->getMessage());
+            $this->assertLessThan(120, \strlen($exception->getMessage()));
+        }
+    }
+
+    /**
      * @throws \Com\Tecnick\Barcode\Exception
      * @throws \Com\Tecnick\Color\Exception
      */
@@ -82,12 +117,27 @@ class QrCodeTest extends TestUtil
             [
                 '',
                 '0123456789',
-                '89e599523008751db7eef3b5befc37ed',
+                '28ee054692521339b743b7538bbb73b3',
             ],
             [
                 ',L',
                 '0123456789',
-                '89e599523008751db7eef3b5befc37ed',
+                '28ee054692521339b743b7538bbb73b3',
+            ],
+            [
+                ',M',
+                '0123456789',
+                '34ea08c4590af0981588958764d53016',
+            ],
+            [
+                ',Q',
+                '0123456789',
+                '06b3a8a73f9dd6e74a5b8ccec0e15ee4',
+            ],
+            [
+                ',H',
+                '0123456789',
+                '07c7cc526ed4efdc303ff133f3912619',
             ],
             [
                 ',H,NM',
@@ -97,12 +147,12 @@ class QrCodeTest extends TestUtil
             [
                 ',L,8B,0,0',
                 '123aeiouàèìòù',
-                '1622068066c77d3e6ea0a3ad420d105c',
+                'f37b6fcd41c775d70fa1bda239b0787d',
             ],
             [
                 ',H,KJ,0,0',
                 'ぎポ亊',
-                '00cb1bd983bfe7b3d942c3f89f7643f5',
+                '9d3fe60b4b83d30ea29fd77ad5dd115d',
             ],
             [
                 ',H,ST,0,0',
@@ -112,12 +162,12 @@ class QrCodeTest extends TestUtil
             [
                 '',
                 \str_pad('', 350, '0123456789'),
-                '1a4753c428f644794b9ee1515138ecb3',
+                'c3be167712b21d747fb736d43b80a422',
             ],
             [
                 '',
                 'abcdefghijklmnopqrstuvwxyz01234567890123456789',
-                'b41c13e6bba528cc0390d1797bbac38e',
+                '7028e556474907bad6a87d9b80ecfaa8',
             ],
             [
                 ',H,AN,40,1,0,1,2',
@@ -271,7 +321,7 @@ class QrCodeTest extends TestUtil
                     . "\x26\x33\x9E\x07\xF3\xE5\x27\x96\xA5\x45"
                     . "\xF7\xF6\x51\x92\x89\x95\x94\x06\x7A\xC5",
 
-                '4f6fd3799489b48fa07e1a7aef0561fc',
+                '0a9539069b0dee3c64937aebe956039d',
             ],
             [
                 ',H,AN',
@@ -292,7 +342,7 @@ class QrCodeTest extends TestUtil
                     . "\x8E\x94\x59\xA3\x2A\xF6\xD8\xE9\xDA\xC5"
                     . "\xD8\x81\x30\xC5\x7A\xC7\x01\xAA\x29\x46",
 
-                '92e82c296965d97d35ab7168ece11dd0',
+                '6df0bb8b272f1d407116f19acd815b99',
             ],
             [
                 ',H,8B',
@@ -301,7 +351,7 @@ class QrCodeTest extends TestUtil
                     . "\x67\x09\x85\x96\xCE\xFE\x5F\xCE\xAA\x88"
                     . "\x16\x35\xA2\x86\xC7\x2D\x12\xAE\x96\xA5"
                     . "\x36\x6D\xC9\x51\x9E\x90\x96\xC6\x32\xC4",
-                '68799fdb9685b5e2f258245833006425',
+                '79cd9a4177f47a47ddb74399b90630d5',
             ],
             [
                 ',H,ST',
@@ -310,7 +360,7 @@ class QrCodeTest extends TestUtil
                     . "\xBF\xDB\xE9\x89\x2D\x89\x1B\xC2\x50\x4C"
                     . "\x88\x1B\xE3\x57\x6A\x14\xF3\xB8\xA1\x61"
                     . "\xB3\xB8\xE2\xE2\x72\xEB\xD9\x58\x06\x81",
-                '6fb328c418ea40c6c94277f420ba9357',
+                '4d1992b38c59d844d17e3a79bb5e8a32',
             ],
             [
                 '',
@@ -356,7 +406,7 @@ class QrCodeTest extends TestUtil
                     . '83KI~dMkt}L9 ]uN[,@:6/[",:jKl8c%L/OKs}7i{c#{BxK}%'
                     . 'k9<zt>(0*S}C7#oGS;<QS&N8)KZ"vY(crD_hchxm<v1Tz!{N='
                     . '9!p?P*H{dKs>TW2x8z]!sK=k]rf',
-                '2dfef2690656a33bb1752f362840b53b',
+                '267d2cb621c402913addd3ad6739ee0d',
             ],
         ];
     }

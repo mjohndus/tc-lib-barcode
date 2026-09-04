@@ -92,6 +92,9 @@ class ConvertTest extends TestUtil
         $this->assertSame('00', $helper->exposeConvertDecToHex('abc'));
         $this->assertSame('00', $helper->exposeConvertDecToHex('0'));
         $this->assertSame('FF', $helper->exposeConvertDecToHex('255'));
+        // a trailing newline is not a decimal integer, and reaching the
+        // arbitrary precision arithmetic with one raises a ValueError
+        $this->assertSame('00', $helper->exposeConvertDecToHex("255\n"));
         $this->assertSame('255', $helper->exposeConvertHexToDec('FF'));
     }
 

@@ -16,7 +16,10 @@
 
 namespace Test\Square;
 
+use Com\Tecnick\Barcode\Type\Square\Datamatrix\Data;
+use Com\Tecnick\Barcode\Type\Square\Datamatrix\Encode;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Test\Fixture\InternalDatamatrixEncode;
 use Test\TestUtil;
 
 /**
@@ -135,7 +138,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 '-=-1-=-2-=-3xyz',
-                '17420fbffefddb5f1b8abd0d05de724d',
+                'e7dc0b6fc4a831870da809aee5faa953',
             ],
             [
                 'DATAMATRIX',
@@ -145,32 +148,32 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 '-=-1-=-2-=-3-xy',
-                'f65ab07c374c53e2a93016776041de42',
+                '6e1292fa6ba488b399f4f7960c78e24c',
             ],
             [
                 'DATAMATRIX',
                 '-=-1-=-2-=-3-=x',
-                '7a30efdf7616397a1ea2fd5fd95fed2c',
+                '4986c43654745b099c5984fcbececa2f',
             ],
             [
                 'DATAMATRIX',
                 '(400)BS2WZ64PA(00)0',
-                '9cb7f1c2aa5989909229ef8e4252d61d',
+                'c537785b8f7d3a177251a9daf48d0dd7',
             ],
             [
                 'DATAMATRIX',
                 '(400)BS2WZ64QA(00)0',
-                '0494f709138a1feef5a1c9f14852dbe5',
+                '3d89f4a5a6b62c672b5282768922be02',
             ],
             [
                 'DATAMATRIX',
                 'LD2B 1 CLNGP',
-                'f806889d1dbe0908dcfb530f86098041',
+                '84bb0830247749b44bcca686316c5548',
             ],
             [
                 'DATAMATRIX',
                 'XXXXXXXXXNGP',
-                'c6f2b7b293a2943bae74f2a191ec4aea',
+                '8d9734dfbdf5f4ea195b195bfc84d7fc',
             ],
             [
                 'DATAMATRIX',
@@ -180,7 +183,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 'ABCDABCDAB' . "\x80" . 'DABCD',
-                '39aca5ed58b922bee369e5ab8e3add8c',
+                '5cce4229a847305a6d9f7c7de7ca6b88',
             ],
             [
                 'DATAMATRIX',
@@ -200,7 +203,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 'abcdefghijklmnopq',
-                'a452e658e3096d8187969cbdc930909c',
+                '8b57b1beb3235c89331a6eccb8c7ecf6',
             ],
             [
                 'DATAMATRIX',
@@ -220,12 +223,12 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-                'c61d8ced313e2a2e79ab56eded67f11a',
+                '8880d59dc48f0fa1b8e2383b5f9eb0d8',
             ],
             [
                 'DATAMATRIX',
                 '10f27ce-acb7-4e4e-a7ae-a0b98da6ed4a',
-                '1a56c44e3977f1ac68057230181e49a8',
+                '28b6d99132f3d722069b4b4a7afb68b9',
             ],
             [
                 'DATAMATRIX',
@@ -243,12 +246,12 @@ class DatamatrixTest extends TestUtil
                     . 'cdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd'
                     . 'abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdab'
                     . 'cdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd',
-                '4dc0efb6248b3802c2ab7cf123b884d0',
+                'f28374760686e6885756003a7b5a4df1',
             ],
             [
                 'DATAMATRIX',
                 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(),./\\',
-                '1d41ee32691ff75637224e4fbe68a626',
+                'd1851da5d9b464e83813f8ea5c5b1b2f',
             ],
             [
                 'DATAMATRIX',
@@ -260,12 +263,12 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 "\x80\x8A\x94\x9E",
-                '9300000cee5a5f7b3b48145d44aa7fff',
+                '588825d8728b1d5713895a0a7d7cbdee',
             ],
             [
                 'DATAMATRIX',
                 '!"£$%^&*()-+_={}[]\'#@~;:/?,.<>|',
-                '4993e149fd20569c8a4f0d758b6dfa76',
+                '74f87d70754db2ffad1d5ca6c33467b5',
             ],
             [
                 'DATAMATRIX',
@@ -275,14 +278,14 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(),./\\1234567890',
-                '7360a5a6c25476711139ae1244f56c29',
+                'df68782f52deeefa9ce5687aa7ad397a',
             ],
             [
                 'DATAMATRIX',
                 "\xFE\xFD"
                     . 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(),./\\'
                     . "\xFC\xFB",
-                '0f078e5e5735396312245740484fa6d1',
+                '61dcd419f072e1bfc8fcd2661c15cf0f',
             ],
             [
                 'DATAMATRIX',
@@ -292,12 +295,12 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 '123 45678',
-                '6c2e6503625e408fe9a4e392743f31a8',
+                '09db7564f5f542aa4aadfa6753c81a50',
             ],
             [
                 'DATAMATRIX',
                 'DATA MATRIX',
-                '3ba4f4ef8449d795813b353ddcce4d23',
+                '76483bb617a63892d4d238aafb1e3299',
             ],
             [
                 'DATAMATRIX',
@@ -312,7 +315,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX',
                 \str_pad('', 300, "\xFE\xFD\xFC\xFB"),
-                'e524bb17821d0461f3db6f313d35018f',
+                '2993e5a7849083e9bf7cc4f5db9966ba',
             ],
             [
                 'DATAMATRIX',
@@ -321,13 +324,13 @@ class DatamatrixTest extends TestUtil
                     . '4#P d*b}gI2#DB|hl{!~[EYH*=cmR{lf'
                     . "\x7F"
                     . '=gcGIa.st286. #*"!eG[.Ryr?Kn,1mIyQqC3 6\'3N>',
-                '57fbb9bfb7d542e2e5eadb615e6be549',
+                '5a4f396e0665fde2fd60c2e4db713e98',
             ],
             [
                 'DATAMATRIX',
                 'eA211101A2raJTGL/r9o93CVk4gtpEvWd2A2Qz8jvPc7l8ybD3m'
                     . 'Wel91ih727kldinPeHJCjhr7fIBX1KQQfsN7BFMX00nlS8FlZG+',
-                'b2f0d45920c7da5b298bbab5cff5d402',
+                '0d6ca088f1a9a315177f7b07a8362a6a',
             ],
             // Square
             [
@@ -358,13 +361,13 @@ class DatamatrixTest extends TestUtil
                     . "\x19\x18\x17\x16\x15\x14\x13\x12\x11\x10"
                     . "\x0F\x0E\x0D\x0C\x0B\x0A\x09\x08\x07\x06"
                     . "\x05\x04\x03\x02\x01",
-                '514963c4fde0cee7ff91f76dd56015cc',
+                'aa6c03b963fce1b10fb2e67921051e4c',
             ],
             // Rectangular shape
             [
                 'DATAMATRIX,R',
                 '01234567890',
-                'd3811e018f960beed6d3fa5e675e290e',
+                'f16a61c029231d0aa652157d06a66f2b',
             ],
             [
                 'DATAMATRIX,R',
@@ -379,34 +382,34 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX,R',
                 '0123456789012345678901234567890123456789',
-                'd9c3f7ee7a7be4b4e57cf4a5a485e725',
+                '017864b3d4760515ea9699dcc11121c3',
             ],
             // Rectangular GS1
             [
                 'DATAMATRIX,R,GS1',
                 "\xE8" . '01034531200000111719112510ABCD1234',
-                '11000d4c60f667f3b5b7fba22483ccf0',
+                '5de4104b51e900d8534c97f0fa3f5c0d',
             ],
             [
                 'DATAMATRIX,R,GS1',
                 "\xE8" . '01095011010209171719050810ABCD1234' . "\xE8" . '2110',
-                'e17f2a052271a18cdc00b161908eccb9',
+                'c1775e04af119c0c07883aa0c9589337',
             ],
             [
                 'DATAMATRIX,R,GS1',
                 "\xE8" . '01034531200000111712050810ABCD1234' . "\xE8" . '4109501101020917',
-                '31759950f3253805b100fedf3e536575',
+                'f5a635e36fe0e2b9cb2837bfff280888',
             ],
             // Square GS1
             [
                 'DATAMATRIX,S,GS1',
                 "\xE8" . '01034531200000111719112510ABCD1234',
-                'c9efb69a62114fb6a3d2b52f139a372a',
+                '429c1cfc77ce2f78e27d51112070a248',
             ],
             [
                 'DATAMATRIX,S,GS1',
                 "\xE8" . '01095011010209171719050810ABCD1234' . "\xE8" . '2110',
-                '9630bdba9fc79b4a4911fc465aa08951',
+                '143d6e6b7410fb74b1b4d519fbd03036',
             ],
             [
                 'DATAMATRIX,S,GS1',
@@ -417,7 +420,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX,S,N,ASCII',
                 '01234567890',
-                'ac7dd9e1ebdb42d07fe928fb33cd307b',
+                'dc57d0b736d97cb22f0d741a0dbfd9a5',
             ],
             [
                 'DATAMATRIX,S,N,C40',
@@ -437,7 +440,7 @@ class DatamatrixTest extends TestUtil
             [
                 'DATAMATRIX,S,N,EDF',
                 '01234567890',
-                '989eab3ca16c97e05dd2307bef32f64b',
+                '1d5cd9b3c0e25d06c529e9e7b579d492',
             ],
             [
                 'DATAMATRIX,S,N,BASE256',
@@ -453,7 +456,7 @@ class DatamatrixTest extends TestUtil
                 //     (10)ABCD1234
                 //     (21)10
                 "\xE8" . '01034531200000111719112510ABCD1234' . "\xE8" . '2110',
-                '3c66c6c7355e7dea071501216e894eac',
+                '7df3c201ec672bfe15abaf6b13a827ad',
             ],
             [
                 'DATAMATRIX,S,GS1',
@@ -465,13 +468,13 @@ class DatamatrixTest extends TestUtil
                 //     (10)ABCD1234
                 //     (21)10
                 "\xE8" . '01034531200000111719112510ABCD1234' . "\x1D" . '2110',
-                '3c66c6c7355e7dea071501216e894eac',
+                '7df3c201ec672bfe15abaf6b13a827ad',
             ],
             [
                 'DATAMATRIX,S,GS1,C40',
                 // \xE8 is the control character FNC1 (ASCII 232)
                 "\xE8" . '01095011010209171719050810ABCD1234' . "\xE8" . '2110',
-                'ef0af4b9ddddff4ee8f0c8992ba66d80',
+                'ac53a192b50451f00c9452254b7e0201',
             ],
         ];
     }
@@ -494,5 +497,163 @@ class DatamatrixTest extends TestUtil
     public static function getStringDataProvider(): array
     {
         return \Test\TestStrings::$data;
+    }
+
+    /**
+     * The look-ahead test of Annex P of ISO/IEC 16022, which picks the
+     * encodation that spends the fewest codewords on the data that follows.
+     *
+     * @return array<string, array{string, int, int, int}>
+     */
+    public static function lookAheadProvider(): array
+    {
+        return [
+            // the digits stay in ASCII, which packs a pair into one codeword
+            'digits from ascii' => ['12345678', 0, Data::ENC_ASCII, Data::ENC_ASCII],
+            'digits from c40' => ['12345678', 0, Data::ENC_C40, Data::ENC_ASCII],
+            'digits from text' => ['12345678', 0, Data::ENC_TXT, Data::ENC_ASCII],
+            'digits from x12' => ['12345678', 0, Data::ENC_X12, Data::ENC_ASCII],
+            'digits from edifact' => ['12345678', 0, Data::ENC_EDF, Data::ENC_ASCII],
+            'digits from base 256' => ['12345678', 0, Data::ENC_BASE256, Data::ENC_ASCII],
+            // the lower case letters belong to the Text set
+            'lower case from ascii' => ['abcdefgh', 0, Data::ENC_ASCII, Data::ENC_TXT],
+            'lower case from x12' => ['abcdefgh', 0, Data::ENC_X12, Data::ENC_TXT],
+            'lower case from edifact' => ['abcdefgh', 0, Data::ENC_EDF, Data::ENC_TXT],
+            // the upper case letters, the digits, the space, the asterisk, the
+            // greater than sign and the carriage return belong to the X12 set
+            'x12 set from ascii' => ['AB*CD>EF', 0, Data::ENC_ASCII, Data::ENC_X12],
+            'x12 set from x12' => ['AB*CD>EF', 0, Data::ENC_X12, Data::ENC_X12],
+            'x12 set from edifact' => ["ABC\rDEF\r", 0, Data::ENC_EDF, Data::ENC_X12],
+            // the extended characters go to Base 256
+            'extended from ascii' => ["\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7", 0, Data::ENC_ASCII, Data::ENC_BASE256],
+            'extended from edifact' => ["\xC0\xC1\xC2\xC3\xC4\xC5\xC6\xC7", 0, Data::ENC_EDF, Data::ENC_BASE256],
+            // the current encodation is kept when nothing follows
+            'end of data from edifact' => ['ABCDEF', 6, Data::ENC_EDF, Data::ENC_EDF],
+            'end of data from ascii' => ['ABCDEF', 6, Data::ENC_ASCII, Data::ENC_ASCII],
+            // C40 and X12 spend the same number of codewords, and the
+            // characters that follow the tie are of the X12 set
+            'c40 and x12 tie' => ['F3C 00AEE12A**', 0, Data::ENC_TXT, Data::ENC_X12],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('lookAheadProvider')]
+    public function testLookAheadTest(string $data, int $pos, int $mode, int $expected): void
+    {
+        $encode = new Encode();
+
+        $this->assertSame($expected, $encode->lookAheadTest($data, $pos, $mode));
+    }
+
+    /**
+     * A Base 256 field of zero length runs to the end of the symbol, so no
+     * length codeword is written when there is nothing left to encode.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testEncodeBase256AtTheEndOfTheData(): void
+    {
+        $encode = new Encode();
+        $cdw = [];
+        $cdw_num = 0;
+        $data = 'ABC';
+        $pos = 3;
+        $data_length = 3;
+        $field_length = 0;
+        $enc = Data::ENC_BASE256;
+
+        $encode->encodeBase256($cdw, $cdw_num, $pos, $data_length, $field_length, $data, $enc);
+
+        $this->assertSame([], $cdw);
+        $this->assertSame(0, $cdw_num);
+        $this->assertSame(0, $field_length);
+    }
+
+    /**
+     * The codeword buffer of a partial triple is taken one value at a time, and
+     * an empty buffer yields no value.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testShiftTempCw(): void
+    {
+        $encode = new InternalDatamatrixEncode();
+        $temp_cw = [3, 1, 4];
+
+        $this->assertSame(3, $encode->exposeShiftTempCw($temp_cw));
+        $this->assertSame([1, 4], $temp_cw);
+        $this->assertSame(1, $encode->exposeShiftTempCw($temp_cw));
+        $this->assertSame(4, $encode->exposeShiftTempCw($temp_cw));
+        $this->assertSame([], $temp_cw);
+        $this->assertSame(0, $encode->exposeShiftTempCw($temp_cw));
+        $this->assertSame([], $temp_cw);
+    }
+
+    /**
+     * The named symbol size must be one of the sizes of the shape.
+     *
+     * @return array<int, array{string, string}>
+     */
+    public static function unknownSymbolSizeProvider(): array
+    {
+        return [
+            ['S', '99x99'],
+            ['S', '8x48'],
+            ['R', '10x10'],
+            ['E', '10x10'],
+            ['E', '8x50'],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     */
+    #[DataProvider('unknownSymbolSizeProvider')]
+    public function testUnknownSymbolSize(string $shape, string $size): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+
+        Data::getPaddingSize($shape, 1, $size);
+    }
+
+    /**
+     * @return array<int, array{string, int, string, int, int}>
+     */
+    public static function namedSymbolSizeProvider(): array
+    {
+        // shape, codewords, size, rows and columns of the symbol
+        return [
+            ['S', 1,  '10x10', 10, 10],
+            ['S', 3,  '12x12', 12, 12],
+            ['R', 5,  '8x18',  8,  18],
+            ['E', 18, '8x48',  8,  48],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     */
+    #[DataProvider('namedSymbolSizeProvider')]
+    public function testNamedSymbolSize(string $shape, int $ncw, string $size, int $rows, int $cols): void
+    {
+        $params = Data::getPaddingSize($shape, $ncw, $size);
+
+        $this->assertSame($rows, $params[0]);
+        $this->assertSame($cols, $params[1]);
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     */
+    public function testNamedSymbolSizeTooSmall(): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+
+        Data::getPaddingSize('S', 1_000, '10x10');
     }
 }

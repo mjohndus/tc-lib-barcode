@@ -65,4 +65,18 @@ class ImbPreTest extends TestUtil
         $barcode = $this->getTestObject();
         $barcode->getBarcodeObj('IMBPRE', 'fatd');
     }
+
+    /**
+     * The sixty five bar identifiers are the whole code, so a trailing newline
+     * is not a code of the right length with something ignorable after it.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testTrailingNewline(): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj('IMBPRE', \str_repeat('a', 65) . "\n");
+    }
 }

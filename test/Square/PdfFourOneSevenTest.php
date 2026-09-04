@@ -17,6 +17,7 @@
 namespace Test\Square;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Test\Fixture\InternalPdfFourOneSeven;
 use Test\TestUtil;
 
 /**
@@ -280,5 +281,81 @@ class PdfFourOneSevenTest extends TestUtil
     public static function getStringDataProvider(): array
     {
         return \Test\TestStrings::$data;
+    }
+
+    /**
+     * The largest symbol is 928 codewords, the Symbol Length Descriptor and the
+     * error correction codewords included.
+     *
+     * @return array<int, array{string, int}>
+     */
+    public static function symbolCapacityProvider(): array
+    {
+        // two upper case characters take one codeword, so the data of these
+        // symbols leaves no room for the error correction level it asks for
+        return [
+            ['PDF417,,8', 1_600],
+            ['PDF417,,7', 1_856],
+            ['PDF417,,6', 1_984],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('symbolCapacityProvider')]
+    public function testSymbolCapacityException(string $options, int $length): void
+    {
+        $this->bcExpectException(\Com\Tecnick\Barcode\Exception::class);
+        $barcode = $this->getTestObject();
+        $barcode->getBarcodeObj($options, \str_repeat('A', \max(0, $length)));
+    }
+
+    /**
+     * The arbitrary precision arithmetic of the numeric compaction runs on
+     * non-negative decimal integer strings only.
+     *
+     * @return array<int, array{string, string}>
+     */
+    public static function numericStringProvider(): array
+    {
+        return [
+            ['0', '0'],
+            ['12345', '12345'],
+            ['000123', '000123'],
+            ['', '0'],
+            ['-1', '0'],
+            ['1.5', '0'],
+            ['12 ', '0'],
+            ['abc', '0'],
+        ];
+    }
+
+    /**
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    #[DataProvider('numericStringProvider')]
+    public function testNormalizeNumericString(string $value, string $expected): void
+    {
+        $type = new InternalPdfFourOneSeven('0123456789');
+
+        $this->assertSame($expected, $type->exposeNormalizeNumericString($value));
+    }
+
+    /**
+     * An empty sequence has no compaction mode.
+     *
+     * @throws \Com\Tecnick\Barcode\Exception
+     * @throws \Com\Tecnick\Color\Exception
+     */
+    public function testLastSequenceMode(): void
+    {
+        $type = new InternalPdfFourOneSeven('0123456789');
+
+        $this->assertSame(-1, $type->exposeLastSequenceMode([]));
+        $this->assertSame(900, $type->exposeLastSequenceMode([[900, 'AB']]));
+        $this->assertSame(902, $type->exposeLastSequenceMode([[900, 'AB'], [902, '123']]));
     }
 }
