@@ -1,5 +1,7 @@
 {
   "$schema": "https://context7.com/schema/context7.json",
+  "url": "https://context7.com/tecnickcom/tc-lib-barcode",
+  "public_key": "pk_AINs7SRNYi4YSEfbyLFuQ",
   "projectTitle": "tc-lib-barcode",
   "description": "Pure-PHP library to generate 73 types of linear, 2D and postal barcodes (QR Code, Data Matrix, PDF417, Aztec, EAN, UPC, CODE 128, GS1 DataBar, IMB) as SVG, PNG, HTML, GD images or coordinate arrays.",
   "branch": "main",
