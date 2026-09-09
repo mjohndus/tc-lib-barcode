@@ -410,7 +410,7 @@ abstract class Convert
         if (count($this->marks) > 0) {
             $size = count($this->bars);
             for ($abc = 0; $abc < $size; ++$abc) {
-                if (isset($this->bars[$abc][0]) && !\in_array($this->bars[$abc][0], $this->marks)) {
+                if (isset($this->bars[$abc][0]) && !\in_array($this->bars[$abc][0], $this->marks, true)) {
                     $mark[] = $this->mark;
                 } else {
                     $mark[] = 0;
@@ -419,7 +419,7 @@ abstract class Convert
 
             $size = \count($this->sbars);
             for ($abc = 0; $abc < $size; ++$abc) {
-                 if (! \in_array($this->sbars[$abc][0] ?? '', $this->marks)) {
+                 if (! \in_array($this->sbars[$abc][0] ?? '', $this->marks, true)) {
                     $smark[] = $this->mark;
                 } else {
                     $smark[] = 0;
