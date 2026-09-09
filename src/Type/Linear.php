@@ -58,7 +58,7 @@ abstract class Linear extends \Com\Tecnick\Barcode\Type
         if (
             !isset($this->params[0])
             || ! \is_numeric($this->params[0])
-            || ! \in_array($this->params[0], range(1, 20))
+            || ! \in_array($this->params[0], range(1, 20), true)
         ) {
             $this->params[0] = 0;
         }
