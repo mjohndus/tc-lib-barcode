@@ -12,11 +12,11 @@ concurrency:
 on:
   push:
     branches:
-      - 'mjohndus'
+      - 'mjohndus-0909'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - mjohndus
+      - mjohndus-0909
   workflow_dispatch:
 
 jobs:
