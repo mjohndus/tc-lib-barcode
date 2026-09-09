@@ -363,7 +363,7 @@ class CodeNineThree extends \Com\Tecnick\Barcode\Type\Linear\CodeThreeNineExtChe
                 if (($pos % 2) === 0) {
                     $this->bars[] = [$this->ncols, 0, $bar_width, 1];
                 }
-                if (($pos % 2) == 1) {
+                if (($pos % 2) === 1) {
                     $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
                 }
 
