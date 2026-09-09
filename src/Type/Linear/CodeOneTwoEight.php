@@ -281,7 +281,7 @@ class CodeOneTwoEight extends \Com\Tecnick\Barcode\Type\Linear\CodeOneTwoEight\P
                 if (($pos % 2) === 0 && $bar_width > 0) {
                     $this->bars[] = [$this->ncols, 0, $bar_width, 1];
                 }
-                if ((($pos % 2) == 1) && ($bar_width > 0)) {
+                if ((($pos % 2) === 1) && ($bar_width > 0)) {
                     $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
                 }
 
