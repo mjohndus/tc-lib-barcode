@@ -124,19 +124,40 @@ abstract class DeutschePost extends \Com\Tecnick\Barcode\Type\Linear\Interleaved
     {
         $this->validateCode();
         $this->formatCode();
-
+        // add start and stop codes
         $pairs = 'AA' . $this->extcode . 'ZA';
         $this->ncols = 0;
         $this->nrows = 1;
         $this->bars = [];
+        $this->sbars = [];
         $clen = \strlen($pairs);
         for ($idx = 0; $idx < $clen; $idx += 2) {
-            $bar_pattern = $this->getPattern($pairs[$idx]);
-            $space_pattern = $this->getPattern($pairs[$idx + 1]);
+            $char_bar = $pairs[$idx];
+            $char_space = $pairs[$idx + 1];
+            if (!\array_key_exists($char_bar, $this::CHBAR) || !\array_key_exists($char_space, $this::CHBAR)) {
+                throw new BarcodeException('Invalid character sequence: ' . $char_bar . $char_space);
+            }
+
+            // create a bar-space sequence
+            $seq = '';
+            $bar_pattern = $this->getPattern($char_bar);
+            $space_pattern = $this->getPattern($char_space);
             $chrlen = \strlen($bar_pattern);
             for ($pos = 0; $pos < $chrlen; ++$pos) {
-                $this->bars[] = [$this->ncols, 0, (int) $bar_pattern[$pos], 1];
-                $this->ncols += (int) $bar_pattern[$pos] + (int) ($space_pattern[$pos] ?? '0');
+                $seq .= ($bar_pattern[$pos] ?? '0') . ($space_pattern[$pos] ?? '0');
+            }
+
+            $seqlen = \strlen($seq);
+            for ($pos = 0; $pos < $seqlen; ++$pos) {
+                $bar_width = (int) $seq[$pos];
+                if (($pos % 2) === 0 && $bar_width > 0) {
+                    $this->bars[] = [$this->ncols, 0, $bar_width, 1];
+                }
+                if (($pos % 2) === 1 && $bar_width > 0) {
+                    $this->sbars[] = [$this->ncols, 0, $bar_width, 1];
+                }
+
+                $this->ncols += $bar_width;
             }
         }
 
