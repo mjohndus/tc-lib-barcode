@@ -577,12 +577,18 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      *
      * @return string PNG image data
      *
-     * @throws BarcodeException in case image generation fails
+     * @throws BarcodeException in case image generation fails or neither extension is loaded
      */
     public function getPngData(bool $imagick = true): string
     {
-        if ($imagick && \extension_loaded('imagick')) {
+        if ($imagick && $this->isExtensionLoaded('imagick')) {
             return $this->getPngDataImagick();
+        }
+
+        if (!$this->isExtensionLoaded('gd')) {
+            throw new BarcodeException(
+                $imagick ? 'PNG output requires the gd or imagick extension' : 'PNG output requires the gd extension',
+            );
         }
 
         $gdImage = $this->getGd();
@@ -593,6 +599,31 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
             throw new BarcodeException('Unable to get PNG data');
         }
         return $data;
+    }
+
+    /**
+     * Throw an exception naming the extension when it is not loaded.
+     *
+     * @param non-empty-string $extension PHP extension name.
+     * @param string           $feature   Feature that needs the extension.
+     *
+     * @throws BarcodeException if the extension is not loaded
+     */
+    protected function requireExtension(string $extension, string $feature): void
+    {
+        if (!$this->isExtensionLoaded($extension)) {
+            throw new BarcodeException('The ' . $extension . ' extension is required for ' . $feature);
+        }
+    }
+
+    /**
+     * Returns true if the PHP extension is loaded.
+     *
+     * @param non-empty-string $extension PHP extension name.
+     */
+    protected function isExtensionLoaded(string $extension): bool
+    {
+        return \extension_loaded($extension);
     }
 
     /**
@@ -633,6 +664,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getPngDataImagick(): string
     {
+        $this->requireExtension('imagick', 'Imagick PNG output');
         $imagick = new \Imagick();
         [$width, $height] = $this->getImageSize();
 
@@ -748,6 +780,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     public function getGd(): \GdImage
     {
+        $this->requireExtension('gd', 'GD image output');
         [$width, $height] = $this->getImageSize();
         $img = \imagecreate($width, $height);
         if ($img === false) {
